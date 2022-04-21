@@ -1,0 +1,74 @@
+.temporayHeader {
+    height: 70px;
+}
+
+.sub-nav {
+    display: flex;
+    margin-bottom: 10px;
+    border: 1px solid blue;
+    width: 50%;
+
+    span {
+        margin-left: 40px;
+        font-weight: bold;
+        color: gray;
+    }
+
+    .button-container {
+        width: 100%;
+        float: right;
+        right: 0px;
+        
+        button {
+        background-color: white;
+        border: none;
+        margin-left: 15px;
+        color: rgb(49, 47, 47);
+        
+            &:hover {
+                color: red;
+                transition: 0.3s;
+            }
+        }
+    }
+}
+
+#container {
+    display: flex;
+    border-top: 1px solid rgb(49, 47, 47);
+
+
+    .kakao-map {
+        height: calc(100vh - 100px);
+        border: 1px solid red;
+        flex :1 0 0;
+    };
+
+    .shop-list {
+        height: calc(100vh - 100px);
+        flex: 1 0 0;
+        overflow: scroll;
+        &::-webkit-scrollbar{
+            display: none;
+        }
+
+        .shop-info {
+            display: flex;
+            height: 200px;
+            margin: 30px;
+            
+            .shop-detail {
+                flex: 6 0 0;
+                border: 1px solid red;
+                margin-left: 20px;
+                text-align: left;
+            }
+            
+            .shop-image {
+                border-radius: 10px;
+                background-color: grey;
+                flex: 4 0 0;
+            }
+        }
+    }
+}
