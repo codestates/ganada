@@ -7,10 +7,13 @@ import userRouter from '../router/user';
 import menuRouter from '../router/menu';
 import commentRouter from '../router/comment';
 import reservationRouter from '../router/reservation';
+import { sequelize } from '../models';
 
 const app = express();
 
 const local = 'http://localhost:4000';
+const PORT: number = parseInt(process.env.PORT as string, 10) || 5000;
+const HOST: string = process.env.HOST || 'localhost';
 
 app.use(
   cors({
@@ -47,6 +50,20 @@ app.use('/reservation', reservationRouter);
 
 app.listen('4000', () => {
   console.log('Hello World');
+});
+
+app.listen(PORT, HOST, async () => {
+  console.log(`Server Listening on ${HOST}:${PORT}`);
+
+  // //sequelize-db 연결 테스트
+  await sequelize
+    .authenticate()
+    .then(async () => {
+      console.log('connection success');
+    })
+    .catch((e) => {
+      console.log('TT : ', e);
+    });
 });
 
 export default app;

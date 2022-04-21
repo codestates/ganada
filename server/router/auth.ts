@@ -1,4 +1,6 @@
 import express from 'express';
+const authRouter = express.Router();
+
 const personalSignup = require('../controller/auth/personalSignup');
 const ownerSignup = require('../controller/auth/ownerSignup');
 const login = require('../controller/auth/login');
@@ -7,8 +9,6 @@ const googleCallback = require('../controller/auth/googleCallback');
 const kakaoCallback = require('../controller/auth/kakaoCallback');
 const naverCallback = require('../controller/auth/naverCallback');
 const validateEmail = require('../controller/auth/validateEmail');
-
-const authRouter = express.Router();
 
 authRouter.post('/personal-signup', personalSignup);
 authRouter.post('/owner-signup', ownerSignup);
