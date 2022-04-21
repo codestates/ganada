@@ -1,0 +1,15 @@
+footer {
+    border-top: solid 0.2px #a3a3a3;
+    width: 100%;
+    background-color: transparent;
+    .inner {
+        display: flex;
+		width: 1320px;
+		margin: 0 auto;
+		padding: 20px 0;
+        align-items: center;
+            li {
+                font-size: 16px;
+        }
+    }
+}

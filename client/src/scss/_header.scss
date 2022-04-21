@@ -1,0 +1,27 @@
+header {
+    position: relative;
+    width: 100%;
+    background-color: transparent;
+    z-index: 10;
+    .inner {
+        display: flex;
+		width: 1320px;
+		margin: 0 auto;
+		padding: 30px 0;
+		align-items: center;
+        .nav {
+            width: 100%;
+            display: flex;
+            position: relative;
+            justify-content: space-between; 
+            li {
+                font-size: 16px;
+            }
+            .logo {
+                width: 31%;
+                font-size: 23px;
+                font-weight: 450;
+            }
+        }
+    }
+}

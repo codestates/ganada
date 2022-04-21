@@ -1,0 +1,118 @@
+.mainThumb {
+	position: relative;
+	display: flex;
+	width: 100%;
+	.slider {
+		position: relative;
+		display: flex;
+		width: 100vw;
+		height: 100vh;
+		overflow: hidden;
+		.sliderContainer {
+			position: relative;
+			display: flex;
+			.slider {
+				position: relative;
+				.slider-left-txt {
+					position: absolute;
+					top: 160px;
+					right: 57%;
+					font-size: 80px;
+					line-height: 120px;
+				}
+				.slider-middle-txt {
+					position: absolute;
+					top: 287px;
+					right: 53%;
+					font-size: 80px;
+					line-height: 120px;
+					&::before {
+						content: '\2018';
+						font-size: 1.2em;
+						font-family: Georgia;
+						color: #000000;
+						float: left;
+						margin: 0px;
+						margin-top: 10px;
+						margin-right: 20px;
+
+					}
+					&::after {
+						content: '\2019';
+						font-size: 1.2em;
+						font-family: Georgia;
+						color: #000000;
+						float: right;
+						margin: 0px;
+						margin-top: 10px;
+						margin-left: 20px;
+
+					}
+				}
+				.slider-middle-two-txt {
+					position: absolute;
+					top: 287px;
+					right: 51%;
+					font-size: 80px;
+					line-height: 120px;
+					&::before {
+						content: '\2018';
+						font-size: 1.2em;
+						font-family: Georgia;
+						color: #000000;
+						float: left;
+						margin: 0px;
+						margin-right: -60px;
+						margin-top: 10px;
+
+					}
+					&::after {
+						content: '\2019';
+						font-size: 1.2em;
+						font-family: Georgia;
+						color: #000000;
+						float: right;
+						margin: 0px;
+						margin-right: -40px;
+						margin-top: 10px;
+					}
+				}
+				.slider-right-txt {
+					position: absolute;
+					top: 174px;
+					right: 52.5%;
+					font-size: 73px;
+					line-height: 120px;
+					color: #7B7B7B;
+				}
+				.slider-right-re-txt {
+					position: absolute;
+					border-bottom: solid 2px #7B7B7B;;
+					top: 450px;
+					right: 36.5%;
+					font-size: 48px;
+					line-height: 50px;
+					color: #7B7B7B;
+				}
+			}
+			img {
+				width: 100vw;
+				height: 630px;
+				object-fit: cover;
+			}
+
+		}
+	}
+
+	.mainThumbnail {
+		position: relative;
+		display: flex;
+		width: 100%;
+		height: 800px;
+		padding: 0px;
+		align-items: center;
+		justify-content: center;
+	}
+	
+	
+}
