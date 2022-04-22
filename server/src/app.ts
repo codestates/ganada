@@ -48,6 +48,9 @@ app.use('/comment', commentRouter);
 // Reservation
 app.use('/reservation', reservationRouter);
 
+// 중첩 경로 생성시 새로운 router를 만들어줘야하는가?
+// app.use('/shop/:id/menu/') ...와 같이 새로운 경로를 만들어줘야하는지?
+
 app.listen('4000', () => {
   console.log('Hello World');
 });

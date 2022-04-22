@@ -9,9 +9,6 @@ reservationRouter.patch('/:id', modifyReservation);
 reservationRouter.delete('/:id', deleteReservation);
 reservationRouter.get('/', getReservation);
 
-// 직관적으로 cancelReservation이 나은지 이야기해보기
+// 사진관 예약은 경로 시작이 shop이라 shop으로 이동
 
 export default reservationRouter;
-
-// 사진관 예약 API 경로에 대해서 이야기해보기
-// 사진관 예약과 같이 2중 경로를 통하는 경우 별도의 api가 필요한지 확인이 필요하다.
