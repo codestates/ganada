@@ -1,0 +1,77 @@
+.main-banner {
+    width: 100%;
+    border-bottom: 1px solid rgb(219, 219, 219);
+    box-shadow: rgb(0 0 0 / 16%) 0px 3px 6px;
+
+    .inner {
+        display: flex;
+		width: 1320px;
+        height: 220px;
+		margin: 0 auto;
+		padding: 20px 0;
+        align-items: center;
+        .model-banner {
+            border-right: 1px solid rgb(228, 228, 228);;
+            width: 50%;
+            justify-content: space-between;
+            .banner-title {
+                font-size: 26px;
+                font-weight: 500;
+                margin-bottom:15px;
+                margin-top: 10px;
+            }
+            .banner-sub {
+                font-size: 15px;
+                color: rgb(100, 100, 100);
+                margin-bottom: 15px;
+                
+            }
+            .banner-btn {
+                width: 188px;
+                height:48px;
+                float: right;
+                cursor: pointer;
+                border: none;
+                border-radius:5px;
+                color: white;
+                background-color:#8a8a8a;
+                margin-right: 23px;
+                &:hover {
+                    background-color:#FF5D5D;
+                }
+                
+            }
+        }
+        .photographer-banner {
+            width: 50%;
+            justify-content: space-between;
+            .banner-title {
+                font-size: 26px;
+                font-weight: 500;
+                margin-bottom:15px;
+                margin-top: 10px;
+                margin-left: 23px;
+
+            }
+            .banner-sub {
+                font-size: 15px;
+                color: rgb(100, 100, 100);
+                margin-bottom: 15px;
+                margin-left: 23px;
+
+                
+            }
+            .banner-btn {
+                width: 188px;
+                height:48px;
+                float: right;
+                cursor: pointer;
+                border: none;
+                margin-right:30px;
+                border-radius:5px;
+                color: white;
+                background-color:#FF5D5D;
+            }
+        }
+    }
+}

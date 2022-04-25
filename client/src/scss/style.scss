@@ -4,6 +4,7 @@ $lg: 1199px;
 $md: 991px;
 $sm: 767px;
 $xs: 575px; 
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Roboto:wght@300;400;500;700;900&display=swap');
 
 @import "set";
 @import "header";
@@ -11,3 +12,5 @@ $xs: 575px;
 @import "main";
 @import 'shopDetail';
 @import "shopInfo";
+@import "mainBanner";
+@import "mainContents";
