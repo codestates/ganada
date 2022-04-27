@@ -3,7 +3,7 @@ export default function MainContents() {
     <div className="main-contents">
       <div className="inner">
         <div className="title">오늘의 프로필</div>
-        <div className="wrap-box">
+        {/* <div className="wrap-box">
           <div className="box">
             <div className="top"> 경기 </div>
             <div className="bottom">
@@ -28,7 +28,7 @@ export default function MainContents() {
               <img src={`${process.env.PUBLIC_URL}/img/DG.webp`} alt="DJ" />
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );
