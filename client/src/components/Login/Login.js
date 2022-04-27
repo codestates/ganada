@@ -24,19 +24,19 @@ export default function Login() {
             </div>
             <div className="auth-btn-wrap">
               <button type="submit" className="login-btn naver">
-                <img src="img/naverlogo.png" className="logo" alert="logo" />
+                <img src="img/naverlogo.png" className="logo" alt="logo" />
                 <span>네이버 로그인</span>
               </button>
               <button type="submit" className="login-btn kakao">
                 <img
                   src="img/kakaologo.png"
                   className="logo kakao"
-                  alert="logo"
+                  alt="logo"
                 />
                 <span>카카오 로그인</span>
               </button>
               <button type="submit" className="login-btn google">
-                <img src="img/googlelogo.png" className="logo" alert="logo" />
+                <img src="img/googlelogo.png" className="logo" alt="logo" />
                 <span>Google 로그인</span>
               </button>
             </div>
