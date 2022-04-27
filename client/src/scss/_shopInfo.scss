@@ -1,0 +1,211 @@
+.shop-list-container {
+  width: 1320px;
+  margin: 0 auto;
+
+  .sub-nav {
+    display: flex;
+
+    .sub-nav-left {
+      width: 50%;
+
+      ul {
+        display: flex;
+        margin: 8px 0 0 0;
+
+        li {
+          cursor: pointer;
+          height: 2rem;
+          display: flex;
+          justify-content: center;
+          width: 80px;
+          align-items: center;
+          color: black;
+          padding: 0 10px;
+          font-size: 13px;
+          list-style: none;
+          border-radius: 30px;
+          margin: 0 10px 10px 0;
+          background-color: rgb(255, 255, 255);
+          border: 1px solid rgb(221, 221, 221);
+        }
+        .selected {
+          background: #ff2216;
+          border: 1px solid #ff2216;
+          color: white;
+          font-weight: bold;
+          &:hover {
+            transition: 0.4s;
+          }
+        }
+      }
+
+      button {
+        width: 70px;
+        background-color: transparent;
+        border: 1px solid black;
+        border-radius: 20px;
+        margin-right: 10px;
+        color: black;
+        &:nth-of-type(1) {
+          margin-left: 10px;
+        }
+      }
+    }
+
+    .sub-nav-right {
+      width: 50%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .btn-write {
+        width: 100px;
+        height: 30px;
+        cursor: pointer;
+        border: 1px solid rgb(221, 221, 221);
+        background: rgb(255, 255, 255);
+      }
+
+      .search-wrapper {
+        button {
+          width: 100px;
+          height: 30px;
+          cursor: pointer;
+          background: white;
+          border: 1px solid rgb(221, 221, 221);
+          background: rgb(255, 255, 255);
+        }
+      }
+    }
+  }
+
+  #wrapper {
+    display: flex;
+    border-radius: 20px;
+    height: 80vh;
+    // border-radius: 20px;
+    // box-shadow: 5px 5px 5px rgb(233, 232, 232);
+    cursor: pointer;
+
+    #map {
+      border: 1px solid lightgray;
+      border-radius: 20px;
+      margin: 10px;
+      flex: 1 0 0;
+      width: 100%;
+      height: 780px;
+    }
+
+    .shop-list {
+      flex: 1 0 0;
+      overflow: scroll;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      &::-webkit-scrollbar {
+        display: none;
+      }
+
+      .shop-info {
+        display: flex;
+        height: 200px;
+        margin: 30px;
+        color: rgb(87, 85, 85);
+        &:hover {
+          box-shadow: 10px 10px 100px rgb(202, 202, 202);
+          transition: 0.5s;
+          // opacity: 0.5;
+        }
+
+        .shop-detail {
+          flex: 6 0 0;
+          margin: auto 0;
+          margin-left: 20px;
+        }
+
+        .slider {
+          position: relative;
+          display: flex;
+          border-radius: 10px;
+          width: 50%;
+          padding: 0px;
+          overflow: hidden;
+          .sliderContainer {
+            position: relative;
+            display: flex;
+            object-fit: cover;
+            img {
+              width: 100%;
+            }
+          }
+          button {
+            position: absolute;
+            width: 100%;
+            border: none;
+            top: calc(100% - 58%);
+            z-index: 1;
+            opacity: 0.4;
+            font-size: 30px;
+            color: white;
+            &:hover {
+              opacity: 1;
+            }
+          }
+
+          .prevBtn {
+            position: absolute;
+            left: 85%;
+            cursor: pointer;
+            &:hover {
+              transform: scale(1.1);
+            }
+          }
+          .nextBtn {
+            position: absolute;
+            right: 85%;
+            cursor: pointer;
+
+            &:hover {
+              transform: scale(1.1);
+            }
+          }
+        }
+        .shop-name {
+          color: black;
+          font-size: 20px;
+          font-weight: bold;
+        }
+      }
+      .border-line {
+        margin-top: 30px;
+        border: 1px solid lightgray;
+      }
+
+      .pagination-buttons {
+        justify-content: center;
+        display: flex;
+        position: absolute;
+        bottom: 0;
+        margin: 0 auto;
+
+        .page-item {
+          float: left;
+        }
+        .page-btn {
+          font-size: 15px;
+          width: 100%;
+          border: none;
+          padding: 20px 0px;
+          background-color: transparent;
+          padding-right: 15px;
+          cursor: pointer;
+        }
+        .focused {
+          font-weight: bold;
+          font-size: 16px;
+        }
+      }
+    }
+  }
+}
