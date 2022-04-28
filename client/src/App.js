@@ -9,6 +9,8 @@ import MyPage from './components/MyPage/MyPage';
 import ChangePassword from './components/MyPage/ChangePassword';
 import Edit from './components/MyPage/Edit';
 import LeaveId from './components/MyPage/LeaveId';
+import SearchPlace from './pages/SearchPlace';
+import WritingPage from './pages/WritingPage';
 
 function App() {
   return (
@@ -23,6 +25,8 @@ function App() {
           <Route path="change-password" element={<ChangePassword />} />
           <Route path="leave" element={<LeaveId />} />
         </Route>
+        <Route path="/search" element={<SearchPlace />} />
+        <Route path="/write" element={<WritingPage />} />
       </Routes>
       <Footer />
     </>
