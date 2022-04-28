@@ -9,6 +9,7 @@ import MyPage from './components/MyPage/MyPage';
 import ChangePassword from './components/MyPage/ChangePassword';
 import Edit from './components/MyPage/Edit';
 import LeaveId from './components/MyPage/LeaveId';
+import PhotoDetail from './pages/PhotoDetail';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/" element={<Main />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/photodetail" element={<PhotoDetail />} />
         <Route path="/mypage" element={<MyPage />}>
           <Route path="edit" element={<Edit />} />
           <Route path="change-password" element={<ChangePassword />} />

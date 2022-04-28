@@ -1,19 +1,15 @@
-import PhotoDetailHeader from 'components/photo-detail/PhotoDetailHeader';
-import PhotoDetailIntro from 'components/photo-detail/PhotoDetailIntro';
-import PhotoDetailReview from 'components/photo-detail/PhotoDetailReview';
-// import PhotoDetailModal from 'components/photo-detail/PhotoDetailModal';
-import ImageSlider from 'components/ImageSlider';
 import { BsFillChatFill } from 'react-icons/bs';
-// import Header from 'components/Header';
-// import Footer from 'components/Footer';
+import PhotoDetailIntro from '../components/photo-detail/PhotoDetailIntro';
+import PhotoDetailSlider from '../components/photo-detail/PhotoDetailSlider';
+import PhotoDetailReview from '../components/photo-detail/PhotoDetailReview';
+import PhotoDetailHeader from '../components/photo-detail/PhotoDetailHeader';
 
 function PhotoDetail() {
   return (
-    // <Header />
     <div className="photoDetail-container">
       <PhotoDetailHeader />
       <div className="slider-container">
-        <ImageSlider />
+        <PhotoDetailSlider />
       </div>
       <PhotoDetailIntro />
       <PhotoDetailReview />
@@ -21,7 +17,6 @@ function PhotoDetail() {
         <BsFillChatFill className="chat-icon" />
       </button>
     </div>
-    // <Footer />
   );
 }
 
