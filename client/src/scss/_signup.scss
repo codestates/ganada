@@ -1,0 +1,110 @@
+.signup {
+  overflow: hidden;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  background-color: rgba(175, 175, 175, 0.04);
+  .logo-title {
+    margin-top: 20px;
+    color: rgb(0, 0, 0);
+    font-size: 44px;
+    font-weight: 800;
+  }
+  .sub-title {
+    color: grey;
+    font-size: 16px;
+  }
+  .inner {
+    width: 1320px;
+    position: relative;
+    margin: 0 auto;
+    align-items: center;
+    .login-content {
+      display: flex;
+      width: 620px;
+      margin: 0 auto;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      .signup-title {
+        font-size: 15px;
+        padding: 5px;
+      }
+      .signup-form {
+        border-radius: 20px;
+        width: 100%;
+        padding: 40px 40px 60px;
+        .signup-email {
+          .email-wrap {
+            display: flex;
+            justify-content: space-between;
+            .email {
+              width: 80%;
+            }
+            .email-btn {
+              width: 19%;
+              height: 56px;
+              border-radius: 5px;
+              padding: 5px 0 5px;
+              border: none;
+              color: white;
+              background-color: #ff5353;
+              box-sizing: border-box;
+              cursor: pointer;
+              font-size: 15px;
+            }
+          }
+        }
+      }
+      input {
+        border-radius: 8px;
+        width: 100%;
+        height: 55px;
+        padding: 20px;
+        margin-bottom: 10px;
+        font-size: 15px;
+        background-color: white;
+        border: solid 1px rgba(128, 128, 128, 0.308);
+        &:focus {
+          outline: none;
+          border: 1px solid #ff5353;
+        }
+      }
+      .signup-warning {
+        padding-left: 5px;
+        font-size: 13px;
+        color: red;
+      }
+      .btn-wrap {
+        margin-top: 20px;
+        width: 100%;
+        .login-btn {
+          display: block;
+          width: 100%;
+          height: 60px;
+          padding: 14px 0 14px;
+          border-radius: 6px;
+          border: solid 1px rgba(0, 0, 0, 0.15);
+          color: white;
+          background-color: #ff5353;
+          box-sizing: border-box;
+          cursor: pointer;
+          font-size: 17px;
+        }
+      }
+      .last-txt {
+        color: rgb(82, 82, 82);
+        margin-top: 20px;
+        font-size: 15px;
+        text-align: center;
+        .login-signup {
+          margin-left: 12px;
+          color: #ff5353;
+          text-decoration: underline;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}

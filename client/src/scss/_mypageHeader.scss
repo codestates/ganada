@@ -1,0 +1,34 @@
+.mypage {
+  display: flex;
+  width: 100vw;
+  padding-top: 100px;
+  .back {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 42px;
+    background-color: white;
+    box-shadow: rgb(0 0 0 / 6%) 0 2px 2px 1px;
+    .inner {
+      margin: 0 auto;
+      width: 1320px;
+      .mypage-header {
+        display: flex;
+        width: 100%;
+        .header-wrap {
+          display: flex;
+          width: 100%;
+          li {
+            margin-right: 24px;
+            font-size: 15px;
+            line-height: 43px;
+            &.active {
+              color: #ff5d5d;
+              border-bottom: 3px solid #ff5d5d;
+            }
+          }
+        }
+      }
+    }
+  }
+}

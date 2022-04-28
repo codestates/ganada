@@ -1,0 +1,36 @@
+.article-container {
+  border: 1px solid red;
+  margin: 0 auto;
+  width: 1320px;
+
+  h2 {
+    border: 1px solid black;
+    text-align: center;
+  }
+
+  .article-title {
+    border: 1px solid red;
+  }
+
+  .article-image {
+    border: 1px solid blue;
+  }
+
+  .article-introduction {
+    border: 1px solid red;
+  }
+
+  .ariticle-place {
+    border: 1px solid blue;
+  }
+
+  .article-concept {
+    border: 1px solid red;
+  }
+
+  .article-button {
+    border: 1px solid blue;
+    display: flex;
+    justify-content: end;
+  }
+}
