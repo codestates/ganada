@@ -1,10 +1,4 @@
 import { useRef, useState, useEffect } from 'react';
-// import { MdArrowBackIosNew, MdArrowForwardIos } from 'react-icons/md';
-
-// const images = [
-//   `${process.env.PUBLIC_URL}/img/1.png`,
-//   `${process.env.PUBLIC_URL}/img/2.png`,
-//   `${process.env.PUBLIC_URL}/img/3.png`,
 import { IoIosArrowDropright, IoIosArrowDropleft } from 'react-icons/io';
 
 const images = [

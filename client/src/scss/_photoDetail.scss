@@ -1,12 +1,10 @@
 .photoDetail-container {
-  height: 100vh;
-  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   .header-container {
-    margin-top: 20px;
-    width: 1320px;
+    margin-top: 120px;
+    width: 70%;
     height: 30px;
     .pg-nickname {
       font-size: 1.5rem;
@@ -14,7 +12,7 @@
       display: inline-block;
     }
     .share-btn {
-      // width: 80px;
+      width: 70px;
       float: right;
       border: none;
       background-color: white;
@@ -34,21 +32,22 @@
       }
     }
   }
+
   .slider-container {
-    margin-top: 20px;
     width: 70%;
     display: flex;
     justify-content: space-around;
     align-items: center;
-    .slider {
+    .slider-img-container {
       position: relative;
       display: flex;
-      width: 50%;
-      height: 400px;
+      width: 40%;
+      height: 350px;
       padding: 0px;
       border-radius: 40px;
       overflow: hidden;
-      .sliderContainer {
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      .slider-img {
         position: relative;
         display: flex;
         object-fit: cover;
@@ -56,24 +55,54 @@
           width: 100%;
         }
       }
+      .dots-container {
+        display: flex;
+        position: absolute;
+        top: 90%;
+        left: 51%;
+        transform: translateX(-50%);
+      }
+      .dot {
+        width: 17px;
+        height: 17px;
+        border-radius: 50%;
+        border: 3px solid #f1f1f1;
+        margin: 0 5px;
+        background: lightslategray;
+        &:hover {
+          cursor: pointer;
+        }
+      }
+      .dot.active {
+        background: rgb(32, 32, 32);
+      }
     }
-    .left-slide-btn,
+
+    .left-slide-btn {
+      border: none;
+      background-color: #fff;
+      color: black;
+      .prevBtn {
+        font-size: 50px;
+        &:hover {
+          cursor: pointer;
+        }
+      }
+    }
+
     .right-slide-btn {
       border: none;
       background-color: #fff;
       color: black;
-      &:hover {
-        cursor: pointer;
-      }
-      .prevBtn,
       .nextBtn {
-        font-size: 30px;
-        // &:hover {
-        //   font-size: 50px;
-        // }
+        font-size: 50px;
+        &:hover {
+          cursor: pointer;
+        }
       }
     }
   }
+
   .intro-container {
     display: flex;
     margin-top: 30px;
@@ -168,17 +197,16 @@
       }
     }
   }
+
   .chat-btn {
     position: fixed;
-    bottom: 0;
     right: 50px;
-    margin-bottom: 70px;
+    bottom: 20px;
     padding: 3px 20px;
     line-height: 42px;
     border: none;
     border-radius: 30px;
     color: #fff;
-    background: #ff5e5e;
     background: linear-gradient(
       0deg,
       rgba(255, 27, 0, 1) 0%,
@@ -199,6 +227,7 @@
       top: 5px;
     }
   }
+
   .modal-background {
     position: fixed;
     top: 0;
@@ -214,7 +243,7 @@
       justify-content: center;
       align-items: center;
       position: absolute;
-      width: 25rem;
+      width: 23rem;
       height: 15rem;
       .modal-view {
         background-color: #fff;
@@ -244,7 +273,7 @@
         padding: 10px 20px;
         border: double;
         margin-top: 30px;
-        margin-left: 300px;
+        margin-left: 270px;
         float: right;
         &:hover {
           cursor: pointer;
