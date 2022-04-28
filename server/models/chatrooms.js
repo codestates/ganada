@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       models.chatRooms.hasMany(models.chatContents);
       models.chatRooms.belongsTo(models.boards);
-      models.chatRooms.belongsTo(models.users);
+      models.chatRooms.belongsTo(models.Users);
     }
   }
   chatRooms.init(

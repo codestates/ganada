@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       models.boards.hasMany(models.reservations);
       models.boards.hasMany(models.chatRooms);
-      models.boards.belongsTo(models.users);
+      models.boards.belongsTo(models.Users);
     }
   }
   boards.init(

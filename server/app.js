@@ -36,8 +36,6 @@ app.use("/reviews", reviewsRouter);
 app.use("/chatrooms", chatRoomsRouter);
 app.use("/chatcontents", chatContentsRouter);
 
-app.listen(3000, () => console.log("3000번 포트 대기"));
-
 httpServer.listen(4000, () => {
   console.log(`HTTP Server running on port 4000`);
 });

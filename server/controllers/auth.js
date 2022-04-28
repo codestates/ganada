@@ -1,7 +1,5 @@
 module.exports = {
-  signUp: async (req, res) => {
-    return res.status(200).json({ message: "ok" });
-  },
+  signUp: async (req, res) => {},
 
   login: async (req, res) => {
     return res.status(200).json({ message: "ok" });
