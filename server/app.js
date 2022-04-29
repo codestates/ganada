@@ -36,6 +36,9 @@ app.use("/reviews", reviewsRouter);
 app.use("/chatrooms", chatRoomsRouter);
 app.use("/chatcontents", chatContentsRouter);
 
-httpServer.listen(4000, () => {
-  console.log(`HTTP Server running on port 4000`);
+let port = 4000;
+
+httpServer.listen(port, () => {
+  console.log(`HTTP Server running on port ${port}`);
 });
+// AWS PORT 별도 설정 필요
