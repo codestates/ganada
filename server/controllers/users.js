@@ -35,12 +35,13 @@ module.exports = {
 
   postReviews: async (req, res) => {
     try {
+      // shortly-mvc => reference 확인하기
       const { kind, time, again, userId } = req.body;
       await reviews.update(
         {
-          kind: kind,
-          time: time,
-          again: again,
+          kind: reviews.kind + 1,
+          time: time + 1,
+          again: again + 1,
         },
         {
           where: { userId },
