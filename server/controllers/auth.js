@@ -101,7 +101,4 @@ module.exports = {
   // 또는 mailVerification에 대한 분리가 필요하다고 생각합니다.
   // -----------------------------------------------
   // mailVerification 파일 하나 만들어서 올리겠습니다.
-  mailVerification: async (req, res) => {
-    return res.status(200).json({ message: "ok" });
-  },
 };

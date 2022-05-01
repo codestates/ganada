@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useRef, useEffect, useState } from 'react';
+import axios from 'axios';
 
 export default function Signup() {
   // input value change
@@ -8,7 +9,7 @@ export default function Signup() {
     emailValidate: '',
     password: '',
     rePassword: '',
-    nickname: '',
+    name: '',
     phoneNumber: '',
   });
   const [err, setErr] = useState({});
@@ -24,14 +25,8 @@ export default function Signup() {
   // error test
   const errCheck = (value) => {
     const errors = {};
-    const {
-      email,
-      emailValidate,
-      password,
-      rePassword,
-      nickname,
-      phoneNumber,
-    } = value;
+    const { email, emailValidate, password, rePassword, name, phoneNumber } =
+      value;
     if (
       email !== '' &&
       !/^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/.test(
@@ -59,9 +54,8 @@ export default function Signup() {
       errors.rePassword = '비밀번호가 일치하지 않습니다.';
     }
 
-    if (nickname !== '' && !/^[\w\Wㄱ-ㅎㅏ-ㅣ가-힣]{2,20}$/.test(nickname)) {
-      errors.nickname =
-        '닉네임은 최소 2글자이상 특수문자 제외해서 입력해주세요.';
+    if (name !== '' && !/^[\w\Wㄱ-ㅎㅏ-ㅣ가-힣]{2,20}$/.test(name)) {
+      errors.name = '닉네임은 최소 2글자이상 특수문자 제외해서 입력해주세요.';
     }
     if (
       phoneNumber !== '' &&
@@ -86,6 +80,31 @@ export default function Signup() {
     inputRef.current.focus();
   }, []);
 
+  const signupHandling = async () => {
+    const data = {
+      email: inputValue.email,
+      password: inputValue.empasswordail,
+      name: inputValue.name,
+      phoneNumber: inputValue.phoneNumber,
+    };
+    try {
+      await axios.post(`http://localhost:4000/auth/signup`, data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const emailValidRequest = () => {
+    try {
+      axios
+        .post('http://localhost:4000/auth/mailVerification', {
+          email: inputValue.email,
+        })
+        .then((res) => console.log('너 뭐하니????'));
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <section className="signup">
       <div className="inner">
@@ -105,7 +124,11 @@ export default function Signup() {
                   onChange={handleInput}
                   onBlur={focusBlur}
                 />
-                <button type="submit" className="email-btn">
+                <button
+                  type="submit"
+                  className="email-btn"
+                  onClick={emailValidRequest}
+                >
                   인증 받기
                 </button>
               </div>
@@ -140,12 +163,8 @@ export default function Signup() {
 
             <div className="signup-name">
               <div className="signup-title">닉네임 </div>
-              <input
-                name="nickname"
-                onChange={handleInput}
-                onBlur={focusBlur}
-              />
-              <div className="signup-warning">{err.nickname} </div>
+              <input name="name" onChange={handleInput} onBlur={focusBlur} />
+              <div className="signup-warning">{err.name} </div>
             </div>
 
             <div className="signup-title"> 전화번호 </div>
@@ -157,7 +176,11 @@ export default function Signup() {
             <div className="signup-warning">{err.phoneNumber}</div>
 
             <div className="btn-wrap">
-              <button type="submit" className="signup-btn">
+              <button
+                type="submit"
+                className="signup-btn"
+                onClick={signupHandling}
+              >
                 회원가입
               </button>
             </div>
