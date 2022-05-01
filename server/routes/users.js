@@ -5,4 +5,7 @@ router.patch("/:id", usersController.modifyUser);
 router.delete("/:id", usersController.deleteUser);
 router.get("/:id", usersController.getUser);
 
+router.get("/:id/reviews", usersController.getReviews);
+router.post("/:id/reviews", usersController.postReviews);
+
 module.exports = router;

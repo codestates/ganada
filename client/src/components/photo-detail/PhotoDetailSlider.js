@@ -1,8 +1,12 @@
+/* eslint-disable jsx-a11y/interactive-supports-focus */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import { useRef, useState, useEffect } from 'react';
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
+import { useNavigate } from 'react-router-dom';
 
 function PhotoDetailSlider() {
   const images = ['/img/1.png', '/img/2.png', '/img/3.png'];
+  const navigate = useNavigate();
   const TOTAL_SLIDES = images.length - 1;
   const slideRef = useRef(null);
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -26,6 +30,10 @@ function PhotoDetailSlider() {
     setCurrentSlide(index);
   };
 
+  const showAllImage = () => {
+    navigate('/photodetailImage');
+  };
+
   useEffect(() => {
     slideRef.current.style.transition = 'all 0.5s ease-in-out';
     slideRef.current.style.transform = `translateX(-${currentSlide}00%)`;
@@ -38,7 +46,12 @@ function PhotoDetailSlider() {
           <MdKeyboardArrowLeft className="prevBtn" />
         </button>
       </div>
-      <div className="slider-img-container">
+      <div
+        className="slider-img-container"
+        onClick={showAllImage}
+        role="button"
+        aria-label="button"
+      >
         <div className="slider-img" ref={slideRef}>
           <img src={images[0]} alt="nunu1" />
           <img src={images[1]} alt="nunu2" />
@@ -55,7 +68,7 @@ function PhotoDetailSlider() {
           ))}
         </div>
       </div>
-      <div>
+      <div className="right-slide-btn-container">
         <button type="button" className="right-slide-btn" onClick={nextSlide}>
           <MdKeyboardArrowRight className="nextBtn" />
         </button>

@@ -3,6 +3,7 @@
   margin: 0 auto;
 
   .sub-nav {
+    padding-top: 100px;
     display: flex;
     border-bottom: 1px solid rgb(221, 221, 221);
 
@@ -93,7 +94,7 @@
       margin: 10px;
       flex: 1 0 0;
       width: 100%;
-      height: 780px;
+      // height: 780px;
     }
 
     .place-list {

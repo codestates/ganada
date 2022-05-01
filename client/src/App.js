@@ -14,6 +14,7 @@ import WritingPage from './pages/WritingPage';
 import PhotoDetail from './pages/PhotoDetail';
 import MediaFooterNav from './components/MediaFooterNav';
 import Chat from './pages/Chat';
+import PhotoDetailImage from './components/photo-detail/PhotoDetailImage';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/photodetail" element={<PhotoDetail />} />
+        <Route path="/photodetailImage" element={<PhotoDetailImage />} />
         <Route path="/mypage" element={<MyPage />}>
           <Route path="edit" element={<Edit />} />
           <Route path="change-password" element={<ChangePassword />} />

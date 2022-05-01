@@ -4,7 +4,6 @@ export default function ChatRooms({ chatRoom, timeago }) {
   const { createdAt, chats } =
     chatRoom.chatContents[chatRoom.chatContents.length - 1];
   const { name, image } = chatRoom.receiverId.users;
-  console.log(chatRoom);
   return (
     <ul>
       <li>

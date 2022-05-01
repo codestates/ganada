@@ -1,28 +1,49 @@
-/* eslint-disable import/no-cycle */
-import { BsCheck2Circle } from 'react-icons/bs';
+import { AiOutlineClose, AiOutlineCheckCircle } from 'react-icons/ai';
+import { BiCopy } from 'react-icons/bi';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import PhotoDetailHeader from './PhotoDetailHeader';
 
 function PhotoDetailModal({ handleModal }) {
+  const images = ['/img/kakao.png'];
+  const url = window.location.href;
+  const [isShow, setIsShow] = useState(false);
+
+  const handleShow = () => {
+    setIsShow(!isShow);
+  };
+
   return (
     <div className="modal-background ">
       <div className="modal-container">
         <div className="modal-view">
-          <div className="modal-icon">
-            <BsCheck2Circle className="modal-check-icon" />
+          <div className="modal-header">
+            <button type="button" className="close-btn" onClick={handleModal}>
+              <AiOutlineClose className="close-icon" />
+            </button>
           </div>
-          <div className="modal-title">클립보드에 복사되었습니다!</div>
-          <div className="modal-sub-title">
-            Ctrl+V 를 이용해 친구들에게 공유해보세요!
+          <h4>공유하기</h4>
+          <div className="modal-body">
+            <CopyToClipboard text={url}>
+              <button
+                type="button"
+                className="copy-link-btn"
+                onClick={handleShow}
+              >
+                <BiCopy className="copy-icon" />
+                링크복사
+              </button>
+            </CopyToClipboard>
+            <button type="button" className="kakao-link-btn">
+              <img src={images[0]} alt="kakao" className="kakao-icon" />
+              카카오톡
+            </button>
           </div>
-          <button
-            type="button"
-            className="modal-confirm-btn"
-            onClick={handleModal}
-          >
-            OK
-          </button>
+          {isShow ? (
+            <div className="show-box">
+              <AiOutlineCheckCircle className="show-icon" />
+              <span className="show-sub">링크 복사 완료</span>
+            </div>
+          ) : null}
         </div>
       </div>
     </div>
