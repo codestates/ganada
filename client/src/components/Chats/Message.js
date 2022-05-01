@@ -1,17 +1,15 @@
 import React from 'react';
 
-export default function Message({ reverse }) {
+export default function Message({ reverse, chat, timeago, receiverUser }) {
+  const { createdAt, chats } = chat;
+  const { image } = receiverUser.users;
   return (
-    <div className={reverse ? 'message' : 'message reverse'}>
+    <div className={reverse ? 'message reverse' : 'message'}>
       <div className="message-wrraper">
-        <img
-          className="message-img"
-          src="https://images.pexels.com/photos/3686769/pexels-photo-3686769.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
-          alt=""
-        />
-        <p className="message-txt">안녕하세요안녕하세요안녕하세요안녕</p>
+        <img className="message-img" src={image} alt="" />
+        <p className="message-txt">{chats}</p>
       </div>
-      <span className="message-time">14분전</span>
+      <span className="message-time">{timeago(createdAt)}</span>
     </div>
   );
 }

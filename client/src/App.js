@@ -30,7 +30,9 @@ function App() {
           <Route path="leave" element={<LeaveId />} />
         </Route>
         <Route path="/search" element={<SearchPlace />} />
-        <Route path="/chat" element={<Chat />} />
+        <Route path="/chat" element={<Chat />}>
+          <Route path=":chatRoomId" element={<Chat />} />
+        </Route>
         <Route path="/write" element={<WritingPage />} />
       </Routes>
       <Footer />
