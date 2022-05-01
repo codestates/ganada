@@ -9,6 +9,11 @@ import MyPage from './components/MyPage/MyPage';
 import ChangePassword from './components/MyPage/ChangePassword';
 import Edit from './components/MyPage/Edit';
 import LeaveId from './components/MyPage/LeaveId';
+import SearchPlace from './pages/SearchPlace';
+import WritingPage from './pages/WritingPage';
+import PhotoDetail from './pages/PhotoDetail';
+import MediaFooterNav from './components/MediaFooterNav';
+import Chat from './pages/Chat';
 
 function App() {
   return (
@@ -18,13 +23,18 @@ function App() {
         <Route path="/" element={<Main />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/photodetail" element={<PhotoDetail />} />
         <Route path="/mypage" element={<MyPage />}>
           <Route path="edit" element={<Edit />} />
           <Route path="change-password" element={<ChangePassword />} />
           <Route path="leave" element={<LeaveId />} />
         </Route>
+        <Route path="/search" element={<SearchPlace />} />
+        <Route path="/chat" element={<Chat />} />
+        <Route path="/write" element={<WritingPage />} />
       </Routes>
       <Footer />
+      <MediaFooterNav />
     </>
   );
 }

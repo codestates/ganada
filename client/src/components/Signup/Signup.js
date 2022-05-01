@@ -89,7 +89,7 @@ export default function Signup() {
   return (
     <section className="signup">
       <div className="inner">
-        <div className="login-content">
+        <div className="signup-content">
           <Link to="/">
             <div className="logo-title">GANADA</div>
           </Link>
@@ -157,7 +157,7 @@ export default function Signup() {
             <div className="signup-warning">{err.phoneNumber}</div>
 
             <div className="btn-wrap">
-              <button type="submit" className="login-btn">
+              <button type="submit" className="signup-btn">
                 회원가입
               </button>
             </div>

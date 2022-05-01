@@ -1,8 +1,7 @@
-import React from 'react';
 import Tag from 'components/Tag';
 import { useState } from 'react';
 
-function subNav() {
+function SubNav() {
   const initialTags = ['청순', '섹시', '귀염', '도도', '지적', '날씬', '순수'];
   const initialTags1 = ['실내촬영', '실외촬영', '노출촬영', '부분노출'];
   const [selected, setSelected] = useState(true);
@@ -43,4 +42,4 @@ function subNav() {
   );
 }
 
-export default subNav;
+export default SubNav;

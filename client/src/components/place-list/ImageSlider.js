@@ -1,10 +1,4 @@
 import { useRef, useState, useEffect } from 'react';
-// import { MdArrowBackIosNew, MdArrowForwardIos } from 'react-icons/md';
-
-// const images = [
-//   `${process.env.PUBLIC_URL}/img/1.png`,
-//   `${process.env.PUBLIC_URL}/img/2.png`,
-//   `${process.env.PUBLIC_URL}/img/3.png`,
 import { IoIosArrowDropright, IoIosArrowDropleft } from 'react-icons/io';
 
 const images = [
@@ -39,25 +33,6 @@ function ImageSlider() {
   }, [currentSlide]);
 
   return (
-    // <>
-    //   <div>
-    //     <button type="button" className="left-slide-btn" onClick={prevSlide}>
-    //       <MdArrowBackIosNew className="prevBtn" />
-    //     </button>
-    //   </div>
-    //   <div className="slider">
-    //     <div className="sliderContainer" ref={slideRef}>
-    //       <img src={images[0]} alt="nunu1" />
-    //       <img src={images[1]} alt="nunu2" />
-    //       <img src={images[2]} alt="nunu3" />
-    //     </div>
-    //   </div>
-    //   <div>
-    //     <button type="button" className="right-slide-btn" onClick={nextSlide}>
-    //       <MdArrowForwardIos className="nextBtn" />
-    //     </button>
-    //   </div>
-    // </>
     <div className="slider">
       <button type="button" onClick={nextSlide}>
         <IoIosArrowDropright className="prevBtn" />

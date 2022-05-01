@@ -12,6 +12,7 @@ function Pagination({ postsPerPage, totalPosts, currentPage, paginate }) {
             <button
               type="button"
               onClick={() => paginate(number)}
+              // href
               className={`page-btn${currentPage === number ? ' focused' : ''}`}
             >
               {number}

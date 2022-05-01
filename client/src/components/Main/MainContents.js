@@ -3,6 +3,28 @@ export default function MainContents() {
     <div className="main-contents">
       <div className="inner">
         <div className="title">오늘의 프로필</div>
+        <div className="title">오늘의 프로필</div>
+
+        <div className="title">오늘의 프로필</div>
+
+        <div className="title">오늘의 프로필</div>
+
+        <div className="title">오늘의 프로필</div>
+
+        <div className="title">오늘의 프로필</div>
+
+        <div className="title">오늘의 프로필</div>
+
+        <div className="title">오늘의 프로필</div>
+
+        <div className="title">오늘의 프로필</div>
+
+        <div className="title">오늘의 프로필</div>
+
+        <div className="title">오늘의 프로필</div>
+
+        <div className="title">오늘의 프로필</div>
+
         {/* <div className="wrap-box">
           <div className="box">
             <div className="top"> 경기 </div>

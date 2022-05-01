@@ -19,7 +19,7 @@ export default function Header() {
   }
 
   return (
-    <header className={scrollPosition ? 'header-active' : 'header-default'}>
+    <header className={scrollPosition ? 'header-active' : ''}>
       <div className="inner">
         <div className="nav">
           <div className="logo">
@@ -29,9 +29,11 @@ export default function Header() {
             <input
               type="text"
               name="search"
-              placeholder="지역명, 지하철역, 동이름으로 검색"
+              placeholder="어디로 촬영 가시나요?"
             />
-            <AiOutlineSearch className="search-button" />
+            <button type="submit">
+              <AiOutlineSearch className="search-button" alt="Submit Form" />
+            </button>
           </form>
           <ul className="right-header">
             <li>

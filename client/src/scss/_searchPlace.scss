@@ -1,9 +1,10 @@
-.shop-list-container {
+.place-list-container {
   width: 1320px;
   margin: 0 auto;
 
   .sub-nav {
     display: flex;
+    border-bottom: 1px solid rgb(221, 221, 221);
 
     .sub-nav-left {
       width: 50%;
@@ -79,12 +80,11 @@
     }
   }
 
-  #wrapper {
+  .wrapper {
     display: flex;
     border-radius: 20px;
     height: 80vh;
-    // border-radius: 20px;
-    // box-shadow: 5px 5px 5px rgb(233, 232, 232);
+
     cursor: pointer;
 
     #map {
@@ -96,7 +96,7 @@
       height: 780px;
     }
 
-    .shop-list {
+    .place-list {
       flex: 1 0 0;
       overflow: scroll;
       position: relative;
@@ -107,7 +107,7 @@
         display: none;
       }
 
-      .shop-info {
+      .place-info {
         display: flex;
         height: 200px;
         margin: 30px;
@@ -118,7 +118,7 @@
           // opacity: 0.5;
         }
 
-        .shop-detail {
+        .place-detail {
           flex: 6 0 0;
           margin: auto 0;
           margin-left: 20px;
@@ -171,7 +171,7 @@
             }
           }
         }
-        .shop-name {
+        .post-title {
           color: black;
           font-size: 20px;
           font-weight: bold;

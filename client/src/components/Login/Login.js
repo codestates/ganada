@@ -36,7 +36,11 @@ export default function Login() {
                 <span>카카오 로그인</span>
               </button>
               <button type="submit" className="login-btn google">
-                <img src="img/googlelogo.png" className="logo" alt="logo" />
+                <img
+                  src="img/googlelogo.png"
+                  className="logo google"
+                  alt="logo"
+                />
                 <span>Google 로그인</span>
               </button>
             </div>

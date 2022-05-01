@@ -71,24 +71,26 @@ export default function Edit() {
           <tbody>
             <tr>
               <th>프로필 사진</th>
-              <td className="profile">
-                <button type="button" onClick={deleteImg}>
-                  사진삭제
-                </button>
+              <td>
+                <div className="profile">
+                  <button type="button" onClick={deleteImg}>
+                    사진삭제
+                  </button>
 
-                {imageSrc && <img src={imageSrc} alt="preview-img" />}
+                  {imageSrc && <img src={imageSrc} alt="preview-img" />}
 
-                <input
-                  type="file"
-                  id="file"
-                  onChange={(e) => {
-                    encodeFile(e.target.files[0]);
-                  }}
-                />
+                  <input
+                    type="file"
+                    id="file"
+                    onChange={(e) => {
+                      encodeFile(e.target.files[0]);
+                    }}
+                  />
 
-                <label className="icon-wrap" htmlFor="file">
-                  <MdPhotoCamera size="23" />
-                </label>
+                  <label className="icon-wrap" htmlFor="file">
+                    <MdPhotoCamera size="23" />
+                  </label>
+                </div>
               </td>
             </tr>
             <tr>
