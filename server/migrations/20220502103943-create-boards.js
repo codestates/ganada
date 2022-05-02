@@ -20,10 +20,7 @@ module.exports = {
       description: {
         type: Sequelize.STRING
       },
-      modelTag: {
-        type: Sequelize.STRING
-      },
-      photographerTag: {
+      tags: {
         type: Sequelize.STRING
       },
       sex: {
@@ -42,6 +39,9 @@ module.exports = {
         type: Sequelize.STRING
       },
       longitude: {
+        type: Sequelize.STRING
+      },
+      mainAddress: {
         type: Sequelize.STRING
       },
       detailAddress: {
