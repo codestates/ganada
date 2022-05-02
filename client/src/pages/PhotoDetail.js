@@ -1,6 +1,7 @@
 import { BsFillChatFill } from 'react-icons/bs';
-import PhotoDetailIntro from '../components/photo-detail/PhotoDetailIntro';
 import PhotoDetailSlider from '../components/photo-detail/PhotoDetailSlider';
+import PhotoDetailIntro from '../components/photo-detail/PhotoDetailIntro';
+import PhotoDetailMap from '../components/photo-detail/PhotoDetailMap';
 import PhotoDetailReview from '../components/photo-detail/PhotoDetailReview';
 import PhotoDetailHeader from '../components/photo-detail/PhotoDetailHeader';
 
@@ -12,6 +13,7 @@ function PhotoDetail() {
         <PhotoDetailSlider />
       </div>
       <PhotoDetailIntro />
+      <PhotoDetailMap />
       <PhotoDetailReview />
       <button type="button" className="chat-btn">
         <BsFillChatFill className="chat-icon" />

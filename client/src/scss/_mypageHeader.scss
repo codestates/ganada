@@ -32,3 +32,16 @@
     }
   }
 }
+@media screen and (max-width: $xs and $sm) {
+  .mypage {
+    .back {
+      .inner {
+        .mypage-header {
+          .header-wrap {
+            padding-left: 20px;
+          }
+        }
+      }
+    }
+  }
+}

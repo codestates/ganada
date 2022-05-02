@@ -5,8 +5,8 @@ export default function MainBanner() {
         <ul className="model-banner">
           <li className="banner-title"> 모델은 저절로 찾아오지 않아</li>
           <li className="banner-sub">
-            모델 선뜻 찾기 어려운거 알고있습니다. <br /> 작가님을 위해 탄생한
-            서비스로 매력적인 모델분을 소개합니다.
+            모델 찾기 어려우신거 압니다. <br /> 당신 주변에 있는 매력적인
+            모델분을 소개합니다.
           </li>
           <button type="button" className="banner-btn">
             내 주변 모델 둘러보기

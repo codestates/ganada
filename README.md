@@ -1,47 +1,40 @@
-Ganada
+> ### "매력적인 모델과 잠재력 있는 사진 작가를 연결합니다."
 
-> ### 가장 나다운 순간을 담다
+_모델과 사진 작가를 연결하는 커뮤니티 플랫폼_
 
----
+## 가나다를 소개합니다!:sparkles:
 
-### Project Team Member
+### :zap:[가나다 바로가기](https://github.com/codestates/ganada)
 
-- [김도형](https://github.com/kdobro92)(Front-End): <dobro92@gmail.com>
-    <img src="https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=HTML5&logoColor=white"/></a>
-    <img src="https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=CSS3&logoColor=white"/></a>
-    <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=JavaScript&logoColor=white"/></a>
-    <img src="https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=React&logoColor=white"/></a>
-    <img src="https://img.shields.io/badge/TypeScript-2f74c0?style=flat-square&logo=TypeScript&logoColor=white"/></a>
+![image](https://user-images.githubusercontent.com/75208878/164990745-70bc08ee-d7a7-472e-be1e-dc8e5db4849f.png)
 
-- [김유정](https://github.com/choboeyo)(Front-End): <dbwjdrkddls1@gmail.com>
-    <img src="https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=HTML5&logoColor=white"/></a>
-    <img src="https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=CSS3&logoColor=white"/></a>
-    <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=JavaScript&logoColor=white"/></a>
-    <img src="https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=React&logoColor=white"/></a>
-    <img src="https://img.shields.io/badge/TypeScript-2f74c0?style=flat-square&logo=TypeScript&logoColor=white"/></a>
+가나다 프로젝트는 "_모델과 사진 작가를 연결하는 커뮤니티 플랫폼_"입니다.
 
-- [김세현](https://github.com/tpgus)(Front-End): <wkaaksqh758@naver.com>
-    <img src="https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=HTML5&logoColor=white"/></a>
-    <img src="https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=CSS3&logoColor=white"/></a>
-    <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=JavaScript&logoColor=white"/></a>
-    <img src="https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=React&logoColor=white"/></a>
-    <img src="https://img.shields.io/badge/TypeScript-2f74c0?style=flat-square&logo=TypeScript&logoColor=white"/></a>
+최근 MZ 세대를 중심으로 다양한 컨셉의 사진 촬영이 유행하고 있습니다.
 
-- [이국진](https://github.com/cptkuk91)(Back-End): <cptkuk91@gmail.com>
-    <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=JavaScript&logoColor=white"/></a> 
-    <img src="https://img.shields.io/badge/MySQL-4479A1?style=flat-square&logo=MySQL&logoColor=white"/></a>
-    <img src="https://img.shields.io/badge/Amazon AWS-232F3E?style=flat-square&logo=Amazon AWS&logoColor=white"/></a>
-    <img src="https://img.shields.io/badge/Node.js-339933?style=flat-square&logo=Node.js&logoColor=white"/></a>
-    <img src="https://img.shields.io/badge/TypeScript-2f74c0?style=flat-square&logo=TypeScript&logoColor=white"/></a>
+그 누구보다 자신을 사랑하고 아끼는 세대 MZ 세대는 다양한 사진 촬영을 위해 아름답고 멋진 기록을 하고 싶어합니다.
 
----
+멋진 사진을 기록하고 싶어하는 매력적인 모델, 멋진 사진을 찍고 싶어하는 사진 작가의 연결을 위한 플랫폼 서비스입니다.
 
-### Ganada의 주요 기능을 소개합니다.
-- [x] 회원가입
-- [x] 일반/사진관 회원 가입
-- [x] 로그인/로그아웃
-- [x] 일반/사진관 회원 정보 변경
-- [x] 리뷰 작성
-- [x] 사진관 등록
-- [x] 사진관 메뉴 추가
-- [x] 사진관 예약
+### :zap:[가나다 바로가기](https://github.com/codestates/ganada)
+
+<br/>
+
+## 가나다의 주요 기능을 소개합니다.:tada:
+
+- [x] 내 주변 찾기를 통해 주변 사진 작가, 모델을 확인하고, 약속을 잡을 수 있습니다.
+- [x] 관심있는 컨셉을 해쉬태그와 키워드를 통해 찾아 볼 수 있습니다.
+- [x] 상단의 검색 버튼을 통해 희망하는 위치의 사진작가, 모델을 빠르게 조회할 수 있습니다.
+- [x] 필터링 기능을 통해 최신순, 인기순 사진작가, 모델을 조회할 수 있습니다.
+- [x] 회원가입을 통해 닉네임, 자기소개를 설정하고 프로필 이미지 또한 변경할 수 있습니다.
+- [x] 사용자는 희망하는 포지션에 관련글을 등록하고 사진 작가 또는 모델이 될 수 있습니다.
+
+### :zap:[가나다 바로가기](https://github.com/codestates/ganada)
+
+<br/>
+
+## :fire: 가다나 프로젝트의 특별한 점은 무엇일까요?
+
+1. 사이트가 직관적이고, 빠르고 간단한 포트폴리오를 작성해 러브콜을 받을 수 있습니다.
+2. 일방적인 위치 통보가 아닌, 지도 API를 통해 확실한 위치 정보를 제공받고 사진 촬영을 할 수 있습니다.
+3. 이메일 인증, SNS 인증을 통해 신원을 보장합니다.

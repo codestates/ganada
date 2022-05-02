@@ -3,11 +3,7 @@ import { GiPlainCircle } from 'react-icons/gi';
 import useInterval from 'use-interval';
 
 export default function MainThumbnail() {
-  const images = [
-    `${process.env.PUBLIC_URL}/img/1.png`,
-    `${process.env.PUBLIC_URL}/img/2.png`,
-    `${process.env.PUBLIC_URL}/img/3.png`,
-  ];
+  const images = [`img/1.png`, `img/2.png`, `img/3.png`];
 
   const TotalSlide = images.length - 1;
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -22,7 +18,7 @@ export default function MainThumbnail() {
 
   useInterval(() => {
     nextSlide();
-  }, 4000);
+  }, 5000000000000000000);
 
   const left = () => {
     setCurrentSlide(0);
@@ -72,42 +68,48 @@ export default function MainThumbnail() {
           <div className="sliderContainer" ref={slideRef}>
             <div className="slider">
               <img src={images[0]} alt="slide1" />
-              <div className="slider-left-txt">
-                가 <br />
-                <br />다
+              <div className="slider-txt">
+                <div className="slider-left-txt">
+                  가 <br />
+                  <br />다
+                </div>
+                <div className="slider-middle-txt">나</div>
+                <div className="slider-right-txt">
+                  장 <br />
+                  <br />운
+                </div>
+                <div className="slider-right-re-txt">순간을 담다</div>
               </div>
-              <div className="slider-middle-txt">나</div>
-              <div className="slider-right-txt">
-                장 <br />
-                <br />운
-              </div>
-              <div className="slider-right-re-txt">순간을 담다</div>
             </div>
             <div className="slider">
               <img src={images[1]} alt="slide2" />
-              <div className="slider-left-txt">
-                가 <br />
-                <br />다
+              <div className="slider-txt">
+                <div className="slider-left-txt">
+                  가 <br />
+                  <br />다
+                </div>
+                <div className="slider-middle-two-txt">&nbsp;&nbsp;아름</div>
+                <div className="slider-right-txt">
+                  장 <br />
+                  <br />운
+                </div>
+                <div className="slider-right-re-txt">순간을 담다</div>
               </div>
-              <div className="slider-middle-two-txt">&nbsp;&nbsp;아름</div>
-              <div className="slider-right-txt">
-                장 <br />
-                <br />운
-              </div>
-              <div className="slider-right-re-txt">순간을 담다</div>
             </div>
             <div className="slider">
               <img src={images[2]} alt="slide2" />
-              <div className="slider-left-txt">
-                가 <br />
-                <br />다
+              <div className="slider-txt">
+                <div className="slider-left-txt">
+                  가 <br />
+                  <br />다
+                </div>
+                <div className="slider-middle-two-txt">&nbsp;&nbsp;우리</div>
+                <div className="slider-right-txt">
+                  장 <br />
+                  <br />운
+                </div>
+                <div className="slider-right-re-txt">순간을 담다</div>
               </div>
-              <div className="slider-middle-two-txt">&nbsp;&nbsp;우리</div>
-              <div className="slider-right-txt">
-                장 <br />
-                <br />운
-              </div>
-              <div className="slider-right-re-txt">순간을 담다</div>
             </div>
           </div>
         </div>
