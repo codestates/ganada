@@ -1,9 +1,13 @@
+$radius: 10px;
+
 .write-page-container {
   width: 1320px;
   margin: 0 auto;
-
+  margin-top: 50px;
+  span {
+    font-weight: 500;
+  }
   .write-page-header {
-    padding-top: 100px;
     display: flex;
     justify-content: center;
   }
@@ -22,13 +26,19 @@
       font-weight: bold;
     }
     .input-title {
-      border-radius: 10px;
       width: 100%;
 
       input {
         border: 1px solid rgb(211, 211, 211);
-        width: 100%;
         height: 100%;
+        width: 100%;
+        border-radius: 10px;
+        padding: 15px;
+
+        &:focus {
+          outline: none;
+          border: 1px solid #ff5353;
+        }
       }
     }
   }
@@ -38,17 +48,62 @@
     height: 400px;
     width: 100%;
 
-    .image {
+    .image-title {
       display: flex;
       align-items: flex-start;
       width: 5%;
       font-weight: bold;
     }
 
-    .upload-image-area {
-      border: 1px solid rgb(211, 211, 211);
+    .image-upload-area {
       width: 100%;
-      background: rgb(240, 240, 240);
+      background-color: #ecebeb;
+      display: flex;
+      overflow-y: hidden;
+      border-radius: $radius;
+      justify-content: center;
+      align-items: center;
+
+      .image-wrapper {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .image-inner {
+        margin: 10px;
+        border: 1px dashed rgb(131, 127, 126);
+        width: 300px;
+        height: 300px;
+        align-self: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .insert-image {
+          display: none;
+        }
+
+        img {
+          width: 100%;
+          height: 100%;
+        }
+      }
+      .btn-delete-image {
+        margin: 0 auto;
+        padding: 0 5px;
+        border-radius: $radius;
+        border: 1px solid #adadad;
+        &:hover {
+          background-color: #adadad;
+          color: #fff;
+          transition: 0.2s;
+          cursor: pointer;
+        }
+      }
+      .hidden {
+        // 이미지가 올라가면 보더 삭제
+        border: none;
+      }
     }
   }
 
@@ -64,29 +119,45 @@
       justify-content: center;
       width: 5%;
       font-weight: bold;
+      padding: 10px;
     }
 
     .introduction-area {
       width: 100%;
-      background: rgb(240, 240, 240);
       .input-introduction {
+        border-radius: 10px;
         border: 1px solid rgb(211, 211, 211);
         width: 100%;
         height: 100%;
         resize: none;
         font-size: 14px;
+        padding: 10px;
+        &:focus {
+          outline: none;
+          border: 1px solid #ff5353;
+        }
       }
     }
   }
 
   .search-place-container {
     width: 100%;
+    height: 40px;
     margin-top: 10px;
     display: flex;
+    input,
+    button {
+      border-radius: $radius;
+      padding: 10px;
+    }
+    &:focus {
+      outline: none;
+      border: 1px solid #ff5353;
+    }
 
     .place {
       display: flex;
-      align-items: flex-start;
+      align-items: center;
       justify-content: center;
       width: 5%;
       font-weight: bold;
@@ -98,6 +169,7 @@
 
     .show-address {
       border: 1px solid rgb(211, 211, 211);
+      font-weight: bold;
       padding: 5px;
       width: 50%;
     }
@@ -107,6 +179,7 @@
       width: 100px;
       padding: 5px;
       background-color: #adadad;
+      margin-left: 5px;
       border: none;
       cursor: pointer;
     }
@@ -115,16 +188,11 @@
       margin-left: 5px;
       padding: 5px;
       width: 50%;
+      &:focus {
+        outline: none;
+        border: 1px solid #ff5353;
+      }
     }
-
-    // .map-modal {
-    //   width: 50%;
-    //   margin: 0 auto;
-    //   display: flex;
-    //   flex-direction: column;
-    //   justify-content: center;
-    //   border: 1px solid lightgray;
-    //   border-radius: 10px;
 
     .map-modal-background {
       position: fixed;
@@ -145,32 +213,52 @@
         border-radius: 10px;
         padding: 10px;
         width: 30%;
-        height: 600px;
       }
+
       #map {
         border-radius: 10px;
       }
+
       .input-area {
         margin: 0 auto;
         padding: 10px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
         input {
-          width: 200px;
+          width: 40%;
         }
         .btn-search {
-          padding: 0 20px;
-          margin-left: 1px;
+          margin-left: 5px;
+          color: #ffffff;
+          font-weight: bold;
+          background-color: #adadad;
+          border: 1px solid #adadad;
+          border-radius: $radius;
+          padding: 0 1.5rem;
         }
       }
 
       .save-area {
         margin: 0 auto;
         padding: 10px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
 
         input {
-          width: 200px;
+          width: 40%;
+          color: rgb(0, 0, 0);
+          text-align: center;
+          font-weight: 500;
         }
         .btn-save {
-          margin-left: 1px;
+          margin-left: 5px;
+          color: #ffffff;
+          font-weight: bold;
+          background-color: #adadad;
+          border: 1px solid #adadad;
+          border-radius: $radius;
         }
       }
     }
@@ -250,10 +338,9 @@
     .registration-button {
       padding: 7px 20px;
       font-size: 12px;
-      border-color: #000000;
       background: #fff;
       color: #adadad;
-      border: solid 1px;
+      border: 1px solid #adadad;
       border-radius: 5px;
       letter-spacing: 1pt;
       font-weight: bold;

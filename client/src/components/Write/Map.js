@@ -2,12 +2,12 @@ import { useEffect } from 'react';
 
 const { kakao } = window;
 
-function Map({ searchValue, setAddress }) {
+function Map({ searchValue, setAddress, setLatLng }) {
   useEffect(() => {
     const mapContainer = document.querySelector('#map');
     const mapOption = {
       center: new kakao.maps.LatLng(37.5662952, 126.9779451),
-      level: 4,
+      level: 3,
     };
     const map = new kakao.maps.Map(mapContainer, mapOption);
     const geocoder = new kakao.maps.services.Geocoder();
@@ -17,7 +17,7 @@ function Map({ searchValue, setAddress }) {
     });
     const infoWindows = [];
     let message =
-      '<div style="padding:10px; width:250px;;">원하시는 장소를 클릭해주세요!</div>'; // 인포윈도우에 표시될 내용입니다
+      '<div style="padding:10px; width:200px; border:3px solid blue">원하시는 장소를 클릭해주세요!</div>'; // 인포윈도우에 표시될 내용입니다
     // 키워드로 장소를 검색합니다
     ps.keywordSearch(searchValue, placesSearchCB);
     // 키워드 검색 완료 시 호출되는 콜백함수 입니다
@@ -30,6 +30,7 @@ function Map({ searchValue, setAddress }) {
           bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
         }
         marker.setMap(map);
+
         openInfoWindow(message);
         // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
         map.setBounds(bounds);
@@ -40,11 +41,15 @@ function Map({ searchValue, setAddress }) {
       const latlng = mouseEvent.latLng;
       // 마커 위치를 클릭한 위치로 옮깁니다
       marker.setPosition(latlng);
-
+      // console.log(latlng.getLat(), latlng.getLng());
       const callback = function (result, status) {
         if (status === kakao.maps.services.Status.OK) {
-          message = `<div style="padding:10px; width:200px;;">${result[0].address.address_name}</div>`;
+          message = `<div style="padding:10px; width:200px; border:3px solid blue">${result[0].address.address_name}</div>`;
           setAddress(result[0].address.address_name);
+          setLatLng({
+            lat: latlng.getLat(),
+            lng: latlng.getLng(),
+          });
           openInfoWindow(message);
         }
       };

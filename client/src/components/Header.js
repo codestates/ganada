@@ -13,7 +13,7 @@ export default function Header() {
   });
 
   // 헤더 숨길 경로
-  const hideHeader = ['/login', '/signup'];
+  const hideHeader = ['/login', '/signup', '/write'];
   if (hideHeader.includes(location.pathname)) {
     return null;
   }

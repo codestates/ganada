@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-function Tag({ selected }) {
+function Tag({ selected, setTags }) {
   const modelTags = ['청순', '섹시', '귀염', '도도', '지적', '날씬', '순수'];
   const photographerTags = ['실내촬영', '실외촬영', '노출촬영', '부분노출'];
   const [selectedTags, setSelectedTags] = useState([]);
@@ -17,7 +17,10 @@ function Tag({ selected }) {
       setSelectedTags(tags);
     }
   };
-  console.log(selectedTags);
+  useEffect(() => {
+    setSelectedTags(selectedTags.slice());
+  }, [selectedTags]);
+  // console.log(selectedTags);
 
   return (
     <ul id="tags">

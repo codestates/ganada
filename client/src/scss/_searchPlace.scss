@@ -1,7 +1,6 @@
 .place-list-container {
   width: 1320px;
   margin: 0 auto;
-
   .sub-nav {
     padding-top: 100px;
     display: flex;
@@ -95,6 +94,7 @@
       flex: 1 0 0;
       width: 100%;
       // height: 780px;
+      // height: 100%;
     }
 
     .place-list {
@@ -103,7 +103,7 @@
       position: relative;
       display: flex;
       flex-direction: column;
-      align-items: center;
+      // align-items: center;
       &::-webkit-scrollbar {
         display: none;
       }
@@ -186,7 +186,7 @@
       .pagination-buttons {
         justify-content: center;
         display: flex;
-        position: absolute;
+        // position: absolute;
         bottom: 0;
         margin: 0 auto;
 
