@@ -3,8 +3,9 @@ import Map from './Map';
 
 function SelectPlaceModal({ modalHandler }) {
   const [inputText, setInputText] = useState('');
-  const [searchValue, setSearchValue] = useState('서울특별시청');
+  const [searchValue, setSearchValue] = useState('서울광장');
   const [address, setAddress] = useState('');
+  const [latlng, setLatLng] = useState({});
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -25,17 +26,21 @@ function SelectPlaceModal({ modalHandler }) {
             onChange={inputHandler}
             value={inputText}
           />
-          <button className="btn-search" type="submit">
+          <button className="btn-search" type="button" onClick={handleSubmit}>
             검색
           </button>
         </form>
-        <Map searchValue={searchValue} setAddress={setAddress} />
+        <Map
+          searchValue={searchValue}
+          setAddress={setAddress}
+          setLatLng={setLatLng}
+        />
         <div className="save-area">
-          <input type="text" value={address} readOnly />
+          <input type="text" value={address} disabled />
           <button
             className="btn-save"
             type="button"
-            onClick={() => modalHandler(address)}
+            onClick={() => modalHandler(address, latlng)}
           >
             저장하기
           </button>

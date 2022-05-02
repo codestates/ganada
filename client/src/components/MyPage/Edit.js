@@ -32,7 +32,7 @@ export default function Edit() {
         phoneNumber,
       )
     ) {
-      errors.phoneNumber = '전화번호가 옳바르지 않습니다.';
+      errors.phoneNumber = '전화번호가 올바르지 않습니다.';
     }
 
     return errors;
