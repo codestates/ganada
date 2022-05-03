@@ -8,6 +8,7 @@ import { data, sample } from '../assets/dummyData';
 function SearchPlace() {
   const [posts, setPosts] = useState(data);
   const [currentPage, setCurrentPage] = useState(1);
+  const [tags, setTags] = useState([]);
   const [postsPerPage] = useState(8);
   // get current post
   const indexOfLastPost = currentPage * postsPerPage;
@@ -18,6 +19,7 @@ function SearchPlace() {
     // setLoading(true);
     // console.log('axios 데이터 요청');
     // setLoading(false);
+    // console.log(tags); //에러
   }, []);
 
   const paginate = (pageNumber) => {

@@ -19,6 +19,7 @@ function Tag({ selected, setTags }) {
   };
   useEffect(() => {
     setSelectedTags(selectedTags.slice());
+    setTags(selectedTags);
   }, [selectedTags]);
   // console.log(selectedTags);
 
