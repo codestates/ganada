@@ -2,7 +2,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useRef, useEffect, useState } from 'react';
 import axios from 'axios';
 
-export default function Login({ setAccessToken, setIsLogin }) {
+export default function Login({ token }) {
   const inputRef = useRef(null);
   const navigate = useNavigate();
 
@@ -33,9 +33,7 @@ export default function Login({ setAccessToken, setIsLogin }) {
                 'ID가 존재하지 않거나 비밀번호가 일치하지 않습니다 다시 시도해주세요',
               );
             } else {
-              localStorage.setItem('Token', res.data.token);
-              setAccessToken(res.data.token);
-              setIsLogin(res.data);
+              localStorage.setItem('Token', token);
               navigate('/');
             }
           });

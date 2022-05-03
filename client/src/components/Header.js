@@ -4,7 +4,7 @@ import { FaUserCircle, FaRegEdit } from 'react-icons/fa';
 import { Link, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
-export default function Header({ handleLogout }) {
+export default function Header({ handleLogout, userInfo }) {
   const location = useLocation();
   const [scrollPosition, setScrollPosition] = useState(0);
   const [isTrue, setIsTrue] = useState(false);
@@ -44,11 +44,11 @@ export default function Header({ handleLogout }) {
               </button>
             </form>
             <ul className="right-header">
-              <li className="left-chat">
+              {/* <li className="left-chat">
                 <Link to="/chat">
                   <AiOutlineMessage size="40" color="rgb(114, 114, 114)" />
                 </Link>
-              </li>
+              </li> */}
               <div className="drop-menu " role="presentation" onClick={onClick}>
                 <div className="profile">
                   <img
@@ -58,7 +58,7 @@ export default function Header({ handleLogout }) {
                 </div>
                 <div className={isTrue ? 'list active' : 'list'}>
                   <h3>
-                    김유정님 <br />
+                    {userInfo.name}님 <br />
                     <span>환영합니다!</span>
                   </h3>
                   <ul>

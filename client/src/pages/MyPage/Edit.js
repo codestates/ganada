@@ -1,12 +1,15 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import { MdPhotoCamera } from 'react-icons/md';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
-export default function Edit() {
+export default function Edit({ userInfo, token }) {
   // input value change
+  const navigate = useNavigate();
   const [inputValue, setInputValue] = useState({
-    nickname: '운영자',
-    phoneNumber: '01012345678',
+    nickname: userInfo.name,
+    phoneNumber: userInfo.phoneNumber,
   });
   const [err, setErr] = useState({});
 
@@ -56,12 +59,33 @@ export default function Edit() {
       };
     });
   };
-
+  console.log(userInfo);
   const deleteImg = () => {
     setImageSrc(
       'https://static.nid.naver.com/images/web/user/default.png?type=s160',
     );
   };
+  const modifyUsersInfo = () => {
+    axios
+      .patch(
+        `http://localhost:4000/users/${userInfo.id}`,
+        {
+          name: inputValue.nickname,
+          password: userInfo.password,
+          phoneNumber: inputValue.phoneNumber,
+        },
+        {
+          headers: { authorization: `Bearer ${token}` },
+        },
+        {
+          withCredentials: true,
+        },
+      )
+      .then((res) => {
+        navigate('/mypage/edit');
+      });
+  };
+  console.log(inputValue.phoneNumber);
 
   return (
     <div className="mypage-content">
@@ -78,7 +102,6 @@ export default function Edit() {
                   </button>
 
                   {imageSrc && <img src={imageSrc} alt="preview-img" />}
-
                   <input
                     type="file"
                     id="file"
@@ -96,7 +119,7 @@ export default function Edit() {
             </tr>
             <tr>
               <th>이메일</th>
-              <td>dbwjdrkddls@naver.com</td>
+              <td>{userInfo.email}</td>
             </tr>
             <tr>
               <th>닉네임</th>
@@ -127,7 +150,7 @@ export default function Edit() {
             <button className={err === null ? 'active' : null} type="submit">
               취소
             </button>
-            <button type="submit" className="active">
+            <button type="submit" className="active" onClick={modifyUsersInfo}>
               적용
             </button>
           </div>

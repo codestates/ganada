@@ -23,13 +23,19 @@ const cookies = new Cookies();
 const token = cookies.get('jwt');
 
 function App() {
-  const [isLogin, setIsLogin] = useState(null);
   const [userInfo, setUserInfo] = useState('');
-  const [accessToken, setAccessToken] = useState('');
   const navigate = useNavigate();
 
-  console.log(accessToken);
-  console.log(isLogin);
+  useEffect(() => {
+    axios
+      .get(`http://localhost:4000/users`, {
+        headers: { authorization: `Bearer ${token}` },
+      })
+      .then((res) => {
+        // console.log(res.data.data.email);
+        setUserInfo(res.data.data);
+      });
+  }, []);
 
   // 서버에 토큰을 보내며 로그아웃 요청
   const handleLogout = () => {
@@ -39,7 +45,7 @@ function App() {
           `http://localhost:4000/auth/logout`,
           null,
           {
-            headers: { authorization: `Bearer ${accessToken}` },
+            headers: { authorization: `Bearer ${token}` },
           },
           {
             withCredentials: true,
@@ -47,9 +53,6 @@ function App() {
         )
         .then((res) => {
           localStorage.removeItem('Token');
-          setUserInfo(null);
-          setIsLogin(false);
-          alert('로그아웃 되었습니다.');
           navigate('/');
         });
     }
@@ -57,26 +60,23 @@ function App() {
 
   return (
     <>
-      <Header handleLogout={handleLogout} />
+      <Header handleLogout={handleLogout} userInfo={userInfo} />
       <Routes>
         <Route path="/" element={<Main />} />
-        <Route
-          path="/login"
-          element={
-            <Login
-              setIsLogin={setIsLogin}
-              setUserInfo={setUserInfo}
-              setAccessToken={setAccessToken}
-            />
-          }
-        />
+        <Route path="/login" element={<Login token={token} />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/photodetail" element={<PhotoDetail />} />
         <Route path="/photodetailImage" element={<PhotoDetailImage />} />
         <Route path="/mypage" element={<MyPage />}>
-          <Route path="edit" element={<Edit />} />
-          <Route path="change-password" element={<ChangePassword />} />
-          <Route path="leave" element={<LeaveId />} />
+          <Route
+            path="edit"
+            element={<Edit userInfo={userInfo} token={token} />}
+          />
+          <Route
+            path="change-password"
+            element={<ChangePassword userInfo={userInfo} />}
+          />
+          <Route path="leave" element={<LeaveId userInfo={userInfo} />} />
         </Route>
         <Route path="/search" element={<SearchPlace />} />
         <Route path="/chat" element={<Chat />}>
