@@ -14,6 +14,7 @@ import LeaveId from './pages/MyPage/LeaveId';
 import SearchPlace from './pages/SearchPlace';
 import WritingPage from './pages/WritingPage';
 import PhotoDetail from './pages/PhotoDetail';
+import ModelDetail from './pages/ModelDetail';
 import MediaFooterNav from './components/MediaFooterNav';
 import Chat from './pages/Chat';
 import MyList from './pages/MyList';
@@ -99,6 +100,7 @@ function App() {
         />
         <Route path="/signup" element={<Signup />} />
         <Route path="/photodetail" element={<PhotoDetail />} />
+        <Route path="/modeldetail" element={<ModelDetail />} />
         <Route path="/mylist" element={<MyList />} />
         <Route path="/mypage" element={<MyPage />}>
           <Route path="edit" element={<Edit />} />

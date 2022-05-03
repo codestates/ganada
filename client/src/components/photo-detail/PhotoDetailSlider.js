@@ -1,12 +1,8 @@
-/* eslint-disable jsx-a11y/interactive-supports-focus */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 import { useRef, useState, useEffect } from 'react';
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
-import { useNavigate } from 'react-router-dom';
 
 function PhotoDetailSlider() {
   const images = ['/img/1.png', '/img/2.png', '/img/3.png'];
-  const navigate = useNavigate();
   const TOTAL_SLIDES = images.length - 1;
   const slideRef = useRef(null);
   const [currentSlide, setCurrentSlide] = useState(0);

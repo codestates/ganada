@@ -2,7 +2,7 @@ import { MdOutlineIosShare } from 'react-icons/md';
 import { useState } from 'react';
 import PhotoDetailModal from './PhotoDetailModal';
 
-function PhotoDetailHeader() {
+function PhotoDetailHeader({ posts }) {
   const images = ['/img/son.png'];
   const url = window.location.href;
   const [isOpen, setIsOpen] = useState(false);
