@@ -15,9 +15,6 @@ import LeaveId from './pages/MyPage/LeaveId';
 import SearchPlace from './pages/SearchPlace';
 import WritingPage from './pages/WritingPage';
 import PhotoDetail from './pages/PhotoDetail';
-import MediaFooterNav from './components/MediaFooterNav';
-import Chat from './pages/Chat';
-import PhotoDetailImage from './components/photo-detail/PhotoDetailImage';
 
 const cookies = new Cookies();
 const token = cookies.get('jwt');
@@ -66,7 +63,6 @@ function App() {
         <Route path="/login" element={<Login token={token} />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/photodetail" element={<PhotoDetail />} />
-        <Route path="/photodetailImage" element={<PhotoDetailImage />} />
         <Route path="/mypage" element={<MyPage />}>
           <Route
             path="edit"
@@ -79,13 +75,9 @@ function App() {
           <Route path="leave" element={<LeaveId userInfo={userInfo} />} />
         </Route>
         <Route path="/search" element={<SearchPlace />} />
-        <Route path="/chat" element={<Chat />}>
-          <Route path=":chatRoomId" element={<Chat />} />
-        </Route>
         <Route path="/write" element={<WritingPage />} />
       </Routes>
       <Footer />
-      <MediaFooterNav />
     </>
   );
 }

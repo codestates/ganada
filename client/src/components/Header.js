@@ -1,4 +1,4 @@
-import { AiOutlineSearch, AiOutlineMessage } from 'react-icons/ai';
+import { AiOutlineSearch } from 'react-icons/ai';
 import { RiLogoutBoxRLine } from 'react-icons/ri';
 import { FaUserCircle, FaRegEdit } from 'react-icons/fa';
 import { Link, useLocation } from 'react-router-dom';

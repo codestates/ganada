@@ -1,7 +1,8 @@
+import axios from 'axios';
 import { useState, useRef, useEffect } from 'react';
 import Image from '../components/Write/Image';
 import SelectPlaceModal from '../components/Write/SelectPlaceModal';
-import Tag from '../components/place-list/Tag';
+import Tag from '../components/Place-list/Tag';
 
 function WritingPage({ role = 1 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -38,17 +39,33 @@ function WritingPage({ role = 1 }) {
     setIsModalOpen(!isModalOpen);
   };
 
-  const requestHandler = () => {
+  const requestHandler = async () => {
     if (!title || !description || !place || !detailAddress) {
       alert('모든 항목이 입력되어야 합니다.');
     } else {
-      alert(title);
-      alert(description);
-      alert(place);
-      alert(detailAddress);
-      alert(tags);
-      alert(coordinate.lat);
-      alert(coordinate.lng);
+      await axios
+        .post(
+          'http://localhost:4000/boards',
+          {
+            category: 0,
+            title,
+            image: 'abc',
+            description,
+            tags: tags.toString(),
+            sex: 'a',
+            age: 'c',
+            height: 'd',
+            weight: 'e',
+            latitude: coordinate.lat,
+            longitude: coordinate.lng,
+            mainAddress: place,
+            detailAddress,
+          },
+          { withCredentials: true },
+        )
+        .then((result) => {
+          console.log(result);
+        });
     }
   };
 

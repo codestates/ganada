@@ -1,13 +1,14 @@
 import { useState, useEffect } from 'react';
-import PlaceList from '../components/place-list/PlaceList';
-import KakaoMap from '../components/place-list/KakaoMap';
-import SubNav from '../components/place-list/SubNav';
-import Pagination from '../components/place-list/Pagination';
-import { data } from '../assets/dummyData';
+import PlaceList from '../components/Place-list/PlaceList';
+import KakaoMap from '../components/Place-list/KakaoMap';
+import SubNav from '../components/Place-list/SubNav';
+import Pagination from '../components/Place-list/Pagination';
+import { data, sample } from '../assets/dummyData';
 
 function SearchPlace() {
   const [posts, setPosts] = useState(data);
   const [currentPage, setCurrentPage] = useState(1);
+  const [tags, setTags] = useState([]);
   const [postsPerPage] = useState(8);
   // get current post
   const indexOfLastPost = currentPage * postsPerPage;
@@ -18,6 +19,7 @@ function SearchPlace() {
     // setLoading(true);
     // console.log('axios 데이터 요청');
     // setLoading(false);
+    // console.log(tags); //에러
   }, []);
 
   const paginate = (pageNumber) => {
@@ -39,7 +41,7 @@ function SearchPlace() {
             paginate={paginate}
           />
         </div>
-        <KakaoMap />
+        <KakaoMap data={sample} />
       </div>
     </div>
   );
