@@ -1,8 +1,8 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useRef, useEffect, useState } from 'react';
-import { BiError } from 'react-icons/bi';
 import axios from 'axios';
 import AlertModal from '../components/AlertModal';
+import Modal from '../components/Modal';
 
 export default function Signup() {
   // input value change
@@ -14,11 +14,13 @@ export default function Signup() {
     name: '',
     phoneNumber: '',
   });
+  const [modal, setModal] = useState({
+    open: false,
+    title: '',
+    message: '',
+    callback: false,
+  });
   const [err, setErr] = useState({});
-  const [againAlert, setAgainAlert] = useState(false);
-  const [buttonAlert, setButtonAlert] = useState(false);
-  const [mailAlert, setMailAlert] = useState(false);
-  const [loginAlert, setLoginAlert] = useState(false);
   const navigate = useNavigate();
 
   const handleInput = (e) => {
@@ -28,6 +30,7 @@ export default function Signup() {
       [name]: value,
     });
   };
+
   // error test
   const errCheck = (value) => {
     const errors = {};
@@ -82,11 +85,18 @@ export default function Signup() {
     inputRef.current.focus();
   }, []);
 
-  const signupHandling = async () => {
+  const handleSignup = async (e) => {
+    e.preventDefault();
     if (Object.values(inputValue).includes('')) {
-      setButtonAlert(true);
+      setModal({
+        open: true,
+        title: '모든 항목은 필수 입니다.',
+      });
     } else if (Object.keys(err).length !== 0) {
-      setAgainAlert(true);
+      setModal({
+        open: true,
+        title: '다시한번 확인해주세요',
+      });
     } else {
       const data = {
         email: inputValue.email,
@@ -101,11 +111,14 @@ export default function Signup() {
           .post(`http://localhost:4000/auth/signup`, data, {
             withCredentials: true,
           })
-          .then(setLoginAlert(true))
           .then(() => {
-            if (!loginAlert) {
-              navigate('/login');
-            }
+            setModal({
+              open: true,
+              title: '회원가입이 완료 되었습니다!',
+              callback: () => {
+                navigate('/login');
+              },
+            });
           });
       } catch (error) {
         console.log(error);
@@ -114,15 +127,27 @@ export default function Signup() {
   };
 
   const emailValidRequest = async () => {
-    try {
-      await axios
-        .post('http://localhost:4000/auth/mailVerification', {
-          email: inputValue.email,
-        })
-        .then((res) => setErr({ ...err, email: res.data.message }))
-        .then(setMailAlert(true));
-    } catch (error) {
-      console.log(error);
+    if (err.email === '올바르지 않은 이메일 형식입니다.') {
+      console.log('돌아가');
+    } else {
+      try {
+        await axios
+          .post('http://localhost:4000/auth/mailVerification', {
+            email: inputValue.email,
+          })
+          .then((res) => {
+            if (res.data.message === '위 메일로 인증번호가 전송되었습니다.') {
+              setModal({
+                open: true,
+                title: '인증 메일이 발송 되었습니다.',
+              });
+            } else {
+              setErr({ ...err, email: res.data.message });
+            }
+          });
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
   return (
@@ -209,7 +234,7 @@ export default function Signup() {
                     ? 'signup-btn'
                     : 'signup-btn active'
                 }
-                onClick={signupHandling}
+                onClick={handleSignup}
               >
                 회원가입
               </button>
@@ -223,34 +248,14 @@ export default function Signup() {
           </div>
         </div>
       </div>
-      {mailAlert && err.email === '위 메일로 인증번호가 전송되었습니다.' ? (
-        <AlertModal
-          title="인증 메일이 발송 되었습니다."
-          setAlert={setMailAlert}
-          alert={mailAlert}
-        />
-      ) : null}
-      {againAlert ? (
-        <AlertModal
-          title="다시한번 확인해주세요"
-          setAlert={setAgainAlert}
-          alert={againAlert}
-        />
-      ) : null}
-      {buttonAlert ? (
-        <AlertModal
-          title="모든 항목은 필수 입니다."
-          setAlert={setButtonAlert}
-          alert={buttonAlert}
-        />
-      ) : null}
-      {loginAlert ? (
-        <AlertModal
-          title="회원가입이 완료되었습니다!"
-          setAlert={setLoginAlert}
-          alert={loginAlert}
-        />
-      ) : null}
+
+      <Modal
+        open={modal.open}
+        setPopup={setModal}
+        message={modal.message}
+        title={modal.title}
+        callback={modal.callback}
+      />
     </section>
   );
 }

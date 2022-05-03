@@ -2,6 +2,7 @@ import './scss/style.scss';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { Cookies } from 'react-cookie';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Main from './components/Main/Main';
@@ -18,28 +19,24 @@ import MediaFooterNav from './components/MediaFooterNav';
 import Chat from './pages/Chat';
 import PhotoDetailImage from './components/photo-detail/PhotoDetailImage';
 
+const cookies = new Cookies();
+const token = cookies.get('jwt');
+
 function App() {
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useState(null);
   const [userInfo, setUserInfo] = useState('');
   const [accessToken, setAccessToken] = useState('');
   const navigate = useNavigate();
 
-  // 로그인 상태 변경
-  const handleResponseSuccess = () => {
-    setIsLogin(true);
-  };
-
-  // 서버에서 받아온 토큰 최신화
-  const issueAccessToken = (token) => {
-    setAccessToken(token);
-  };
+  console.log(accessToken);
+  console.log(isLogin);
 
   // 서버에 토큰을 보내며 로그아웃 요청
   const handleLogout = () => {
     if (window.confirm('정말 로그아웃 하시겠습니까?')) {
       axios
         .post(
-          `${process.env.REACT_APP_GAMESTATES_API_URL}auth/logout`,
+          `http://localhost:4000/auth/logout`,
           null,
           {
             headers: { authorization: `Bearer ${accessToken}` },
@@ -49,6 +46,7 @@ function App() {
           },
         )
         .then((res) => {
+          localStorage.removeItem('Token');
           setUserInfo(null);
           setIsLogin(false);
           alert('로그아웃 되었습니다.');
@@ -57,33 +55,9 @@ function App() {
     }
   };
 
-  useEffect(() => {
-    const url = new URL(window.location.href);
-    const authorization = url.searchParams.get('code');
-    if (authorization) {
-      google(authorization);
-    }
-  }, []);
-
-  function google(authorizationCode) {
-    axios
-      .post('http://localhost:4000/auth/google/callback', null, {
-        headers: {
-          authorization: authorizationCode,
-        },
-        withCredentials: true,
-      })
-      .then((result) => {
-        alert('로그인 되었습니다.');
-        handleResponseSuccess();
-        navigate('/');
-      });
-    // 액세스 토큰을 받아온다.
-  }
-
   return (
     <>
-      <Header />
+      <Header handleLogout={handleLogout} />
       <Routes>
         <Route path="/" element={<Main />} />
         <Route
@@ -92,8 +66,7 @@ function App() {
             <Login
               setIsLogin={setIsLogin}
               setUserInfo={setUserInfo}
-              issueAccessToken={issueAccessToken}
-              handleResponseSuccess={handleResponseSuccess}
+              setAccessToken={setAccessToken}
             />
           }
         />

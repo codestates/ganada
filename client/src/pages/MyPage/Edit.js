@@ -82,6 +82,7 @@ export default function Edit() {
                   <input
                     type="file"
                     id="file"
+                    accept=".png, .jpeg, .jpg"
                     onChange={(e) => {
                       encodeFile(e.target.files[0]);
                     }}

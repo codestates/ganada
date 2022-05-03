@@ -2,7 +2,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useRef, useEffect, useState } from 'react';
 import axios from 'axios';
 
-export default function Login(handleResponseSuccess, issueAccessToken) {
+export default function Login({ setAccessToken, setIsLogin }) {
   const inputRef = useRef(null);
   const navigate = useNavigate();
 
@@ -11,38 +11,38 @@ export default function Login(handleResponseSuccess, issueAccessToken) {
     password: '',
   });
   const [errorMessage, setErrorMessage] = useState('');
-  // const [invalidErroMessage, setInvalidErrorMessage] = useState('');
   const handleInputValue = (key) => (e) => {
     setLoginInfo({ ...loginInfo, [key]: e.target.value });
   };
-
-  const handleLogin = () => {
+  const handleLogin = async (e) => {
+    e.preventDefault();
     const { email, password } = loginInfo;
     if (!email || !password) {
       setErrorMessage('이메일과 비밀번호를 입력하세요');
-      return;
-    }
-    axios
-      .post(
-        `http://localhost:4000/auth/login`,
-        { email, password },
-        { withCredentials: true },
-      )
-      .then((result) => {
-        // console.log(result);
-        if (result.data.message === '잘못된 정보를 입력하였습니다.') {
-          setErrorMessage(
-            'ID가 존재하지 않거나 비밀번호가 일치하지 않습니다 다시 시도해주세요',
-          );
-        } else {
-          handleResponseSuccess();
-          issueAccessToken(result.data.token);
-        }
-      })
-      .then(navigate('/'))
-      .catch((err) => {
+    } else {
+      try {
+        await axios
+          .post(
+            `http://localhost:4000/auth/login`,
+            { email, password },
+            { withCredentials: true },
+          )
+          .then((res) => {
+            if (res.data.message === '잘못된 정보를 입력') {
+              setErrorMessage(
+                'ID가 존재하지 않거나 비밀번호가 일치하지 않습니다 다시 시도해주세요',
+              );
+            } else {
+              localStorage.setItem('Token', res.data.token);
+              setAccessToken(res.data.token);
+              setIsLogin(res.data);
+              navigate('/');
+            }
+          });
+      } catch (err) {
         console.log(err);
-      });
+      }
+    }
   };
 
   useEffect(() => {
@@ -52,7 +52,7 @@ export default function Login(handleResponseSuccess, issueAccessToken) {
   return (
     <section className="login">
       <div className="inner">
-        <div className="login-content">
+        <form className="login-content" onSubmit={handleLogin}>
           <Link to="/">
             <div className="logo-title">GANADA</div>
           </Link>
@@ -71,7 +71,7 @@ export default function Login(handleResponseSuccess, issueAccessToken) {
               onChange={handleInputValue('password')}
             />
             <div className="btn-wrap">
-              <button type="submit" className="login-btn" onClick={handleLogin}>
+              <button type="submit" className="login-btn">
                 로그인
               </button>
             </div>
@@ -104,7 +104,7 @@ export default function Login(handleResponseSuccess, issueAccessToken) {
               </Link>
             </div>
           </div>
-        </div>
+        </form>
       </div>
     </section>
   );
