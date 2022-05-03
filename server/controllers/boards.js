@@ -29,8 +29,7 @@ module.exports = {
   },
 
   posts: async (req, res) => {
-    // const userInfo = isAuthorized(req);
-    const userInfo = 1;
+    const userInfo = isAuthorized(req);
     try {
       if (userInfo) {
         const {
