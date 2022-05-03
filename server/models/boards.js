@@ -8,9 +8,10 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
+      // define association here
       models.boards.hasMany(models.reservations);
       models.boards.hasMany(models.chatRooms);
-      models.boards.belongsTo(models.users);
+      models.boards.belongsTo(models.Users);
     }
   }
   boards.init(
@@ -19,14 +20,14 @@ module.exports = (sequelize, DataTypes) => {
       title: DataTypes.STRING,
       image: DataTypes.STRING,
       description: DataTypes.STRING,
-      modelTag: DataTypes.STRING,
-      photographerTag: DataTypes.STRING,
+      tags: DataTypes.STRING,
       sex: DataTypes.STRING,
       age: DataTypes.STRING,
       height: DataTypes.STRING,
       weight: DataTypes.STRING,
       latitude: DataTypes.STRING,
       longitude: DataTypes.STRING,
+      mainAddress: DataTypes.STRING,
       detailAddress: DataTypes.STRING,
       userId: DataTypes.INTEGER,
     },

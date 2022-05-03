@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
-import PlaceList from '../components/place-list/PlaceList';
-import KakaoMap from '../components/place-list/KakaoMap';
-import SubNav from '../components/place-list/SubNav';
-import Pagination from '../components/place-list/Pagination';
+import PlaceList from '../components/Place-list/PlaceList';
+import KakaoMap from '../components/Place-list/KakaoMap';
+import SubNav from '../components/Place-list/SubNav';
+import Pagination from '../components/Place-list/Pagination';
 import { data } from '../assets/dummyData';
 
 function SearchPlace() {
   const [posts, setPosts] = useState(data);
   const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage] = useState(10);
+  const [postsPerPage] = useState(8);
   // get current post
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;

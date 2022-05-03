@@ -1,16 +1,129 @@
-const { users, reviews } = require("../models");
+const { Users, reviews } = require("../models");
+const { isAuthorized } = require("./tokenFunctions");
+const bcrypt = require("bcrypt");
 
 module.exports = {
   modifyUser: async (req, res) => {
-    return res.status(200).json({ message: "ok" });
+    const { name, phoneNumber, password } = req.body;
+
+    const userInfo = isAuthorized(req);
+    try {
+      if (userInfo) {
+        const getUser = await Users.findOne({
+          attributes: ["id", "name", "phoneNumber", "password"],
+          where: { id: userInfo.id },
+        });
+        if (getUser) {
+          const hashed = await bcrypt.hash(password, 10);
+          await Users.update(
+            {
+              name,
+              phoneNumber,
+              password: hashed,
+            },
+            {
+              where: { id: userInfo.id },
+            }
+          );
+        }
+        return res
+          .status(200)
+          .json({ data: getUser, message: "회원 정보 수정 완료" });
+      } else {
+        return res.status(401).json({ message: "권한이 필요합니다." });
+      }
+    } catch (err) {
+      return res.status(500).json({ message: "서버 에러" });
+    }
   },
 
   deleteUser: async (req, res) => {
-    return res.status(200).json({ message: "ok" });
+    const userInfo = isAuthorized(req);
+
+    try {
+      if (userInfo) {
+        const getUser = await Users.findOne({
+          attributes: ["id", "email", "name", "phoneNumber"],
+          where: { id: userInfo.id },
+        });
+        if (getUser) {
+          await Users.destroy({ where: { id: userInfo.id } });
+          return res.status(200).json({ message: "삭제 완료" });
+        }
+      } else {
+        return res.status(401).json({ message: "권한이 없습니다." });
+      }
+    } catch (err) {
+      return res.status(500).json({ message: "서버 에러" });
+    }
   },
 
   getUser: async (req, res) => {
-    return res.status(200).json({ message: "ok" });
+    const userInfo = isAuthorized(req);
+
+    try {
+      if (userInfo) {
+        const getUser = await Users.findOne({
+          attributes: [
+            "id",
+            "email",
+            "name",
+            "password",
+            "phoneNumber",
+            "image",
+          ],
+          where: { id: userInfo.id },
+        });
+        if (getUser) {
+          return res.status(200).json({ data: getUser, message: "조회 완료" });
+        }
+      } else {
+        return res.status(401).json({ message: "권한이 없습니다." });
+      }
+    } catch (err) {
+      return res.status(500).json({ message: "서버 에러" });
+    }
+  },
+
+  getReviews: async (req, res) => {
+    try {
+      // 1차 테스트 완료
+      const { userId } = req.body;
+      const checkReview = await reviews.findAll({
+        attributes: ["kind", "time", "again"],
+        where: { userId },
+        include: [
+          {
+            model: Users,
+            attributes: ["name"],
+          },
+        ],
+      });
+      return res.status(200).json({ data: checkReview, message: "검색 완료" });
+    } catch (err) {
+      return res.status(500).json({ message: "서버 에러" });
+    }
+  },
+
+  postReviews: async (req, res) => {
+    try {
+      const { kind, time, again, userId } = req.body;
+      const postReview = await reviews.create({
+        kind,
+        time,
+        again,
+        userId,
+        include: [
+          {
+            model: Users,
+            attributes: ["name"],
+          },
+        ],
+      });
+      return res.status(200).json({ data: postReview, message: "작성 완료" });
+    } catch (err) {
+      return res.status(500).json({ message: "서버 에러" });
+    }
   },
 
   getReviews: async (req, res) => {

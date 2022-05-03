@@ -14,6 +14,7 @@ export default function Chat() {
   const [message, setMessage] = useState(null);
   const [newMessage, setNewMessage] = useState('');
   const { chatRoomId } = useParams();
+  console.log(chatRooms);
 
   // 자동 textaarea높이 지정
   const autoResizeTextarea = () => {

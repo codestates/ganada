@@ -94,7 +94,44 @@ module.exports = {
   },
 
   naver: async (req, res) => {
-    return res.status(200).json({ message: "ok" });
+    const { code, state } = req.body;
+    if (code && state) {
+      const response = await fetch(
+        `https://nid.naver.com/oauth2.0/token?grant_type=authorization_code&client_id=${process.env.NAVER_CLIENT_ID}&client_secret=${process.env.NAVER_CLIENT_SECRET}&code=${code}&state=${state}`
+      ).then((res) => res.json());
+      const naverAccessToken = response.access_token;
+      const naverUserInfo = await fetch(`https://openapi.naver.com/v1/nid/me`, {
+        headers: {
+          Authorization: `Bearer ${naverAccessToken}`,
+        },
+      }).then((res) => res.json());
+
+      // Save DATABASE
+      const email = naverUserInfo.response.email + "-Naver";
+      const name =
+        naverUserInfo.response.nickname + String(Math.random()).slice(2, 8);
+      // const password = process.env.SOCIAL_LOGIN_PASSWORD;
+      const image = naverUserInfo.response.profile_image;
+
+      let userInfo = await Users.findOne({ email });
+      if (!userInfo) {
+        userInfo = await Users.create({ email, name, password, image });
+      }
+      const accessToken = generateToken(userInfo, "accessToken"); //도형님이 만든 토큰명으로 변경하기
+      const refreshToken = generateToken(userInfo, "refreshToken");
+      res.cookie("refreshToken", refreshToken, {
+        httpOnly: true,
+        path: "/api/users/auth/token",
+        maxAge: 60 * 60 * 24 * 7,
+      });
+      res.json({
+        _id: userInfo._id,
+        accessToken,
+        message: "네이버 로그인",
+      });
+    } else {
+      res.status(500).json({ message: "서버 에러" });
+    }
   },
 
   // 코드가 너무 길어질 경우, OAuth2.0

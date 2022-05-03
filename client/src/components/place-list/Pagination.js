@@ -9,6 +9,13 @@ function Pagination({ postsPerPage, totalPosts, currentPage, paginate }) {
       <ul>
         {pageNumbers.map((number) => (
           <li key={number} className="page-item">
+            {/* <a
+              onClick={() => paginate(number)}
+              className={`page-btn${currentPage === number ? ' focused' : ''}`}
+              href="#"
+            >
+              {number}
+            </a> */}
             <button
               type="button"
               onClick={() => paginate(number)}
