@@ -1,4 +1,5 @@
 const { boards, reservations } = require("../models");
+const { isAuthorized } = require("./tokenFunctions");
 
 module.exports = {
   getAllPosts: async (req, res) => {
@@ -28,29 +29,47 @@ module.exports = {
   },
 
   posts: async (req, res) => {
+    const userInfo = isAuthorized(req);
     try {
-      const {
-        title,
-        description,
-        image,
-        photographerTag,
-        latitude,
-        longitude,
-        detailAddress,
-      } = req.body;
-      const createPost = await boards.create({
-        title,
-        description,
-        image,
-        photographerTag,
-        latitude,
-        longitude,
-        detailAddress,
-      });
-      if (createPost) {
-        return res.status(201).json({ message: "작성 완료" });
+      if (userInfo) {
+        const {
+          category,
+          title,
+          image,
+          description,
+          tags,
+          sex,
+          age,
+          height,
+          weight,
+          latitude,
+          longitude,
+          mainAddress,
+          detailAddress,
+        } = req.body;
+        const createPost = await boards.create({
+          category,
+          title,
+          image,
+          description,
+          tags,
+          sex,
+          age,
+          height,
+          weight,
+          latitude,
+          longitude,
+          mainAddress,
+          detailAddress,
+          userId: userInfo.id,
+        });
+        if (createPost) {
+          return res
+            .status(200)
+            .json({ data: createPost, message: "작성 완료" });
+        }
       } else {
-        return res.status(401).json({ message: "권한 없음" });
+        res.status(401).json({ message: "권한이 없습니다." });
       }
     } catch (err) {
       return res.status(500).json({ message: "서버 에러" });
@@ -58,57 +77,82 @@ module.exports = {
   },
 
   patchPosts: async (req, res) => {
-    try {
-      const { id } = req.params;
-      const existBoards = await boards.findOne({
-        where: { id },
-      });
-      if (existBoards) {
-        const {
-          title,
-          description,
-          image,
-          photographerTag,
-          latitude,
-          longitude,
-          detailAddress,
-        } = req.body;
-        // token 생성 된 후 if, else 분리하여 인증된 유저인지 확인하기
-        await boards.update(
-          {
+    const userInfo = isAuthorized(req);
+
+    if (userInfo) {
+      try {
+        const { id } = req.params;
+        const searchPost = await boards.findOne({
+          where: { id },
+        });
+        if (searchPost) {
+          const {
             title,
-            description,
             image,
-            photographerTag,
+            description,
+            tags,
+            sex,
+            age,
+            height,
+            weight,
             latitude,
             longitude,
+            mainAddress,
             detailAddress,
-          },
-          {
-            where: { id },
+          } = req.body;
+          if (userInfo.id === searchPost.dataValues.userId) {
+            await boards.update(
+              {
+                title,
+                image,
+                description,
+                tags,
+                sex,
+                age,
+                height,
+                weight,
+                latitude,
+                longitude,
+                mainAddress,
+                detailAddress,
+              },
+              {
+                where: { id },
+              }
+            );
+            return res
+              .status(200)
+              .json({ data: searchPost, message: "수정 완료" });
           }
-        );
-        return res.status(201).json({ message: "수정 완료" });
+        } else {
+          return res.status(400).json({ message: "권한이 없습니다." });
+        }
+      } catch (err) {
+        return res.status(500).json({ message: "서버 에러" });
       }
-    } catch (err) {
-      return res.status(500).json({ message: "서버 에러" });
     }
   },
 
   deletePosts: async (req, res) => {
-    // token 생성 후 권한이 없는 사용자인지 분류하여 관리하기
-    // 응답값 다시 한 번 확인하기
-    try {
-      const { id } = req.params;
-      const existBoards = await boards.findOne({
-        where: { id },
-      });
-      if (existBoards) {
-        await boards.destroy({ where: { id } });
-        return res.status.json({ message: "삭제 완료" });
+    const userInfo = isAuthorized(req);
+
+    if (userInfo) {
+      try {
+        const { id } = req.params;
+        const searchPost = await boards.findOne({
+          where: { id },
+        });
+        if (searchPost) {
+          if (userInfo.id === searchPost.dataValues.userId) {
+            await boards.destroy({ where: { id } });
+            res.status(200).json({ message: "삭제 완료" });
+          } else {
+            return res.status(400).json({ message: "권한이 없습니다." });
+          }
+        }
+      } catch (err) {
+        return res.status(500).json({ message: "서버 에러" });
       }
-    } catch (err) {
-      return res.status(500).json({ message: "서버 에러" });
     }
   },
 

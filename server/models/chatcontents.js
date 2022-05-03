@@ -8,6 +8,7 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
+      // define association here
       models.chatContents.belongsTo(models.Users);
       models.chatContents.belongsTo(models.chatRooms);
     }

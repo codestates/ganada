@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "react-cookie": "^4.1.1",
-    "sequelize": "^6.19.0"
-  }
-}
