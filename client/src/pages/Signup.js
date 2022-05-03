@@ -1,7 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useRef, useEffect, useState } from 'react';
 import axios from 'axios';
-import AlertModal from '../components/AlertModal';
 import Modal from '../components/Modal';
 
 export default function Signup() {

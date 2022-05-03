@@ -1,4 +1,4 @@
-function ShopDetailIntro() {
+function ModelDetailIntro() {
   return (
     <div className="intro-container">
       <div className="intro-sub-title">
@@ -16,4 +16,4 @@ function ShopDetailIntro() {
   );
 }
 
-export default ShopDetailIntro;
+export default ModelDetailIntro;

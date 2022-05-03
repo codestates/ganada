@@ -1,8 +1,10 @@
 import { useRef, useState, useEffect } from 'react';
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
+import { useNavigate } from 'react-router-dom';
 
-function PhotoDetailSlider() {
+function ModelDetailSlider() {
   const images = ['/img/1.png', '/img/2.png', '/img/3.png'];
+  const navigate = useNavigate();
   const TOTAL_SLIDES = images.length - 1;
   const slideRef = useRef(null);
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -64,4 +66,4 @@ function PhotoDetailSlider() {
   );
 }
 
-export default PhotoDetailSlider;
+export default ModelDetailSlider;

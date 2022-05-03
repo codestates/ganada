@@ -7,7 +7,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import Main from './components/Main/Main';
 import Login from './pages/Login';
-import Signup from './pages/Signup';
+import Signup from './pages/Signup';
 import MyPage from './pages/MyPage/MyPage';
 import ChangePassword from './pages/MyPage/ChangePassword';
 import Edit from './pages/MyPage/Edit';
@@ -15,6 +15,10 @@ import LeaveId from './pages/MyPage/LeaveId';
 import SearchPlace from './pages/SearchPlace';
 import WritingPage from './pages/WritingPage';
 import PhotoDetail from './pages/PhotoDetail';
+import MediaFooterNav from './components/MediaFooterNav';
+import Chat from './pages/Chat';
+import MyList from './pages/MyList';
+import ModelDetail from './pages/ModelDetail';
 
 const cookies = new Cookies();
 const token = cookies.get('jwt');
@@ -59,10 +63,15 @@ function App() {
     <>
       <Header handleLogout={handleLogout} userInfo={userInfo} />
       <Routes>
+        <Route path="/chat" element={<Chat />}>
+          <Route path=":chatRoomId" element={<Chat />} />
+        </Route>
         <Route path="/" element={<Main />} />
         <Route path="/login" element={<Login token={token} />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/photodetail" element={<PhotoDetail />} />
+        <Route path="/modeldetail" element={<ModelDetail />} />
+        <Route path="/mylist" element={<MyList />} />
         <Route path="/mypage" element={<MyPage />}>
           <Route
             path="edit"
@@ -78,6 +87,7 @@ function App() {
         <Route path="/write" element={<WritingPage />} />
       </Routes>
       <Footer />
+      <MediaFooterNav />
     </>
   );
 }

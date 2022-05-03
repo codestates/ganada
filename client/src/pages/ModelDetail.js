@@ -6,7 +6,7 @@ import PhotoDetailMap from '../components/Photo-detail/PhotoDetailMap';
 import PhotoDetailReview from '../components/Photo-detail/PhotoDetailReview';
 import PhotoDetailHeader from '../components/Photo-detail/PhotoDetailHeader';
 
-function PhotoDetail() {
+function ModelDetail() {
   return (
     <div className="photoDetail-container">
       <PhotoDetailHeader />
@@ -23,4 +23,4 @@ function PhotoDetail() {
   );
 }
 
-export default PhotoDetail;
+export default ModelDetail;
