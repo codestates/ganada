@@ -4,7 +4,6 @@ import PhotoDetailModal from './PhotoDetailModal';
 
 function PhotoDetailHeader() {
   const images = ['/img/son.png'];
-  const url = window.location.href;
   const [isOpen, setIsOpen] = useState(false);
 
   const handleModal = () => {

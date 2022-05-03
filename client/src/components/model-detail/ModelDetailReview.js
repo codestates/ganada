@@ -1,6 +1,6 @@
 import { BsCameraFill } from 'react-icons/bs';
 
-function ShopDetailReview() {
+function ModelDetailReview() {
   return (
     <div className="review-container">
       <div className="snap-point-title">
@@ -26,4 +26,4 @@ function ShopDetailReview() {
   );
 }
 
-export default ShopDetailReview;
+export default ModelDetailReview;

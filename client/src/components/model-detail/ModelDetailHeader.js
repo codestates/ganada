@@ -1,7 +1,6 @@
 import { MdOutlineIosShare } from 'react-icons/md';
-import { useState } from 'react';
 
-function ShopDetailHeader() {
+function ModelDetailHeader() {
   return (
     <div className="header-container">
       <div className="pg-nickname">작가 닉네임1</div>
@@ -13,4 +12,4 @@ function ShopDetailHeader() {
   );
 }
 
-export default ShopDetailHeader;
+export default ModelDetailHeader;

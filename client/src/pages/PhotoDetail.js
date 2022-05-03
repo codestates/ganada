@@ -1,9 +1,9 @@
 import { BsFillChatFill } from 'react-icons/bs';
-import PhotoDetailSlider from '../components/photo-detail/PhotoDetailSlider';
-import PhotoDetailIntro from '../components/photo-detail/PhotoDetailIntro';
-import PhotoDetailMap from '../components/photo-detail/PhotoDetailMap';
-import PhotoDetailReview from '../components/photo-detail/PhotoDetailReview';
-import PhotoDetailHeader from '../components/photo-detail/PhotoDetailHeader';
+import PhotoDetailSlider from '../components/Photo-detail/PhotoDetailSlider';
+import PhotoDetailIntro from '../components/Photo-detail/PhotoDetailIntro';
+import PhotoDetailMap from '../components/Photo-detail/PhotoDetailMap';
+import PhotoDetailReview from '../components/Photo-detail/PhotoDetailReview';
+import PhotoDetailHeader from '../components/Photo-detail/PhotoDetailHeader';
 
 function PhotoDetail() {
   return (

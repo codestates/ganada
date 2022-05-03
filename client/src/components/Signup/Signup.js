@@ -83,7 +83,9 @@ export default function Signup() {
   const signupHandling = async () => {
     const data = {
       email: inputValue.email,
+      emailValidate: inputValue.emailValidate,
       password: inputValue.empasswordail,
+      rePassword: inputValue.rePassword,
       name: inputValue.name,
       phoneNumber: inputValue.phoneNumber,
     };

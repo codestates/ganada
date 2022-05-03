@@ -4,7 +4,7 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { useState, useEffect } from 'react';
 import KakaoShare from './KakaoShare';
 
-function PhotoDetailModal({ handleModal }) {
+function ModelDetailModal({ handleModal }) {
   const url = window.location.href;
   const [isShow, setIsShow] = useState(false);
 
@@ -46,4 +46,4 @@ function PhotoDetailModal({ handleModal }) {
     </div>
   );
 }
-export default PhotoDetailModal;
+export default ModelDetailModal;

@@ -1,7 +1,7 @@
 const nodemailer = require("nodemailer");
 const dotenv = require("dotenv");
 dotenv.config();
-const { user } = require("../models");
+const { users } = require("../models");
 const code = Math.floor(Math.random() * 1000000);
 
 module.exports = {
@@ -11,7 +11,7 @@ module.exports = {
     if (!email) {
       return res.json({ message: "필수 항목을 입력하세요." });
     }
-    const USER = await user.findOne({ where: { email } });
+    const USER = await users.findOne({ where: { email } });
     if (USER) {
       return res.json({ message: "이미 사용중인 이메일입니다." });
     } else {
@@ -28,9 +28,9 @@ module.exports = {
 
       const redirectURL = "http://localhost:4000";
       await transporter.sendMail({
-        from: `"no-reply@GameStates Admin" <${process.env.NODEMAILER_USER}>`,
+        from: `"no-reply@ganada Admin" <${process.env.NODEMAILER_USER}>`,
         to: email,
-        subject: "[GameStates] 이메일 인증을 위한 안내 메일입니다.",
+        subject: "[ganada] 이메일 인증을 위한 안내 메일입니다.",
         html: `
                 <style>
                     .btn-grad {
@@ -92,7 +92,7 @@ module.exports = {
                                     <td style="word-break:break-word;border-collapse:collapse!important;vertical-align:top;text-align:center;color:#333333;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-weight:normal;line-height:20px;font-size:14px;margin:0;padding:0px 0px 0" align="center" valign="top">
                                       <div>
                                         <h1 style="color:#333;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-weight:300;text-align:center;line-height:1.2;word-break:normal;font-size:24px;margin:10px 0 25px;padding:0" align="center">
-                                        Welcome to <strong style="color: rgb(255, 94, 0);">GameStates</style=></strong>
+                                        Welcome to <strong style="color: rgb(255, 94, 0);">ganada</style=></strong>
                                         </h1>
                                         <hr style="color:#d9d9d9;background-color:#d9d9d9;height:1px;margin:20px 0;border:none">
                                         <p style="word-wrap:normal;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:14px;font-weight:normal;color:#333;line-height:20px;text-align:left;margin:15px 0 5px;padding:0" align="left">

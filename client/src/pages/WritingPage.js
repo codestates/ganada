@@ -12,6 +12,7 @@ function WritingPage() {
     }
     setIsModalOpen(!isModalOpen);
   };
+
   return (
     <div className="write-page-container">
       <div className="write-page-header">

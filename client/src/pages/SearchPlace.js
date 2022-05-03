@@ -8,7 +8,7 @@ import { data } from '../assets/dummyData';
 function SearchPlace() {
   const [posts, setPosts] = useState(data);
   const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage] = useState(3);
+  const [postsPerPage] = useState(10);
   // get current post
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
