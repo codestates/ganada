@@ -14,6 +14,7 @@ const chatContentsRouter = require("./routes/chatContents");
 
 const httpServer = http.createServer(app);
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
     origin: [
