@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import Image from '../components/Write/Image';
 import SelectPlaceModal from '../components/Write/SelectPlaceModal';
-import Tag from '../components/place-list/Tag';
+import Tag from '../components/Place-list/Tag';
 
 function WritingPage({ role = 1 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
