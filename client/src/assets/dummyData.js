@@ -3,7 +3,7 @@ export const data = [
     id: 1,
     title: '고딕',
     image: 'image url',
-    description: 'abcd efa bcd efa bc de fa b cdefabcdef',
+    description: '어서오시오',
     detailAddress: '선정릉역 1번 출구 앞',
   },
   {
