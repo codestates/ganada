@@ -3,12 +3,11 @@ const boardsController = require("../controllers/boards");
 const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
-const { boards } = require("../models");
-const { create } = require("domain");
+const { boards, Users } = require("../models");
 
 router.get("/", boardsController.getAllPosts);
 router.get("/:id", boardsController.getPosts);
-router.post("/", boardsController.posts);
+// router.post("/", boardsController.posts);
 router.patch("/:id", boardsController.patchPosts);
 router.delete("/:id", boardsController.deletePosts);
 
@@ -42,6 +41,35 @@ const upload = multer({
   }),
   limits: { fileSize: 20 * 1024 * 1024 }, // 20MB
 });
+
+router.post("/", upload.none(), async (req, res, next) => {
+  try {
+    if (req.body.image) {
+      if (Array.isArray(req.body.image)) {
+        const images = await Promise.all(
+          req.body.image.map((image) => boards.create({ image: image }))
+        );
+        await boards.addImages(images);
+      } else {
+        const image = await boards.create({ image: req.body.image });
+        await boards.addImages(image);
+      }
+    }
+    const fullPost = await boards.findOne({
+      where: { id: boards.id },
+      include: [
+        {
+          model: Users,
+          attributes: ["id", "name"],
+        },
+      ],
+    });
+    return res.status(200).json({ data: fullPost, message: "작성 완료" });
+  } catch (err) {
+    return res.status(500).json({ message: "서버 에러" });
+  }
+});
+
 //  /uploads/gunslinger1651603947316.png
 router.post("/image", upload.array("image"), async (req, res, next) => {
   console.log(req.files);
