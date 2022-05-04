@@ -3,22 +3,52 @@ const { isAuthorized } = require("./tokenFunctions");
 const bcrypt = require("bcrypt");
 
 module.exports = {
-  modifyUser: async (req, res) => {
-    const { name, phoneNumber, password } = req.body;
+  changeInfo: async (req, res) => {
+    const { name, phoneNumber } = req.body;
 
     const userInfo = isAuthorized(req);
     try {
       if (userInfo) {
         const getUser = await Users.findOne({
-          attributes: ["id", "name", "phoneNumber", "password"],
+          attributes: ["id", "name", "phoneNumber"],
+          where: { id: userInfo.id },
+        });
+        if (getUser) {
+          await Users.update(
+            {
+              name,
+              phoneNumber,
+            },
+            {
+              where: { id: userInfo.id },
+            }
+          );
+          return res
+            .status(200)
+            .json({ data: getUser, message: "개인정보 수정 완료" });
+        } else {
+          return res.status(401).json({ message: "권한이 없습니다." });
+        }
+      }
+    } catch (err) {
+      return res.status(500).json({ message: "서버 에러" });
+    }
+  },
+
+  changePassword: async (req, res) => {
+    const { password } = req.body;
+
+    const userInfo = isAuthorized(req);
+    try {
+      if (userInfo) {
+        const getUser = await Users.findOne({
+          attributes: ["id", "password"],
           where: { id: userInfo.id },
         });
         if (getUser) {
           const hashed = await bcrypt.hash(password, 10);
           await Users.update(
             {
-              name,
-              phoneNumber,
               password: hashed,
             },
             {
@@ -28,7 +58,7 @@ module.exports = {
         }
         return res
           .status(200)
-          .json({ data: getUser, message: "회원 정보 수정 완료" });
+          .json({ data: getUser, message: "비밀번호 수정 완료" });
       } else {
         return res.status(401).json({ message: "권한이 필요합니다." });
       }
