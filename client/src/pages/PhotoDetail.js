@@ -3,8 +3,8 @@ import { BsFillChatFill } from 'react-icons/bs';
 import PhotoDetailSlider from '../components/Photo-detail/PhotoDetailSlider';
 import PhotoDetailIntro from '../components/Photo-detail/PhotoDetailIntro';
 import PhotoDetailMap from '../components/Photo-detail/PhotoDetailMap';
-import PhotoDetailReview from '../components/Photo-detail/PhotoDetailReview';
 import PhotoDetailHeader from '../components/Photo-detail/PhotoDetailHeader';
+import PhotoDetailReview from '../components/Photo-detail/PhotoDetailReview';
 
 function PhotoDetail() {
   return (

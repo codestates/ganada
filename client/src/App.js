@@ -12,7 +12,7 @@ import MyPage from './pages/MyPage/MyPage';
 import ChangePassword from './pages/MyPage/ChangePassword';
 import Edit from './pages/MyPage/Edit';
 import LeaveId from './pages/MyPage/LeaveId';
-import SearchPlace from './pages/SearchPlace';
+import SearchPage from './pages/SearchPage';
 import WritingPage from './pages/WritingPage';
 import PhotoDetail from './pages/PhotoDetail';
 import MediaFooterNav from './components/MediaFooterNav';
@@ -83,7 +83,7 @@ function App() {
           />
           <Route path="leave" element={<LeaveId userInfo={userInfo} />} />
         </Route>
-        <Route path="/search" element={<SearchPlace />} />
+        <Route path="/search" element={<SearchPage />} />
         <Route path="/write" element={<WritingPage />} />
       </Routes>
       <Footer />

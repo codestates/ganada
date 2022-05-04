@@ -10,17 +10,15 @@ function Tag({ selected, setTags }) {
       let tags = selectedTags.slice();
       tags = tags.filter((tag) => tag !== e.target.textContent);
       setSelectedTags(tags);
+      setTags(tags);
     } else {
       e.target.classList.add('selected');
       const tags = selectedTags.slice();
       tags.push(e.target.textContent);
       setSelectedTags(tags);
+      setTags(tags);
     }
   };
-  useEffect(() => {
-    setSelectedTags(selectedTags.slice());
-    setTags(selectedTags);
-  }, [selectedTags]);
   // console.log(selectedTags);
 
   return (

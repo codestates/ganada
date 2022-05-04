@@ -7,7 +7,7 @@ const images = [
   `${process.env.PUBLIC_URL}/img/jungleNuNu3.jpg`,
 ];
 
-function ImageSlider() {
+function ImageSlider({ image }) {
   const TOTAL_SLIDES = images.length - 1;
   const [currentSlide, setCurrentSlide] = useState(0);
   const slideRef = useRef(null);
@@ -41,9 +41,9 @@ function ImageSlider() {
         <IoIosArrowDropleft className="nextBtn" />
       </button>
       <div className="sliderContainer" ref={slideRef}>
-        <img src={images[0]} alt="nunu1" />
-        <img src={images[1]} alt="nunu2" />
-        <img src={images[2]} alt="nunu3" />
+        <img src={image[0]} alt="nunu1" />
+        <img src={image[1]} alt="nunu2" />
+        <img src={image[2]} alt="nunu3" />
       </div>
     </div>
   );

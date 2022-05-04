@@ -33,7 +33,7 @@ function Image() {
         <input
           type="file"
           className="insert-image"
-          accept="image/jpg,impge/png,image/jpeg"
+          accept="image/jpg,image/png,image/jpeg"
           onChange={imageUploadHandler}
           ref={inputImageRef}
         />
