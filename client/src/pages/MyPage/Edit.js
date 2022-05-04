@@ -1,11 +1,10 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import { MdPhotoCamera } from 'react-icons/md';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-export default function Edit({ userInfo, token }) {
-  // input value change
+export default function Edit({ userInfo, isLogin, setModal, setUserInfo }) {
   const navigate = useNavigate();
   const [inputValue, setInputValue] = useState({
     nickname: userInfo.name,
@@ -20,17 +19,16 @@ export default function Edit({ userInfo, token }) {
       [name]: value,
     });
   };
-
   // error test
   const errCheck = (value) => {
     const errors = {};
     const { nickname, phoneNumber } = value;
 
-    if (nickname !== '' && !/^[\w\Wㄱ-ㅎㅏ-ㅣ가-힣]{2,20}$/.test(nickname)) {
+    if (nickname === '' || !/^[\w\Wㄱ-ㅎㅏ-ㅣ가-힣]{2,20}$/.test(nickname)) {
       errors.nickname = '최소 2글자이상 특수문자 제외';
     }
     if (
-      phoneNumber !== '' &&
+      nickname === '' ||
       !/^(01[016789]{1}|02|0[3-9]{1}[0-9]{1})([0-9]{3,4})([0-9]{4})$/.test(
         phoneNumber,
       )
@@ -59,33 +57,47 @@ export default function Edit({ userInfo, token }) {
       };
     });
   };
-  console.log(userInfo);
+
+  useEffect(() => {}, [userInfo]);
   const deleteImg = () => {
     setImageSrc(
       'https://static.nid.naver.com/images/web/user/default.png?type=s160',
     );
   };
-  const modifyUsersInfo = () => {
-    axios
-      .patch(
-        `http://localhost:4000/users/${userInfo.id}`,
-        {
-          name: inputValue.nickname,
-          password: userInfo.password,
-          phoneNumber: inputValue.phoneNumber,
-        },
-        {
-          headers: { authorization: `Bearer ${token}` },
-        },
-        {
-          withCredentials: true,
-        },
-      )
-      .then((res) => {
-        navigate('/mypage/edit');
+  const modifyUsersInfo = async () => {
+    if (Object.keys(err).length !== 0) {
+      setModal({
+        open: true,
+        title: '다시한번 확인해주세요',
       });
+    } else {
+      await axios
+        .patch(
+          `http://localhost:4000/users/${userInfo.id}`,
+          {
+            name: inputValue.nickname,
+            password: 'Rkatk133!',
+            phoneNumber: inputValue.phoneNumber,
+          },
+          {
+            headers: { authorization: `Bearer ${isLogin}` },
+          },
+          {
+            withCredentials: true,
+          },
+        )
+        .then((res) => {
+          // setUserInfo({ ...userInfo, ...res.data.data });
+          setModal({
+            open: true,
+            title: '변경이 완료되었습니다.',
+            callback: () => {
+              navigate('/mypage/edit');
+            },
+          });
+        });
+    }
   };
-  console.log(inputValue.phoneNumber);
 
   return (
     <div className="mypage-content">
