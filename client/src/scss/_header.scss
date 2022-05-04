@@ -2,12 +2,16 @@ header {
   position: fixed;
   display: flex;
   width: 100%;
+  height: 65px;
+  padding: 0 20px;
   z-index: 10;
+  box-shadow: rgb(0 0 0 / 20%) 0px 0px 2px;
+  background-color: rgba(255, 255, 255, 0.349);
+
   .inner {
     display: flex;
     width: 1320px;
     margin: 0 auto;
-    padding: 30px 0;
     align-items: center;
 
     .nav {
@@ -21,16 +25,14 @@ header {
         font-weight: 500;
       }
       .search-input {
-        padding-top: 5px;
-        width: 350px;
-        height: 35px;
+        width: 300px;
+        height: 30px;
         position: relative;
         border-radius: 3px;
         input {
           border-radius: 50px;
           border: solid 1px rgba(128, 128, 128, 0.082);
           box-shadow: 0 1px 7px rgb(0 0 0 / 8%), 0 4px 12px rgb(0 0 0 / 5%);
-
           background: #fff;
           width: 100%;
           height: 100%;
@@ -42,26 +44,29 @@ header {
             border: 1px solid #ff5353;
           }
         }
-        .search-button {
-          position: absolute;
-          top: 0;
-          right: 0;
-          width: 10%;
-          height: 71%;
-          margin-top: 7px;
-          margin-right: 6px;
-          border-radius: 5px;
-          text-decoration: none;
-          color: #ff5d5d;
+        button {
           border: none;
-          cursor: pointer;
+          .search-button {
+            position: absolute;
+            top: -3px;
+            right: 0;
+            width: 10%;
+            height: 71%;
+            margin-top: 7px;
+            margin-right: 6px;
+            border-radius: 5px;
+            text-decoration: none;
+            color: #ff5d5d;
+            border: none;
+            cursor: pointer;
+          }
         }
       }
       .right-header {
         width: 20%;
         display: flex;
         justify-content: flex-end;
-        padding-top: 7px;
+        padding-top: 5px;
         position: relative;
         .before {
           margin: 0 10px;
@@ -69,14 +74,14 @@ header {
 
         .left-chat {
           width: 100%;
-          margin-left: 60%;
+          margin-left: 70%;
         }
         .drop-menu {
           position: fixed;
           .profile {
             position: relative;
-            width: 40px;
-            height: 40px;
+            width: 30px;
+            height: 30px;
             border-radius: 50%;
             overflow: hidden;
             cursor: pointer;
@@ -118,17 +123,14 @@ header {
             }
             ul {
               li {
+                display: flex;
                 padding: 10px 10px;
                 border-top: 1px solid rgba(0, 0, 0, 0.05);
-                direction: flex;
                 align-items: center;
-                justify-content: center;
                 opacity: 0.5s;
-                transition: 0.5s;
 
                 .icon {
-                  max-width: 20px;
-                  margin-right: 10px;
+                  margin-right: 5px;
                   &:hover {
                     color: #ff5d5d;
                   }
@@ -146,6 +148,27 @@ header {
             }
             &.active {
               display: block;
+              animation: fadeInDown 0.5s;
+              @keyframes fadeInDown {
+                0% {
+                  opacity: 0;
+                  top: 30px;
+                }
+                100% {
+                  opacity: 1;
+                  top: 60px;
+                }
+              }
+            }
+            &:after {
+              border-top: 0px solid transparent;
+              border-left: 10px solid transparent;
+              border-right: 10px solid transparent;
+              border-bottom: 10px solid rgb(255, 255, 255);
+              content: '';
+              position: absolute;
+              top: -10px;
+              left: 155px;
             }
           }
         }
@@ -154,6 +177,7 @@ header {
   }
 }
 .header-active {
+  height: 100px;
   background-color: white;
   transition: all 0.7s;
   .inner {
@@ -171,6 +195,10 @@ header {
         width: 400px;
         height: 50px;
         transition: all 0.7s;
+        .search-button {
+          top: 0px;
+          right: 10px;
+        }
 
         input {
           box-shadow: 0 1px 7px rgb(0 0 0 / 8%), 0 4px 12px rgb(0 0 0 / 5%);

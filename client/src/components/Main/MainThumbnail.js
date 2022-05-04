@@ -18,7 +18,7 @@ export default function MainThumbnail() {
 
   useInterval(() => {
     nextSlide();
-  }, 5000000000000000000);
+  }, 5000);
 
   const left = () => {
     setCurrentSlide(0);
