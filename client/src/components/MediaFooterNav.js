@@ -33,7 +33,7 @@ export default function MediaFooterNav() {
             }
           >
             <FaUserCircle size="25" />
-            <span> 로그인 </span>
+            <span> 마이페이지 </span>
           </div>
         </Link>
       </div>

@@ -1,7 +1,17 @@
+import { useState } from 'react';
+import Header from '../components/Mylist/Header';
+import List from '../components/Mylist/List';
+import { data } from '../assets/dummyData';
+
 function MyList() {
+  const [posts, setPosts] = useState(data);
+
   return (
-    <div className="header-container">
-      <div className="pg-nickname">작가 닉네임1</div>
+    <div className="mylist-container">
+      <Header />
+      {posts.map((post) => {
+        return <List key={post.id} post={post} />;
+      })}
     </div>
   );
 }

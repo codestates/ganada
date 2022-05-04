@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import { BsFillChatFill } from 'react-icons/bs';
 import PhotoDetailSlider from '../components/Photo-detail/PhotoDetailSlider';
 import PhotoDetailIntro from '../components/Photo-detail/PhotoDetailIntro';

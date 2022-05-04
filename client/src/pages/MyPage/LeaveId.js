@@ -1,5 +1,32 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-export default function LeaveId() {
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+
+export default function LeaveId({ localStorageToken, userInfo, setModal }) {
+  const navigate = useNavigate();
+  const deleteUser = () => {
+    axios
+      .delete(
+        `http://localhost:4000/users/${userInfo.id}`,
+        {
+          headers: { authorization: `Bearer ${localStorageToken}` },
+        },
+        {
+          withCredentials: true,
+        },
+      )
+      .then((res) => {
+        localStorage.removeItem('Token');
+        setModal({
+          open: true,
+          title: '탈퇴가 완료되었습니다.',
+          callback: () => {
+            navigate('/');
+          },
+        });
+      });
+  };
+
   return (
     <div className="mypage-content">
       <div className="inner">
@@ -27,7 +54,7 @@ export default function LeaveId() {
           </div>
           <div className="btn-wrap">
             <button type="submit">비동의</button>
-            <button className="active" type="submit">
+            <button className="active" type="submit" onClick={deleteUser}>
               탈퇴
             </button>
           </div>

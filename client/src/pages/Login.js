@@ -2,7 +2,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useRef, useEffect, useState } from 'react';
 import axios from 'axios';
 
-export default function Login({ token }) {
+export default function Login({ setIsLogin }) {
   const inputRef = useRef(null);
   const navigate = useNavigate();
 
@@ -30,12 +30,16 @@ export default function Login({ token }) {
           .then((res) => {
             if (res.data.message === '잘못된 정보를 입력') {
               setErrorMessage(
-                'ID가 존재하지 않거나 비밀번호가 일치하지 않습니다 다시 시도해주세요',
+                'ID가 존재하지 않거나 비밀번호가 일치하지 않습니다.',
               );
             } else {
-              localStorage.setItem('Token', token);
+              localStorage.setItem('Token', res.data.token);
+              console.log(res.data);
               navigate('/');
             }
+          })
+          .then(() => {
+            setIsLogin(localStorage.getItem('Token'));
           });
       } catch (err) {
         console.log(err);
@@ -62,12 +66,13 @@ export default function Login({ token }) {
               ref={inputRef}
               onChange={handleInputValue('email')}
             />
-            {errorMessage}
             <input
               type="password"
               placeholder="비밀번호"
               onChange={handleInputValue('password')}
             />
+            <div className="signup-warning"> {errorMessage}</div>
+
             <div className="btn-wrap">
               <button type="submit" className="login-btn">
                 로그인

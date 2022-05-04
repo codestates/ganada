@@ -13,7 +13,7 @@
     padding: 20px 0;
     align-items: center;
     .model-banner {
-      padding: 15px;
+      padding: 15px 30px 15px 15px;
       border-right: 1px solid rgb(228, 228, 228);
       width: 50%;
       justify-content: space-between;
@@ -37,7 +37,7 @@
         border-radius: 5px;
         color: white;
         background-color: #8a8a8a;
-        margin-right: 23px;
+        margin: 0;
         &:hover {
           background-color: #ff5d5d;
         }
@@ -46,7 +46,7 @@
     .photographer-banner {
       width: 50%;
       justify-content: space-between;
-      padding: 15px;
+      padding: 15px 15px 15px 30px;
 
       .banner-title {
         font-size: 26px;

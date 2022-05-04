@@ -1,5 +1,5 @@
 import './scss/style.scss';
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Route, Routes, useNavigate, Navigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Cookies } from 'react-cookie';
@@ -19,73 +19,127 @@ import MediaFooterNav from './components/MediaFooterNav';
 import Chat from './pages/Chat';
 import MyList from './pages/MyList';
 import ModelDetail from './pages/ModelDetail';
+import Modal from './components/Modal';
+import PrivateRoute from './PrivateRoute';
 
 const cookies = new Cookies();
-const token = cookies.get('jwt');
+const cookieToken = cookies.get('jwt');
 
 function App() {
-  const [userInfo, setUserInfo] = useState('');
+  const [isLogin, setIsLogin] = useState('');
   const navigate = useNavigate();
+  const [userInfo, setUserInfo] = useState('');
+  const [modal, setModal] = useState({
+    open: false,
+    title: '',
+    message: '',
+    callback: false,
+  });
 
   useEffect(() => {
     axios
       .get(`http://localhost:4000/users`, {
-        headers: { authorization: `Bearer ${token}` },
+        headers: { authorization: `Bearer ${isLogin}` },
       })
       .then((res) => {
-        // console.log(res.data.data.email);
         setUserInfo(res.data.data);
       });
-  }, []);
+  }, [navigate, isLogin]);
+
+  useEffect(() => {
+    setIsLogin(localStorage.getItem('Token'));
+  }, [navigate]);
 
   // 서버에 토큰을 보내며 로그아웃 요청
   const handleLogout = () => {
-    if (window.confirm('정말 로그아웃 하시겠습니까?')) {
-      axios
-        .post(
-          `http://localhost:4000/auth/logout`,
-          null,
-          {
-            headers: { authorization: `Bearer ${token}` },
-          },
-          {
-            withCredentials: true,
-          },
-        )
-        .then((res) => {
-          localStorage.removeItem('Token');
-          navigate('/');
-        });
-    }
+    axios
+      .post(
+        `http://localhost:4000/auth/logout`,
+        null,
+        {
+          headers: { authorization: `Bearer ${isLogin}` },
+        },
+        {
+          withCredentials: true,
+        },
+      )
+      .then((res) => {
+        localStorage.removeItem('Token');
+        setIsLogin('');
+        // cookies.removeCookie('jwt');
+        navigate('/');
+      });
   };
 
   return (
     <>
-      <Header handleLogout={handleLogout} userInfo={userInfo} />
+      <Modal
+        open={modal.open}
+        setPopup={setModal}
+        message={modal.message}
+        title={modal.title}
+        callback={modal.callback}
+      />
+      <Header
+        handleLogout={handleLogout}
+        userInfo={userInfo}
+        isLogin={isLogin}
+      />
       <Routes>
         <Route path="/chat" element={<Chat />}>
           <Route path=":chatRoomId" element={<Chat />} />
         </Route>
         <Route path="/" element={<Main />} />
-        <Route path="/login" element={<Login token={token} />} />
-        <Route path="/signup" element={<Signup />} />
+        <Route
+          path="/login"
+          element={<Login cookieToken={cookieToken} setIsLogin={setIsLogin} />}
+        />
+        <Route path="/signup" element={<Signup setModal={setModal} />} />
         <Route path="/photodetail" element={<PhotoDetail />} />
         <Route path="/modeldetail" element={<ModelDetail />} />
         <Route path="/mylist" element={<MyList />} />
-        <Route path="/mypage" element={<MyPage />}>
+        <Route
+          path="/mypage"
+          element={
+            isLogin ? <MyPage userInfo={userInfo} /> : <Navigate to="/login" />
+          }
+        >
           <Route
             path="edit"
-            element={<Edit userInfo={userInfo} token={token} />}
+            element={
+              <Edit
+                userInfo={userInfo}
+                setUserInfo={setUserInfo}
+                isLogin={isLogin}
+                setModal={setModal}
+              />
+            }
           />
           <Route
             path="change-password"
-            element={<ChangePassword userInfo={userInfo} />}
+            element={
+              <ChangePassword
+                userInfo={userInfo}
+                isLogin={isLogin}
+                setModal={setModal}
+              />
+            }
           />
-          <Route path="leave" element={<LeaveId userInfo={userInfo} />} />
+          <Route
+            path="leave"
+            element={
+              <LeaveId
+                userInfo={userInfo}
+                isLogin={isLogin}
+                setModal={setModal}
+              />
+            }
+          />
         </Route>
         <Route path="/search" element={<SearchPage />} />
         <Route path="/write" element={<WritingPage />} />
       </Routes>
+
       <Footer />
       <MediaFooterNav />
     </>

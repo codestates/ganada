@@ -1,9 +1,9 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useRef, useEffect, useState } from 'react';
 import axios from 'axios';
-import Modal from '../components/Modal';
+// import Modal from '../components/Modal';
 
-export default function Signup() {
+export default function Signup({ setModal }) {
   // input value change
   const [inputValue, setInputValue] = useState({
     email: '',
@@ -13,12 +13,7 @@ export default function Signup() {
     name: '',
     phoneNumber: '',
   });
-  const [modal, setModal] = useState({
-    open: false,
-    title: '',
-    message: '',
-    callback: false,
-  });
+
   const [err, setErr] = useState({});
   const navigate = useNavigate();
 
@@ -247,14 +242,6 @@ export default function Signup() {
           </div>
         </div>
       </div>
-
-      <Modal
-        open={modal.open}
-        setPopup={setModal}
-        message={modal.message}
-        title={modal.title}
-        callback={modal.callback}
-      />
     </section>
   );
 }

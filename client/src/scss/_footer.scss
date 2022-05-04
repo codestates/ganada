@@ -1,18 +1,20 @@
 footer {
   position: relative;
   display: flex;
-  border-top: solid 1px rgba(128, 128, 128, 0.199);
+  border-top: solid 1px rgba(128, 128, 128, 0.116);
   width: 100%;
   height: 65px;
-  background-color: transparent;
+  background-color: rgba(128, 128, 128, 0.02);
   .inner {
     display: flex;
     width: 1320px;
     margin: 0 auto;
     padding: 20px 0;
     align-items: center;
+    justify-content: center;
     li {
-      font-size: 16px;
+      font-size: 13px;
+      color: grey;
     }
   }
 }

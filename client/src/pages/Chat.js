@@ -51,7 +51,7 @@ export default function Chat() {
     };
     try {
       const res = await axios.post(
-        `http://localhost:4000/chatRooms/${chatRoomId}`,
+        `http://localhost:4001/chatRooms/${chatRoomId}`,
         data,
       );
       setNewMessage('');
@@ -65,7 +65,7 @@ export default function Chat() {
     const getMessage = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:4000/chatRooms/${chatRoomId}`,
+          `http://localhost:4001/chatRooms/${chatRoomId}`,
         );
         setMessage(res.data.chatContents);
         setReceiverUser(res.data.receiverId);
@@ -79,7 +79,7 @@ export default function Chat() {
   useEffect(() => {
     const getChatRooms = async () => {
       try {
-        const res = await axios.get('http://localhost:4000/chatRooms');
+        const res = await axios.get('http://localhost:4001/chatRooms');
         setChatRooms(res.data);
       } catch (err) {
         console.log(err);

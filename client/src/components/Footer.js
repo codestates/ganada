@@ -4,7 +4,14 @@ export default function Header() {
   const location = useLocation();
 
   // 푸터 숨길 경로
-  const hideHeader = ['/login', '/signup'];
+  const hideHeader = [
+    '/login',
+    '/signup',
+    '/mypage/edit',
+    '/mypage/change-password',
+    '/mypage/leave',
+  ];
+  console.log(location.pathname);
   if (hideHeader.includes(location.pathname)) {
     return null;
   }
@@ -13,7 +20,7 @@ export default function Header() {
     <footer>
       <div className="inner">
         <ul>
-          <li>footer</li>
+          <li>Copyrightⓒ2022 by ganada All rights reserved. </li>
         </ul>
       </div>
     </footer>

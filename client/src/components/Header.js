@@ -1,10 +1,10 @@
-import { AiOutlineSearch } from 'react-icons/ai';
+import { AiOutlineSearch, AiOutlineMessage } from 'react-icons/ai';
 import { RiLogoutBoxRLine } from 'react-icons/ri';
 import { FaUserCircle, FaRegEdit } from 'react-icons/fa';
 import { Link, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
-export default function Header({ handleLogout, userInfo }) {
+export default function Header({ handleLogout, userInfo, isLogin }) {
   const location = useLocation();
   const [scrollPosition, setScrollPosition] = useState(0);
   const [isTrue, setIsTrue] = useState(false);
@@ -15,7 +15,6 @@ export default function Header({ handleLogout, userInfo }) {
   const updateScroll = () => {
     setScrollPosition(window.scrollY || document.documentElement.scrollTop);
   };
-  const token = localStorage.getItem('Token');
 
   useEffect(() => {
     window.addEventListener('scroll', updateScroll);
@@ -26,7 +25,8 @@ export default function Header({ handleLogout, userInfo }) {
   if (hideHeader.includes(location.pathname)) {
     return null;
   }
-  if (token) {
+
+  if (isLogin) {
     return (
       <header className={scrollPosition ? 'header-active' : ''}>
         <div className="inner">
@@ -50,11 +50,11 @@ export default function Header({ handleLogout, userInfo }) {
               </Link>
             </form>
             <ul className="right-header">
-              {/* <li className="left-chat">
+              <li className="left-chat">
                 <Link to="/chat">
-                  <AiOutlineMessage size="40" color="rgb(114, 114, 114)" />
+                  <AiOutlineMessage size="30" />
                 </Link>
-              </li> */}
+              </li>
               <div className="drop-menu " role="presentation" onClick={onClick}>
                 <div className="profile">
                   <img
