@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import ImageSlider from '../Place-list/ImageSlider';
+import ImageSlider from '../Search-list/ImageSlider';
 
 function List({ post, token }) {
   //   useEffect(() => {
