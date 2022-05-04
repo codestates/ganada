@@ -1,16 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useParams, useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import Tag from './Tag';
 
-function SubNav({ setTags }) {
+function SubNav({ setTags, setType }) {
   const [selected, setSelected] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
-  const params = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
-
-  const searchModelPhotograhper = () => {
+  const type = searchParams.get('type');
+  const keyword = searchParams.get('keyword');
+  const btnModelPhotograhper = () => {
     setIsClicked(!isClicked);
     setSelected(!selected);
+    if (isClicked) {
+      setType('photographer');
+    } else {
+      setType('model');
+    }
+    setSearchParams({ type, keyword: 'asd' });
   };
 
   useEffect(() => {
@@ -23,16 +29,6 @@ function SubNav({ setTags }) {
   return (
     <div className="searchPage-header">
       <div className="header-left">
-        <Tag selected={selected} setTags={setTags} />
-      </div>
-      <div className="header-right">
-        <div>
-          <Link to="/write">
-            <button type="button" className="btn-write">
-              글쓰기
-            </button>
-          </Link>
-        </div>
         <div className="search-wrapper">
           <Link to="/search?type=model">
             <button
@@ -42,7 +38,7 @@ function SubNav({ setTags }) {
                   ? 'btn-search-photographer clicked'
                   : 'btn-search-photographer'
               }
-              onClick={searchModelPhotograhper}
+              onClick={btnModelPhotograhper}
             >
               모델 찾기
             </button>
@@ -53,9 +49,19 @@ function SubNav({ setTags }) {
               className={
                 isClicked ? 'btn-search-model' : 'btn-search-model clicked'
               }
-              onClick={searchModelPhotograhper}
+              onClick={btnModelPhotograhper}
             >
               작가 찾기
+            </button>
+          </Link>
+        </div>
+        <Tag selected={selected} setTags={setTags} />
+      </div>
+      <div className="header-right">
+        <div>
+          <Link to="/write">
+            <button type="button" className="btn-write">
+              글쓰기
             </button>
           </Link>
         </div>

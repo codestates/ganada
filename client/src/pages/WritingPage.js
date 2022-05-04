@@ -10,7 +10,7 @@ function WritingPage({ role = 1 }) {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [tags, setTags] = useState([]);
-  const [place, setPlace] = useState('');
+  const [mainAddress, setMainAddress] = useState('');
   const [detailAddress, setDetailAddress] = useState('');
   const [coordinate, setCoordinate] = useState({});
   const [category, setCategory] = useState('');
@@ -33,14 +33,14 @@ function WritingPage({ role = 1 }) {
 
   const modalHandler = (address, latlng) => {
     if (isModalOpen && address) {
-      setPlace(address);
+      setMainAddress(address);
       setCoordinate({ ...latlng });
     }
     setIsModalOpen(!isModalOpen);
   };
 
   const requestHandler = async () => {
-    if (!title || !description || !place || !detailAddress) {
+    if (!title || !description || !mainAddress || !detailAddress) {
       alert('모든 항목이 입력되어야 합니다.');
     } else {
       await axios
@@ -58,7 +58,7 @@ function WritingPage({ role = 1 }) {
             weight: 'e',
             latitude: coordinate.lat,
             longitude: coordinate.lng,
-            mainAddress: place,
+            mainAddress,
             detailAddress,
           },
           { withCredentials: true },
@@ -115,7 +115,12 @@ function WritingPage({ role = 1 }) {
           <span>촬영지</span>
         </div>
         <div className="search-place-wrapper">
-          <input className="show-address" type="text" disabled value={place} />
+          <input
+            className="show-address"
+            type="text"
+            disabled
+            value={mainAddress}
+          />
           <button
             type="button"
             className="btn-open-modal"

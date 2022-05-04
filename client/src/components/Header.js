@@ -20,6 +20,7 @@ export default function Header({ handleLogout, userInfo }) {
   useEffect(() => {
     window.addEventListener('scroll', updateScroll);
   });
+
   // 헤더 숨길 경로
   const hideHeader = ['/login', '/signup', '/write'];
   if (hideHeader.includes(location.pathname)) {
@@ -39,9 +40,14 @@ export default function Header({ handleLogout, userInfo }) {
                 name="search"
                 placeholder="어디로 촬영 가시나요?"
               />
-              <button type="submit">
-                <AiOutlineSearch className="search-button" alt="Submit Form" />
-              </button>
+              <Link to="/search?type=model&keyword=범계">
+                <button type="submit">
+                  <AiOutlineSearch
+                    className="search-button"
+                    alt="Submit Form"
+                  />
+                </button>
+              </Link>
             </form>
             <ul className="right-header">
               {/* <li className="left-chat">

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { BsFillArrowUpCircleFill } from 'react-icons/bs';
 import SubNav from '../components/Search-list/SubNav';
 import Post from '../components/Search-list/Post';
@@ -60,16 +60,24 @@ const images = {
 };
 
 function SearchPage() {
-  const params = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [tags, setTags] = useState([]);
+  const [type, setType] = useState(searchParams.get('type'));
+  const [searchValue, setSearchValue] = useState(searchParams.get('keyword'));
 
   const goToTopHandler = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  useEffect(() => {
+    console.log(tags);
+    console.log(type);
+    console.log(searchValue);
+  }, [tags, type, searchValue]);
+
   return (
     <div className="searchPage-container">
-      <SubNav setTags={setTags} />
+      <SubNav setTags={setTags} setType={setType} />
       <div className="searchPage-body">
         {['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'].map((item) => {
           return <Post key={item} image={images[item]} />;
