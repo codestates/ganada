@@ -4,6 +4,7 @@ const cors = require("cors");
 require("dotenv").config();
 const http = require("http");
 const https = require("https");
+const path = require("path");
 
 const authRouter = require("./routes/auth");
 const boardsRouter = require("./routes/boards");
@@ -13,6 +14,7 @@ const chatRoomsRouter = require("./routes/chatRooms");
 const chatContentsRouter = require("./routes/chatContents");
 
 const httpServer = http.createServer(app);
+app.use("/", express.static(path.join(__dirname, "uploads")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(

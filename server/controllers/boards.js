@@ -1,17 +1,32 @@
-const { boards, reservations } = require("../models");
+const { Users, boards, reservations } = require("../models");
 const { isAuthorized } = require("./tokenFunctions");
 
 module.exports = {
   getAllPosts: async (req, res) => {
     try {
-      const findAllPosts = await boards.findAll({
+      const searchPosts = await boards.findAll({
+        attributes: [
+          "id",
+          "category",
+          "title",
+          "description",
+          "tags",
+          "latitude",
+          "longitude",
+          "mainAddress",
+          "detailAddress",
+        ],
         order: [["createdAt", "DESC"]],
-        // users에서 user 정보 가져와야 한다.
+        include: [
+          {
+            model: Users,
+            attributes: ["id", "name"],
+          },
+        ],
       });
-      return res.status(200).json({ data: findAllPosts, message: "조회 완료" });
-      //데이터가 없는 경우 데이터 없음을 표시해야 한다.
+      return res.json({ data: searchPosts, message: "조회 완료" });
     } catch (err) {
-      return res.status(500).json({ message: "서버 에러" });
+      return res.status(500).json({ message: "서버 에러입니다." });
     }
   },
 
@@ -19,8 +34,14 @@ module.exports = {
     try {
       const { id } = req.params;
       const searchPost = await boards.findOne({
+        attributes: ["title", "description", "createdAt"],
         where: { id },
-        // 유저 정보, 유저 평점 조회하기
+        include: [
+          {
+            model: Users,
+            attributes: ["name"],
+          },
+        ],
       });
       return res.status(200).json({ data: searchPost, message: "조회 성공" });
     } catch (err) {
@@ -36,13 +57,9 @@ module.exports = {
         const {
           category,
           title,
-          image,
+          // image,
           description,
-          tags,
-          sex,
-          age,
-          height,
-          weight,
+          // tags,
           latitude,
           longitude,
           mainAddress,
@@ -51,13 +68,9 @@ module.exports = {
         const createPost = await boards.create({
           category,
           title,
-          image,
+          // image,
           description,
           // tags,
-          sex,
-          age,
-          height,
-          weight,
           latitude,
           longitude,
           // mainAddress,
