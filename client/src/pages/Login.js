@@ -34,7 +34,6 @@ export default function Login({ setIsLogin }) {
               );
             } else {
               localStorage.setItem('Token', res.data.token);
-              console.log(res.data);
               navigate('/');
             }
           })

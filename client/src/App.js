@@ -20,7 +20,6 @@ import Chat from './pages/Chat';
 import MyList from './pages/MyList';
 import ModelDetail from './pages/ModelDetail';
 import Modal from './components/Modal';
-import PrivateRoute from './PrivateRoute';
 
 const cookies = new Cookies();
 const cookieToken = cookies.get('jwt');
@@ -50,6 +49,20 @@ function App() {
     setIsLogin(localStorage.getItem('Token'));
   }, [navigate]);
 
+  //  useEffect(() => {
+  //   axios
+  //     .get(`http://localhost:4000/users`, {
+  //       headers: { authorization: `Bearer ${isLogin}` },
+  //     })
+  //     .then((res) => {
+  //       setUserInfo(res.data.data);
+  //     });
+  // }, [navigate, isLogin]);
+
+  // useEffect(() => {
+  //   setIsLogin(localStorage.getItem('Token'));
+  // }, [navigate]);
+
   // 서버에 토큰을 보내며 로그아웃 요청
   const handleLogout = () => {
     axios
@@ -66,6 +79,7 @@ function App() {
       .then((res) => {
         localStorage.removeItem('Token');
         setIsLogin('');
+        setUserInfo('');
         // cookies.removeCookie('jwt');
         navigate('/');
       });
@@ -82,11 +96,12 @@ function App() {
       />
       <Header
         handleLogout={handleLogout}
+        cookieToken={cookieToken}
         userInfo={userInfo}
         isLogin={isLogin}
       />
       <Routes>
-        <Route path="/chat" element={<Chat />}>
+        <Route path="/chat" element={<Chat userInfo={userInfo} />}>
           <Route path=":chatRoomId" element={<Chat />} />
         </Route>
         <Route path="/" element={<Main />} />
@@ -98,12 +113,7 @@ function App() {
         <Route path="/photodetail" element={<PhotoDetail />} />
         <Route path="/modeldetail" element={<ModelDetail />} />
         <Route path="/mylist" element={<MyList />} />
-        <Route
-          path="/mypage"
-          element={
-            isLogin ? <MyPage userInfo={userInfo} /> : <Navigate to="/login" />
-          }
-        >
+        <Route path="/mypage" element={<MyPage userInfo={userInfo} />}>
           <Route
             path="edit"
             element={
@@ -132,6 +142,8 @@ function App() {
                 userInfo={userInfo}
                 isLogin={isLogin}
                 setModal={setModal}
+                setIsLogin={setIsLogin}
+                setUserInfo={setUserInfo}
               />
             }
           />

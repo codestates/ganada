@@ -8,7 +8,7 @@ import Reservation from '../components/Chats/Reservation';
 import MessageNull from '../components/Chats/MessageNull';
 import RecieverName from '../components/Chats/RecieverName';
 
-export default function Chat() {
+export default function Chat({ userInfo }) {
   const [chatRooms, setChatRooms] = useState([]);
   const [receiverUser, setReceiverUser] = useState([]);
   const [message, setMessage] = useState(null);
@@ -94,7 +94,7 @@ export default function Chat() {
         <div className="inner">
           <div className="chat-rooms">
             <div className="chat-rooms-wrraper">
-              <div className="nickname"> y__jiny_O </div>
+              <div className="nickname"> {userInfo.name} </div>
               <div className="chatRooms">
                 {chatRooms.map((chatRoom) => (
                   <Link to={`${chatRoom.id}`}>

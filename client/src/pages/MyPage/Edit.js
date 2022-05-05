@@ -7,7 +7,7 @@ import axios from 'axios';
 export default function Edit({ userInfo, isLogin, setModal, setUserInfo }) {
   const navigate = useNavigate();
   const [inputValue, setInputValue] = useState({
-    nickname: userInfo.name,
+    name: userInfo.name,
     phoneNumber: userInfo.phoneNumber,
   });
   const [err, setErr] = useState({});
@@ -22,13 +22,13 @@ export default function Edit({ userInfo, isLogin, setModal, setUserInfo }) {
   // error test
   const errCheck = (value) => {
     const errors = {};
-    const { nickname, phoneNumber } = value;
+    const { name, phoneNumber } = value;
 
-    if (nickname === '' || !/^[\w\Wㄱ-ㅎㅏ-ㅣ가-힣]{2,20}$/.test(nickname)) {
-      errors.nickname = '최소 2글자이상 특수문자 제외';
+    if (name === '' || !/^[\w\Wㄱ-ㅎㅏ-ㅣ가-힣]{2,20}$/.test(name)) {
+      errors.name = '최소 2글자이상 특수문자 제외';
     }
     if (
-      nickname === '' ||
+      name === '' ||
       !/^(01[016789]{1}|02|0[3-9]{1}[0-9]{1})([0-9]{3,4})([0-9]{4})$/.test(
         phoneNumber,
       )
@@ -64,6 +64,7 @@ export default function Edit({ userInfo, isLogin, setModal, setUserInfo }) {
       'https://static.nid.naver.com/images/web/user/default.png?type=s160',
     );
   };
+  console.log(userInfo);
   const modifyUsersInfo = async () => {
     if (Object.keys(err).length !== 0) {
       setModal({
@@ -73,10 +74,10 @@ export default function Edit({ userInfo, isLogin, setModal, setUserInfo }) {
     } else {
       await axios
         .patch(
-          `http://localhost:4000/users/${userInfo.id}`,
+          `http://localhost:4000/users/${userInfo.id}/changeInfo`,
           {
-            name: inputValue.nickname,
-            password: 'Rkatk133!',
+            id: userInfo.id,
+            name: inputValue.name,
             phoneNumber: inputValue.phoneNumber,
           },
           {
@@ -91,9 +92,6 @@ export default function Edit({ userInfo, isLogin, setModal, setUserInfo }) {
           setModal({
             open: true,
             title: '변경이 완료되었습니다.',
-            callback: () => {
-              navigate('/mypage/edit');
-            },
           });
         });
     }
@@ -137,12 +135,12 @@ export default function Edit({ userInfo, isLogin, setModal, setUserInfo }) {
               <th>닉네임</th>
               <td>
                 <input
-                  name="nickname"
-                  value={inputValue.nickname}
+                  name="name"
+                  value={inputValue.name}
                   onChange={handleInput}
                   onBlur={focusBlur}
                 />
-                <div className="warning">{err.nickname} </div>
+                <div className="warning">{err.name} </div>
               </td>
             </tr>
             <tr>

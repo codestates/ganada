@@ -4,7 +4,12 @@ import { FaUserCircle, FaRegEdit } from 'react-icons/fa';
 import { Link, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
-export default function Header({ handleLogout, userInfo, isLogin }) {
+export default function Header({
+  handleLogout,
+  userInfo,
+  isLogin,
+  cookieToken,
+}) {
   const location = useLocation();
   const [scrollPosition, setScrollPosition] = useState(0);
   const [isTrue, setIsTrue] = useState(false);
@@ -15,7 +20,6 @@ export default function Header({ handleLogout, userInfo, isLogin }) {
   const updateScroll = () => {
     setScrollPosition(window.scrollY || document.documentElement.scrollTop);
   };
-
   useEffect(() => {
     window.addEventListener('scroll', updateScroll);
   });
@@ -24,8 +28,7 @@ export default function Header({ handleLogout, userInfo, isLogin }) {
   if (hideHeader.includes(location.pathname)) {
     return null;
   }
-
-  if (isLogin) {
+  if (isLogin && cookieToken) {
     return (
       <header className={scrollPosition ? 'header-active' : ''}>
         <div className="inner">
@@ -52,7 +55,11 @@ export default function Header({ handleLogout, userInfo, isLogin }) {
               <div className="drop-menu " role="presentation" onClick={onClick}>
                 <div className="profile">
                   <img
-                    src="https://static.nid.naver.com/images/web/user/default.png?type=s160"
+                    src={
+                      userInfo.image === null
+                        ? 'https://static.nid.naver.com/images/web/user/default.png?type=s160'
+                        : userInfo.image
+                    }
                     alt=""
                   />
                 </div>
