@@ -11,6 +11,12 @@ export default function Edit({ userInfo, isLogin, setModal, setUserInfo }) {
     phoneNumber: userInfo.phoneNumber,
   });
   const [err, setErr] = useState({});
+  const [file, setFile] = useState(null);
+  const [imageSrc, setImageSrc] = useState(
+    'https://static.nid.naver.com/images/web/user/default.png?type=s160',
+  );
+  const Folder = process.env.REACT_APP_IMAGE_FOLDER;
+  const imagesPath = `http://localhost:4000/images/`;
 
   const handleInput = (e) => {
     const { name, value } = e.target;
@@ -45,12 +51,10 @@ export default function Edit({ userInfo, isLogin, setModal, setUserInfo }) {
   };
 
   // 이미지 변경
-  const [imageSrc, setImageSrc] = useState(
-    'https://static.nid.naver.com/images/web/user/default.png?type=s160',
-  );
-  const encodeFile = (file) => {
+
+  const encodeFile = (file1) => {
     const reader = new FileReader();
-    reader.readAsDataURL(file);
+    reader.readAsDataURL(file1);
     return new Promise(() => {
       reader.onload = () => {
         setImageSrc(reader.result);
@@ -63,37 +67,54 @@ export default function Edit({ userInfo, isLogin, setModal, setUserInfo }) {
     setImageSrc(
       'https://static.nid.naver.com/images/web/user/default.png?type=s160',
     );
+    setFile(null);
   };
-  console.log(userInfo);
   const modifyUsersInfo = async () => {
+    const patchData = {
+      id: userInfo.id,
+      name: inputValue.name,
+      phoneNumber: inputValue.phoneNumber,
+    };
+    if (file) {
+      const data = new FormData();
+      const fileName = Date.now() + file.name;
+      data.append('name', fileName);
+      data.append('file', file);
+      patchData.image = fileName;
+      try {
+        await axios.post('http://localhost:4000/users/images', data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
     if (Object.keys(err).length !== 0) {
       setModal({
         open: true,
         title: '다시한번 확인해주세요',
       });
     } else {
-      await axios
-        .patch(
-          `http://localhost:4000/users/${userInfo.id}/changeInfo`,
-          {
-            id: userInfo.id,
-            name: inputValue.name,
-            phoneNumber: inputValue.phoneNumber,
-          },
-          {
-            headers: { authorization: `Bearer ${isLogin}` },
-          },
-          {
-            withCredentials: true,
-          },
-        )
-        .then((res) => {
-          // setUserInfo({ ...userInfo, ...res.data.data });
-          setModal({
-            open: true,
-            title: '변경이 완료되었습니다.',
+      try {
+        await axios
+          .patch(
+            `http://localhost:4000/users/${userInfo.id}/changeInfo`,
+            patchData,
+            {
+              headers: { authorization: `Bearer ${isLogin}` },
+            },
+            {
+              withCredentials: true,
+            },
+          )
+          .then((res) => {
+            setUserInfo({ ...userInfo, ...res.data.data });
+            setModal({
+              open: true,
+              title: '변경이 완료되었습니다.',
+            });
           });
-        });
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
@@ -110,17 +131,20 @@ export default function Edit({ userInfo, isLogin, setModal, setUserInfo }) {
                   <button type="button" onClick={deleteImg}>
                     사진삭제
                   </button>
-
-                  {imageSrc && <img src={imageSrc} alt="preview-img" />}
+                  <img
+                    src={file ? imageSrc : imagesPath + userInfo.image}
+                    alt="imagd"
+                  />
+                  {/* {imageSrc && <img src={imageSrc} alt="preview-img" />} */}
                   <input
                     type="file"
                     id="file"
                     accept=".png, .jpeg, .jpg"
                     onChange={(e) => {
                       encodeFile(e.target.files[0]);
+                      setFile(e.target.files[0]);
                     }}
                   />
-
                   <label className="icon-wrap" htmlFor="file">
                     <MdPhotoCamera size="23" />
                   </label>

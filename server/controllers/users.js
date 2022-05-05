@@ -4,13 +4,12 @@ const bcrypt = require("bcrypt");
 
 module.exports = {
   changeInfo: async (req, res) => {
-    const { name, phoneNumber } = req.body;
-
+    const { name, phoneNumber, image } = req.body;
     const userInfo = isAuthorized(req);
     try {
       if (userInfo) {
         const getUser = await Users.findOne({
-          attributes: ["id", "name", "phoneNumber"],
+          attributes: ["id", "name", "phoneNumber", "image"],
           where: { id: userInfo.id },
         });
         if (getUser) {
@@ -18,6 +17,7 @@ module.exports = {
             {
               name,
               phoneNumber,
+              image,
             },
             {
               where: { id: userInfo.id },
@@ -36,7 +36,7 @@ module.exports = {
   },
 
   changePassword: async (req, res) => {
-    const { password } = req.body;
+    const { password, currentPassword } = req.body;
 
     const userInfo = isAuthorized(req);
     try {
@@ -46,15 +46,19 @@ module.exports = {
           where: { id: userInfo.id },
         });
         if (getUser) {
-          const hashed = await bcrypt.hash(password, 10);
-          await Users.update(
-            {
-              password: hashed,
-            },
-            {
-              where: { id: userInfo.id },
-            }
-          );
+          if (userInfo.password !== currentPassword) {
+            return res.status(401).json({ message: "비밀번호가 틀렸습니다." });
+          } else {
+            const hashed = await bcrypt.hash(password, 10);
+            await Users.update(
+              {
+                password: hashed,
+              },
+              {
+                where: { id: userInfo.id },
+              }
+            );
+          }
         }
         return res
           .status(200)

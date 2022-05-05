@@ -13,6 +13,7 @@ export default function Header({
   const location = useLocation();
   const [scrollPosition, setScrollPosition] = useState(0);
   const [isTrue, setIsTrue] = useState(false);
+  const imagesPath = `http://localhost:4000/images/`;
 
   const onClick = () => {
     setIsTrue(!isTrue);
@@ -58,7 +59,7 @@ export default function Header({
                     src={
                       userInfo.image === null
                         ? 'https://static.nid.naver.com/images/web/user/default.png?type=s160'
-                        : userInfo.image
+                        : imagesPath + userInfo.image
                     }
                     alt=""
                   />
