@@ -3,7 +3,7 @@ const boardsController = require("../controllers/boards");
 const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
-const { boards, Users } = require("../models");
+const { boards, Users, Image } = require("../models");
 
 router.get("/", boardsController.getAllPosts);
 router.get("/:id", boardsController.getPosts);
@@ -39,41 +39,45 @@ const upload = multer({
       done(null, basename + new Date().getTime() + ext); // 파일이름+시간+확장자명
     },
   }),
-  limits: { fileSize: 20 * 1024 * 1024 }, // 20MB
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB
 });
 
-router.post("/", upload.none(), async (req, res, next) => {
-  try {
-    if (req.body.image) {
-      if (Array.isArray(req.body.image)) {
-        const images = await Promise.all(
-          req.body.image.map((image) => boards.create({ image: image }))
-        );
-        await boards.addImages(images);
-      } else {
-        const image = await boards.create({ image: req.body.image });
-        await boards.addImages(image);
-      }
-    }
-    const fullPost = await boards.findOne({
-      where: { id: boards.id },
-      include: [
-        {
-          model: Users,
-          attributes: ["id", "name"],
-        },
-      ],
-    });
-    return res.status(200).json({ data: fullPost, message: "작성 완료" });
-  } catch (err) {
-    return res.status(500).json({ message: "서버 에러" });
-  }
+router.post("/images", upload.single("image"), (req, res, next) => {
+  console.log(req.files);
+  // res.json({ url: `/uploads/${req.file.filename}` });
+  res.json({ url: `/uploads/${req.file.filename}` });
+  console.log(req.file.filename);
 });
 
 //  /uploads/gunslinger1651603947316.png
-router.post("/image", upload.array("image"), async (req, res, next) => {
-  console.log(req.files);
-  res.json(req.files.map((data) => data.filename));
+
+router.post("/", upload.single("image"), async (req, res, next) => {
+  try {
+    const {
+      category,
+      title,
+      description,
+      tags,
+      latitude,
+      longitude,
+      mainAddress,
+      detailAddress,
+    } = req.body;
+    const createBoards = await boards.create({
+      category,
+      title,
+      description,
+      tags,
+      latitude,
+      longitude,
+      mainAddress,
+      detailAddress,
+      image: `/uploads/${req.file.filename}`,
+    });
+    return res.status(200).json({ data: createBoards, message: "작성 완료" });
+  } catch (err) {
+    return res.status(500).json({ message: "서버 에러" });
+  }
 });
 
 module.exports = router;
