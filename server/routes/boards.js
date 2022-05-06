@@ -16,6 +16,9 @@ router.post("/:id/reservations", boardsController.postReservations);
 router.patch("/:id/reservations", boardsController.finishReservations);
 router.delete("/:boardId/reservations", boardsController.deleteReservations);
 
+// chatRoom API
+router.post("/:boardId/chatRooms", boardsController.createChat);
+
 // 이미지 업로드용 라우터
 try {
   // 폴더 저장 경로가 존재하지 않는 경우 폴더 만들어주기
@@ -41,10 +44,10 @@ const upload = multer({
   limits: { fileSize: 5 * 1024 * 1024 }, // 5MB
 });
 
-router.post("/images", upload.single("file"), (req, res, next) => {
+router.post("/images", upload.array("file"), (req, res, next) => {
   console.log(req.files);
   // res.json({ url: `/uploads/${req.file.filename}` });
-  res.json({ url: `/uploads/${req.file.filename}` });
+  res.json(req.files.map((v) => v.filename));
   console.log(req.file.filename);
 });
 
@@ -61,7 +64,6 @@ router.post("/", upload.single("file"), async (req, res, next) => {
       mainAddress,
       detailAddress,
     } = req.body;
-    console.log(req.body);
     const createBoards = await boards.create({
       category,
       title,
@@ -71,7 +73,7 @@ router.post("/", upload.single("file"), async (req, res, next) => {
       longitude,
       mainAddress,
       detailAddress,
-      // image: `/uploads/${req.file.filename}`,
+      image: `/uploads/${req.file.filename}`,
     });
     return res.status(200).json({ data: createBoards, message: "작성 완료" });
   } catch (err) {

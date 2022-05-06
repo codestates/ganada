@@ -18,18 +18,31 @@ module.exports = (sequelize, DataTypes) => {
     {
       category: DataTypes.INTEGER,
       title: DataTypes.STRING,
-      image: DataTypes.STRING,
+      image: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
       description: DataTypes.STRING,
       tags: DataTypes.STRING,
       latitude: DataTypes.STRING,
       longitude: DataTypes.STRING,
       mainAddress: DataTypes.STRING,
       detailAddress: DataTypes.STRING,
-      userId: DataTypes.INTEGER,
+      userId: {
+        type: DataTypes.INTEGER,
+        references: {
+          model: "Users",
+          key: "id",
+        },
+        onDelete: "cascade",
+      },
     },
     {
       sequelize,
       modelName: "boards",
+      charset: "utf8mb4",
+      collate: "utf8mb4_general_ci",
+      sequelize,
     }
   );
   return boards;

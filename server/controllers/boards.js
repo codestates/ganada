@@ -1,4 +1,4 @@
-const { boards, reservations } = require("../models");
+const { Users, boards, reservations, chatRooms } = require("../models");
 const { isAuthorized } = require("./tokenFunctions");
 
 module.exports = {
@@ -6,29 +6,29 @@ module.exports = {
   // 사진작가 리스트 = 1
   getAllPosts: async (req, res) => {
     try {
-      const { category, tags } = req.query; // ["순수, 청순"]
-      const arrTags = tags.split(","); // ["순수", "청순"]
-      // const filtered = arrTags.filter((tag) => {});
-      // const toStr = filtered.join(",");
-      // 모델 리스트 조회
-      if (category === "0") {
-        // 모델 리스트에서 이러한 태그를 선택한 리스트 조회
-        // ["순수, 청순"]
-        const modelPosts = await boards.findAll({
-          where: { category }, // ["순수,청순,귀염"]
-        });
-        return res.status(200).json({ data: modelPosts, message: "조회 성공" });
-      } else {
-        // 사진작가 리스트 조회
-        const photoPosts = await boards.findAll({
-          where: { category },
-        });
-        return res.status(200).json({ data: photoPosts, message: "조회 성공" });
-      }
-      // users에서 user 정보 가져와야 한다.
-      //데이터가 없는 경우 데이터 없음을 표시해야 한다.
+      const searchPosts = await boards.findAll({
+        attributes: [
+          "id",
+          "category",
+          "title",
+          "description",
+          "tags",
+          "latitude",
+          "longitude",
+          "mainAddress",
+          "detailAddress",
+        ],
+        order: [["createdAt", "DESC"]],
+        include: [
+          {
+            model: Users,
+            attributes: ["id", "name"],
+          },
+        ],
+      });
+      return res.json({ data: searchPosts, message: "조회 완료" });
     } catch (err) {
-      return res.status(500).json({ message: "서버 에러" });
+      return res.status(500).json({ message: "서버 에러입니다." });
     }
   },
 
@@ -36,8 +36,14 @@ module.exports = {
     try {
       const { id } = req.params;
       const searchPost = await boards.findOne({
+        attributes: ["title", "description", "createdAt"],
         where: { id },
-        // 유저 정보, 유저 평점 조회하기
+        include: [
+          {
+            model: Users,
+            attributes: ["name"],
+          },
+        ],
       });
       return res.status(200).json({ data: searchPost, message: "조회 성공" });
     } catch (err) {
@@ -45,47 +51,46 @@ module.exports = {
     }
   },
 
-  // posts: async (req, res) => {
-  //   // const userInfo = isAuthorized(req);
-  //   const userInfo = 1;
-  //   try {
-  //     if (userInfo) {
-  //       const {
-  //         category,
-  //         title,
-  //         image,
-  //         description,
-  //         tags,
-  //         latitude,
-  //         longitude,
-  //         mainAddress,
-  //         detailAddress,
-  //       } = req.body;
-  //       const createPost = await boards.create({
-  //         category,
-  //         title,
-  //         image,
-  //         description,
-  //         tags,
-  //         latitude,
-  //         longitude,
-  //         mainAddress,
-  //         detailAddress,
-  //         userId: userInfo.id,
-  //       });
-  //       if (createPost) {
-  //         console.log(req.body);
-  //         return res
-  //           .status(200)
-  //           .json({ data: createPost, message: "작성 완료" });
-  //       }
-  //     } else {
-  //       res.status(401).json({ message: "권한이 없습니다." });
-  //     }
-  //   } catch (err) {
-  //     return res.status(500).json({ message: "서버 에러" });
-  //   }
-  // },
+  posts: async (req, res) => {
+    // const userInfo = isAuthorized(req);
+    const userInfo = 1;
+    try {
+      if (userInfo) {
+        const {
+          category,
+          title,
+          // image,
+          description,
+          // tags,
+          latitude,
+          longitude,
+          mainAddress,
+          detailAddress,
+        } = req.body;
+        const createPost = await boards.create({
+          category,
+          title,
+          // image,
+          description,
+          // tags,
+          latitude,
+          longitude,
+          // mainAddress,
+          detailAddress,
+          userId: userInfo.id,
+        });
+        if (createPost) {
+          return res
+            .status(200)
+            .json({ data: createPost, message: "작성 완료" });
+        }
+      } else {
+        res.status(401).json({ message: "권한이 없습니다." });
+      }
+    } catch (err) {
+      return res.status(500).json({ message: "서버 에러" });
+    }
+  },
 
   patchPosts: async (req, res) => {
     const userInfo = isAuthorized(req);
@@ -219,6 +224,24 @@ module.exports = {
       return res.status(200).json({ message: "삭제 완료" });
     } catch (err) {
       return res.status(500).json({ message: "서버 에러" });
+    }
+  },
+
+  createChat: async (req, res) => {
+    const userInfo = isAuthorized(req);
+    const { boardId } = req.params;
+    if (userInfo) {
+      try {
+        const createChat = await chatRooms.create({
+          boardId: boardId,
+          userId: userInfo.id,
+        });
+        return res
+          .status(200)
+          .json({ data: createChat, message: "채팅방 생성" });
+      } catch (err) {
+        return res.status(500).json({ message: "서버 에러" });
+      }
     }
   },
 };

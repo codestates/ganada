@@ -47,6 +47,7 @@ $radius: 10px;
     display: flex;
     height: 400px;
     width: 100%;
+    position: relative;
 
     .image-title {
       display: flex;
@@ -90,9 +91,12 @@ $radius: 10px;
       }
       .btn-delete-image {
         margin: 0 auto;
-        padding: 0 5px;
+        padding: 5px 15px;
+        position: absolute;
         border-radius: $radius;
         border: 1px solid #adadad;
+        bottom: 20px;
+        right: 45%;
         &:hover {
           background-color: #adadad;
           color: #fff;
@@ -212,7 +216,7 @@ $radius: 10px;
         background: rgb(255, 255, 255);
         border-radius: 10px;
         padding: 10px;
-        width: 30%;
+        width: 50%;
       }
 
       #map {

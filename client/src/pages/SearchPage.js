@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
 import { BsFillArrowUpCircleFill } from 'react-icons/bs';
+import { useSelector, useDispatch } from 'react-redux';
 import SubNav from '../components/Search-list/SubNav';
 import Post from '../components/Search-list/Post';
+import { setType } from '../redux/searchConditionSlice';
 
 const images = {
   1: [
@@ -60,23 +61,44 @@ const images = {
 };
 
 function SearchPage() {
-  const params = useParams();
-  const [tags, setTags] = useState([]);
+  const [topBtn, setTopBtn] = useState(false);
+  const { keyword, tags, type } = useSelector((state) => state.searchCondition);
+  const dispatch = useDispatch();
 
   const goToTopHandler = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const handleScroll = () => {
+    const position = window.pageYOffset;
+
+    if (position > 0) {
+      setTopBtn(true);
+    } else if (position === 0) {
+      setTopBtn(false);
+    }
+  };
+
+  // useEffect(() => {
+  window.addEventListener('scroll', handleScroll);
+  // }, []);
+
+  useEffect(() => {
+    console.log(tags);
+    console.log(type);
+    console.log(keyword);
+  }, [tags, type, keyword]);
+
   return (
     <div className="searchPage-container">
-      <SubNav setTags={setTags} />
+      <SubNav />
       <div className="searchPage-body">
         {['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'].map((item) => {
           return <Post key={item} image={images[item]} />;
         })}
       </div>
       <BsFillArrowUpCircleFill
-        className="top-icon"
+        className={topBtn ? 'top-icon' : 'top-icon hidden'}
         size="50"
         onClick={goToTopHandler}
       />

@@ -11,12 +11,13 @@ function Image() {
   };
 
   const imageUploadHandler = (e) => {
-    const file = e.target.files[0];
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => {
-      setImageSrc(reader.result);
-    };
+    const nowSelectImageList = e.target.files;
+    const nowImageURLList = [...imageSrc];
+    for (let i = 0; i < nowSelectImageList.length; i += 1) {
+      const nowImageUrl = URL.createObjectURL(nowSelectImageList[i]);
+      nowImageURLList.push(nowImageUrl);
+    }
+    setImageSrc(nowImageURLList);
   };
 
   const deleteImageHandler = () => {
@@ -36,9 +37,12 @@ function Image() {
           accept="image/jpg,image/png,image/jpeg"
           onChange={imageUploadHandler}
           ref={inputImageRef}
+          multiple
         />
         {imageSrc ? (
-          <img src={imageSrc} alt="preview-img" />
+          imageSrc.map((image) => {
+            return <img src={image} alt="preview-img" />;
+          })
         ) : (
           <>
             <MdPhotoCamera size="40" style={{ color: 'lightgray' }} />

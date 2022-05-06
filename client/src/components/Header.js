@@ -1,13 +1,25 @@
 import { AiOutlineSearch, AiOutlineMessage } from 'react-icons/ai';
 import { RiLogoutBoxRLine } from 'react-icons/ri';
 import { FaUserCircle, FaRegEdit } from 'react-icons/fa';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { setKeyword } from '../redux/searchConditionSlice';
 
-export default function Header({ handleLogout, userInfo, isLogin }) {
+export default function Header({
+  handleLogout,
+  userInfo,
+  isLogin,
+  cookieToken,
+}) {
   const location = useLocation();
   const [scrollPosition, setScrollPosition] = useState(0);
   const [isTrue, setIsTrue] = useState(false);
+  const [inputValue, setInputValue] = useState('');
+  const [searchParams, setSearchParams] = useSearchParams();
+  const type = searchParams.get('type');
+  const dispatch = useDispatch();
+  const imagesPath = `http://localhost:4000/images/`;
 
   const onClick = () => {
     setIsTrue(!isTrue);
@@ -16,16 +28,20 @@ export default function Header({ handleLogout, userInfo, isLogin }) {
     setScrollPosition(window.scrollY || document.documentElement.scrollTop);
   };
 
+  const inputHandler = (e) => {
+    setInputValue(e.target.value);
+  };
+
   useEffect(() => {
     window.addEventListener('scroll', updateScroll);
   });
+
   // 헤더 숨길 경로
   const hideHeader = ['/login', '/signup', '/write'];
   if (hideHeader.includes(location.pathname)) {
     return null;
   }
-
-  if (isLogin) {
+  if (isLogin && cookieToken) {
     return (
       <header className={scrollPosition ? 'header-active' : ''}>
         <div className="inner">
@@ -38,10 +54,20 @@ export default function Header({ handleLogout, userInfo, isLogin }) {
                 type="text"
                 name="search"
                 placeholder="어디로 촬영 가시나요?"
+                value={inputValue}
+                onChange={inputHandler}
               />
-              <button type="submit">
-                <AiOutlineSearch className="search-button" alt="Submit Form" />
-              </button>
+              <Link
+                to={`/search?type=${type || 'model'}&keyword=${inputValue}`}
+              >
+                <button type="submit">
+                  <AiOutlineSearch
+                    className="search-button"
+                    alt="Submit Form"
+                    onClick={() => dispatch(setKeyword(inputValue))}
+                  />
+                </button>
+              </Link>
             </form>
             <ul className="right-header">
               <li className="left-chat">
@@ -52,7 +78,11 @@ export default function Header({ handleLogout, userInfo, isLogin }) {
               <div className="drop-menu " role="presentation" onClick={onClick}>
                 <div className="profile">
                   <img
-                    src="https://static.nid.naver.com/images/web/user/default.png?type=s160"
+                    src={
+                      userInfo.image === null
+                        ? 'https://static.nid.naver.com/images/web/user/default.png?type=s160'
+                        : imagesPath + userInfo.image
+                    }
                     alt=""
                   />
                 </div>
@@ -101,9 +131,14 @@ export default function Header({ handleLogout, userInfo, isLogin }) {
               type="text"
               name="search"
               placeholder="어디로 촬영 가시나요?"
+              value={inputValue}
+              onChange={inputHandler}
             />
-            <Link to="/search?type=model&keyword=범계">
-              <button type="submit">
+            <Link to={`/search?type=${type || 'model'}&keyword=${inputValue}`}>
+              <button
+                type="submit"
+                onClick={() => dispatch(setKeyword(inputValue))}
+              >
                 <AiOutlineSearch className="search-button" alt="Submit Form" />
               </button>
             </Link>

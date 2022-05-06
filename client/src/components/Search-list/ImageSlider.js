@@ -1,5 +1,6 @@
 import { useRef, useState, useEffect } from 'react';
 import { IoIosArrowDropright, IoIosArrowDropleft } from 'react-icons/io';
+import { Link } from 'react-router-dom';
 
 const images = [
   `${process.env.PUBLIC_URL}/img/jungleNuNu.jpg`,

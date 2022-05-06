@@ -2,19 +2,31 @@ import { IoMdSend } from 'react-icons/io';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import Picker from 'emoji-picker-react';
+import { MdInsertEmoticon } from 'react-icons/md';
 import ChatRooms from '../components/Chats/ChatRooms';
 import Message from '../components/Chats/Message';
 import Reservation from '../components/Chats/Reservation';
 import MessageNull from '../components/Chats/MessageNull';
 import RecieverName from '../components/Chats/RecieverName';
 
-export default function Chat() {
+export default function Chat({ userInfo }) {
   const [chatRooms, setChatRooms] = useState([]);
   const [receiverUser, setReceiverUser] = useState([]);
   const [message, setMessage] = useState(null);
   const [newMessage, setNewMessage] = useState('');
   const { chatRoomId } = useParams();
-  console.log(chatRooms);
+  const [showEmoji, setShowEmojij] = useState(false);
+
+  const emojiShowHide = () => {
+    setShowEmojij(!showEmoji);
+  };
+
+  const handleEmojiClick = (e, emojiObject) => {
+    let msg = newMessage;
+    msg += emojiObject.emoji;
+    setNewMessage(msg);
+  };
 
   // 자동 textaarea높이 지정
   const autoResizeTextarea = () => {
@@ -94,7 +106,7 @@ export default function Chat() {
         <div className="inner">
           <div className="chat-rooms">
             <div className="chat-rooms-wrraper">
-              <div className="nickname"> y__jiny_O </div>
+              <div className="nickname"> {userInfo.name} </div>
               <div className="chatRooms">
                 {chatRooms.map((chatRoom) => (
                   <Link to={`${chatRoom.id}`}>
@@ -128,6 +140,14 @@ export default function Chat() {
               </div>
               {message ? (
                 <div className="send-chat-input">
+                  <div className="emoji">
+                    {showEmoji && <Picker onEmojiClick={handleEmojiClick} />}
+                    <MdInsertEmoticon
+                      size="24"
+                      color="grey"
+                      onClick={emojiShowHide}
+                    />
+                  </div>
                   <form className="input-wrraper">
                     <textarea
                       placeholder="메시지를 입력하세요"
