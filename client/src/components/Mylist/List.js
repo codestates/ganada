@@ -28,14 +28,14 @@ function List({ post, token }) {
           <li className="description-des">{post.description}</li>
           <li className="description-address">{post.detailAddress}</li>
         </ul>
-        <div className="btn-container">
+        {/* <div className="btn-container">
           <button type="button" className="modi-btn">
             수정
           </button>
           <button type="button" className="del-btn">
             삭제
           </button>
-        </div>
+        </div> */}
       </div>
     </div>
   );

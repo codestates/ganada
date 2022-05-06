@@ -3,13 +3,12 @@
   flex-direction: column;
   align-items: center;
   .header-container {
-    padding-top: 150px;
+    padding-top: 120px;
     display: flex;
     align-items: center;
-    width: 72.5%;
+    width: 70%;
     height: 50px;
     .pg-profile-container {
-      margin-left: 20px;
       display: flex;
       align-items: center;
       flex: 3;
@@ -40,12 +39,8 @@
 
     .share-container {
       display: flex;
-      justify-content: end;
-      align-items: center;
       flex: 7;
-      position: absolute;
-      right: 275px;
-      top: 120px;
+      justify-content: end;
       .share-btn {
         width: 90px;
         height: 40px;

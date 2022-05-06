@@ -3,12 +3,11 @@ const boardsController = require("../controllers/boards");
 const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
-const { boards } = require("../models");
-const { create } = require("domain");
+const { boards, Users, Image } = require("../models");
 
 router.get("/", boardsController.getAllPosts);
 router.get("/:id", boardsController.getPosts);
-router.post("/", boardsController.posts);
+// router.post("/", boardsController.posts);
 router.patch("/:id", boardsController.patchPosts);
 router.delete("/:id", boardsController.deletePosts);
 
@@ -31,7 +30,6 @@ const upload = multer({
   storage: multer.diskStorage({
     // 나중에는 반드시 S3로 대체해야한다. 재배포마다 용량 잡아먹어서 문제된다.
     destination(req, file, done) {
-      console.log("여기서 에러");
       done(null, "uploads/");
     },
     filename(req, file, done) {
@@ -40,12 +38,45 @@ const upload = multer({
       done(null, basename + new Date().getTime() + ext); // 파일이름+시간+확장자명
     },
   }),
-  limits: { fileSize: 20 * 1024 * 1024 }, // 20MB
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB
 });
-//  /uploads/gunslinger1651603947316.png
-router.post("/image", upload.array("image"), async (req, res, next) => {
+
+router.post("/images", upload.single("file"), (req, res, next) => {
   console.log(req.files);
-  res.json(req.files.map((data) => data.filename));
+  // res.json({ url: `/uploads/${req.file.filename}` });
+  res.json({ url: `/uploads/${req.file.filename}` });
+  console.log(req.file.filename);
+});
+
+//  /uploads/gunslinger1651603947316.png
+router.post("/", upload.single("file"), async (req, res, next) => {
+  try {
+    const {
+      category,
+      title,
+      description,
+      tags,
+      latitude,
+      longitude,
+      mainAddress,
+      detailAddress,
+    } = req.body;
+    console.log(req.body);
+    const createBoards = await boards.create({
+      category,
+      title,
+      description,
+      tags,
+      latitude,
+      longitude,
+      mainAddress,
+      detailAddress,
+      // image: `/uploads/${req.file.filename}`,
+    });
+    return res.status(200).json({ data: createBoards, message: "작성 완료" });
+  } catch (err) {
+    return res.status(500).json({ message: "서버 에러" });
+  }
 });
 
 module.exports = router;

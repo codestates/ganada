@@ -4,6 +4,7 @@ const cors = require("cors");
 require("dotenv").config();
 const http = require("http");
 const https = require("https");
+const path = require("path");
 
 const authRouter = require("./routes/auth");
 const boardsRouter = require("./routes/boards");
@@ -36,6 +37,7 @@ app.use("/boards", boardsRouter);
 app.use("/reviews", reviewsRouter);
 app.use("/chatrooms", chatRoomsRouter);
 app.use("/chatcontents", chatContentsRouter);
+app.use("/images", express.static(path.join(__dirname, "uploads")));
 
 let port = 4000;
 
