@@ -1,4 +1,4 @@
-const { Users, boards, reservations } = require("../models");
+const { Users, boards, reservations, chatRooms } = require("../models");
 const { isAuthorized } = require("./tokenFunctions");
 
 module.exports = {
@@ -222,6 +222,24 @@ module.exports = {
       return res.status(200).json({ message: "삭제 완료" });
     } catch (err) {
       return res.status(500).json({ message: "서버 에러" });
+    }
+  },
+
+  createChat: async (req, res) => {
+    const userInfo = isAuthorized(req);
+    const { boardId } = req.params;
+    if (userInfo) {
+      try {
+        const createChat = await chatRooms.create({
+          boardId: boardId,
+          userId: userInfo.id,
+        });
+        return res
+          .status(200)
+          .json({ data: createChat, message: "채팅방 생성" });
+      } catch (err) {
+        return res.status(500).json({ message: "서버 에러" });
+      }
     }
   },
 };

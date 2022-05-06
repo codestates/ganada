@@ -1,12 +1,20 @@
 import { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
-export default function ChangePassword() {
+export default function ChangePassword({
+  userInfo,
+  isLogin,
+  setModal,
+  setUserInfo,
+}) {
   const [inputPassword, setinputPassword] = useState({
     currentPassword: '',
     password: '',
     rePassword: '',
   });
   const [err, setErr] = useState({});
+  const navigate = useNavigate();
 
   const handleInput = (e) => {
     const { name, value } = e.target;
@@ -38,6 +46,51 @@ export default function ChangePassword() {
   // 포커스를 빠져나왔을 경우 유효성 검사!
   const focusBlur = (e) => {
     setErr(errCheck(inputPassword));
+  };
+  console.log(userInfo);
+  console.log(inputPassword);
+
+  const modifyPassword = async () => {
+    if (Object.keys(err).length !== 0) {
+      setModal({
+        open: true,
+        title: '다시한번 확인해주세요',
+      });
+    } else {
+      try {
+        await axios
+          .patch(
+            `http://localhost:4000/users/${userInfo.id}/changePassword`,
+            {
+              currentPassword: inputPassword.currentPassword,
+              password: inputPassword.password,
+              rePassword: inputPassword.rePassword,
+            },
+            {
+              headers: { authorization: `Bearer ${isLogin}` },
+            },
+            {
+              withCredentials: true,
+            },
+          )
+          .then((res) => {
+            setModal({
+              open: true,
+              title: '변경이 완료되었습니다.',
+              callback: () => {
+                navigate('/mypage/edit');
+              },
+            });
+          });
+      } catch (error) {
+        if (error.response.data.message === '비밀번호가 일치하지 않습니다.') {
+          setModal({
+            open: true,
+            title: '현재 비밀 번호가 일치하지 않습니다.',
+          });
+        }
+      }
+    }
   };
 
   return (
@@ -81,7 +134,7 @@ export default function ChangePassword() {
           </div>
           <div className="btn-wrap">
             <button type="submit"> 취소 </button>
-            <button type="submit" className="active">
+            <button type="submit" className="active" onClick={modifyPassword}>
               적용
             </button>
           </div>

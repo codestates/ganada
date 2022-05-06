@@ -4,13 +4,12 @@ const bcrypt = require("bcrypt");
 
 module.exports = {
   changeInfo: async (req, res) => {
-    const { name, phoneNumber } = req.body;
-
+    const { name, phoneNumber, image } = req.body;
     const userInfo = isAuthorized(req);
     try {
       if (userInfo) {
         const getUser = await Users.findOne({
-          attributes: ["id", "name", "phoneNumber"],
+          attributes: ["id", "name", "phoneNumber", "image"],
           where: { id: userInfo.id },
         });
         if (getUser) {
@@ -18,6 +17,7 @@ module.exports = {
             {
               name,
               phoneNumber,
+              image,
             },
             {
               where: { id: userInfo.id },

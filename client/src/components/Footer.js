@@ -11,7 +11,6 @@ export default function Header() {
     '/mypage/change-password',
     '/mypage/leave',
   ];
-  console.log(location.pathname);
   if (hideHeader.includes(location.pathname)) {
     return null;
   }

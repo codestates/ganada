@@ -14,7 +14,6 @@ const chatRoomsRouter = require("./routes/chatRooms");
 const chatContentsRouter = require("./routes/chatContents");
 
 const httpServer = http.createServer(app);
-app.use("/", express.static(path.join(__dirname, "uploads")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(
@@ -36,8 +35,9 @@ app.use("/auth", authRouter);
 app.use("/users", usersRouter);
 app.use("/boards", boardsRouter);
 app.use("/reviews", reviewsRouter);
-app.use("/chatrooms", chatRoomsRouter);
+app.use("/chatRooms", chatRoomsRouter);
 app.use("/chatcontents", chatContentsRouter);
+app.use("/images", express.static(path.join(__dirname, "uploads")));
 
 let port = 4000;
 

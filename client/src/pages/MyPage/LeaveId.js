@@ -2,14 +2,20 @@
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-export default function LeaveId({ localStorageToken, userInfo, setModal }) {
+export default function LeaveId({
+  setModal,
+  userInfo,
+  isLogin,
+  setUserInfo,
+  setIsLogin,
+}) {
   const navigate = useNavigate();
   const deleteUser = () => {
     axios
       .delete(
         `http://localhost:4000/users/${userInfo.id}`,
         {
-          headers: { authorization: `Bearer ${localStorageToken}` },
+          headers: { authorization: `Bearer ${isLogin}` },
         },
         {
           withCredentials: true,
@@ -17,6 +23,8 @@ export default function LeaveId({ localStorageToken, userInfo, setModal }) {
       )
       .then((res) => {
         localStorage.removeItem('Token');
+        setIsLogin('');
+        setUserInfo('');
         setModal({
           open: true,
           title: '탈퇴가 완료되었습니다.',

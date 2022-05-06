@@ -6,7 +6,12 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { setKeyword } from '../redux/searchConditionSlice';
 
-export default function Header({ handleLogout, userInfo, isLogin }) {
+export default function Header({
+  handleLogout,
+  userInfo,
+  isLogin,
+  cookieToken,
+}) {
   const location = useLocation();
   const [scrollPosition, setScrollPosition] = useState(0);
   const [isTrue, setIsTrue] = useState(false);
@@ -14,6 +19,7 @@ export default function Header({ handleLogout, userInfo, isLogin }) {
   const [searchParams, setSearchParams] = useSearchParams();
   const type = searchParams.get('type');
   const dispatch = useDispatch();
+  const imagesPath = `http://localhost:4000/images/`;
 
   const onClick = () => {
     setIsTrue(!isTrue);
@@ -35,8 +41,7 @@ export default function Header({ handleLogout, userInfo, isLogin }) {
   if (hideHeader.includes(location.pathname)) {
     return null;
   }
-
-  if (isLogin) {
+  if (isLogin && cookieToken) {
     return (
       <header className={scrollPosition ? 'header-active' : ''}>
         <div className="inner">
@@ -73,7 +78,11 @@ export default function Header({ handleLogout, userInfo, isLogin }) {
               <div className="drop-menu " role="presentation" onClick={onClick}>
                 <div className="profile">
                   <img
-                    src="https://static.nid.naver.com/images/web/user/default.png?type=s160"
+                    src={
+                      userInfo.image === null
+                        ? 'https://static.nid.naver.com/images/web/user/default.png?type=s160'
+                        : imagesPath + userInfo.image
+                    }
                     alt=""
                   />
                 </div>

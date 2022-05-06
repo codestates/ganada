@@ -1,12 +1,7 @@
 const router = require("express").Router();
-const authController = require("../controllers/auth");
+const chatRoomsController = require("../controllers/chatRooms");
 
-// router.post("/signup", authController.signUp);
-// router.post("/login", authController.login);
-// router.post("/logout", authController.logout);
-// router.get("/google", authController.google);
-// router.get("/kakao", authController.kakao);
-// router.get("/naver", authController.naver);
-// router.post("/mailVerification", authController.mailVerification);
+router.post("/", chatRoomsController.createChat);
+router.delete("/:boardId", chatRoomsController.deleteChat);
 
 module.exports = router;
