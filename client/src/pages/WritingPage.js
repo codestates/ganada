@@ -7,13 +7,14 @@ import Tag from '../components/Search-list/Tag';
 function WritingPage({ role = 1 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const inputTitleRef = useRef(null);
-  const [title, setTitle] = useState('');
+  const [title, setTitle] = useState(''); // 15글자 + ...
   const [description, setDescription] = useState('');
   const [tags, setTags] = useState([]);
   const [mainAddress, setMainAddress] = useState('');
   const [detailAddress, setDetailAddress] = useState('');
   const [coordinate, setCoordinate] = useState({});
   const [category, setCategory] = useState('');
+  const [images, setImages] = useState('');
 
   useEffect(() => {
     if (inputTitleRef.current !== null) inputTitleRef.current.focus();
@@ -93,9 +94,7 @@ function WritingPage({ role = 1 }) {
           <span>이미지</span>
         </div>
         <div className="image-upload-area">
-          {[1, 2, 3].map((item) => {
-            return <Image key={item} />;
-          })}
+          <Image />
         </div>
       </div>
       <div className="introduction-container">

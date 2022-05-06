@@ -11,6 +11,10 @@ module.exports = {
     'import/prefer-default-export': 'off',
     'import/no-unresolved': 'off',
     'react/prop-types': 'off',
+    'no-param-reassign': [
+      'error',
+      { props: true, ignorePropertyModificationsFor: ['state'] },
+    ],
   },
 
   settings: {

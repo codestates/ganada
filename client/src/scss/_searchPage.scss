@@ -3,17 +3,39 @@
   margin: 0 auto;
   .top-icon {
     position: fixed;
-    bottom: 50px;
-    right: 100px;
+    bottom: 70px;
+    right: 150px;
     cursor: pointer;
+    animation: fadein 2s;
+    @keyframes fadein {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
     &:hover {
       color: gray;
+    }
+
+    &.hidden {
+      display: none;
+      animation: fadeout 2s;
+      @keyframes fadeout {
+        100% {
+          opacity: 0;
+        }
+        0% {
+          opacity: 1;
+        }
+      }
     }
   }
 
   .searchPage-header {
     border-bottom: 1px solid lightgray;
-    padding-top: 140px;
+    padding-top: 120px;
     display: flex;
 
     .header-left {
@@ -113,21 +135,19 @@
       .slider {
         position: relative;
         display: flex;
-        // margin-top: 10px;
         height: 50%;
-        width: 100%;
-        padding: 0px;
+        // width: 100%;
+        // padding: 0px;
         object-fit: cover;
         overflow: hidden;
         border-radius: 5px;
         .sliderContainer {
-          position: relative;
+          // position: relative;
           display: flex;
-          object-fit: cover;
-          // width: 100%;
+          // object-fit: cover;
           img {
             width: 100%;
-            aspect-ratio: 2;
+            // aspect-ratio: 2;
             // height: 100%;
             // min-width: 275px;
             // object-fit: cover;
@@ -166,27 +186,33 @@
         }
       }
       .post-content {
-        width: 100%;
+        width: 80%;
         display: flex;
         flex-direction: column;
-        align-items: flex-start;
-        justify-content: center;
-        margin-top: 30px;
-        padding: 20px;
+        // justify-content: center;
+        position: relative;
+        margin-top: 20px;
+        color: #918f8f;
         .title {
           font-weight: bold;
           font-size: 20px;
+          color: black;
+        }
+
+        .nickname {
+          text-align: end;
+          font-size: 13px;
         }
 
         .bottom-line {
           border: 1px solid #adadad;
-          width: 100%;
+          margin: 5px 0;
         }
 
         .description {
+          margin-top: 5px;
           display: flex;
           color: #8d8b8b;
-          margin-top: 10px;
 
           .intro {
             position: relative;
@@ -208,11 +234,6 @@
           }
         }
 
-        div {
-          color: #918f8f;
-          margin-top: 5px;
-        }
-
         .position {
           margin-top: 10px;
         }
@@ -221,21 +242,17 @@
           cursor: pointer;
           width: 180px;
           height: 32px;
-          margin: 0px auto 20px;
           background-color: #444;
           border-radius: 16px;
           border: none;
           font-weight: bold;
           font-size: 16px;
           color: #fff;
-          text-align: center;
-          margin-top: 10px;
+          margin-top: 30px;
           background: linear-gradient(45deg, #d1d1d1, #dbdada);
           box-shadow: 5px 10px 10px rgba(214, 211, 211, 0.1);
         }
-
         .detailLink {
-          display: block;
           margin: 0 auto;
         }
       }

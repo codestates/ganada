@@ -1,19 +1,29 @@
 import { AiOutlineSearch, AiOutlineMessage } from 'react-icons/ai';
 import { RiLogoutBoxRLine } from 'react-icons/ri';
 import { FaUserCircle, FaRegEdit } from 'react-icons/fa';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { setKeyword } from '../redux/searchConditionSlice';
 
 export default function Header({ handleLogout, userInfo, isLogin }) {
   const location = useLocation();
   const [scrollPosition, setScrollPosition] = useState(0);
   const [isTrue, setIsTrue] = useState(false);
+  const [inputValue, setInputValue] = useState('');
+  const [searchParams, setSearchParams] = useSearchParams();
+  const type = searchParams.get('type');
+  const dispatch = useDispatch();
 
   const onClick = () => {
     setIsTrue(!isTrue);
   };
   const updateScroll = () => {
     setScrollPosition(window.scrollY || document.documentElement.scrollTop);
+  };
+
+  const inputHandler = (e) => {
+    setInputValue(e.target.value);
   };
 
   useEffect(() => {
@@ -39,12 +49,17 @@ export default function Header({ handleLogout, userInfo, isLogin }) {
                 type="text"
                 name="search"
                 placeholder="어디로 촬영 가시나요?"
+                value={inputValue}
+                onChange={inputHandler}
               />
-              <Link to="/search?type=model&keyword=범계">
+              <Link
+                to={`/search?type=${type || 'model'}&keyword=${inputValue}`}
+              >
                 <button type="submit">
                   <AiOutlineSearch
                     className="search-button"
                     alt="Submit Form"
+                    onClick={() => dispatch(setKeyword(inputValue))}
                   />
                 </button>
               </Link>
@@ -107,9 +122,14 @@ export default function Header({ handleLogout, userInfo, isLogin }) {
               type="text"
               name="search"
               placeholder="어디로 촬영 가시나요?"
+              value={inputValue}
+              onChange={inputHandler}
             />
-            <Link to="/search?type=model&keyword=범계">
-              <button type="submit">
+            <Link to={`/search?type=${type || 'model'}&keyword=${inputValue}`}>
+              <button
+                type="submit"
+                onClick={() => dispatch(setKeyword(inputValue))}
+              >
                 <AiOutlineSearch className="search-button" alt="Submit Form" />
               </button>
             </Link>

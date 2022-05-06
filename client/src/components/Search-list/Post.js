@@ -4,20 +4,23 @@ import { TiDocumentText } from 'react-icons/ti';
 import ImageSlider from './ImageSlider';
 
 function Post({ image }) {
+  console.log(
+    '가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사'
+      .length,
+  ); // 15글자 + ...
   return (
     <div className="post-wrapper">
       <ImageSlider image={image} />
       <div className="post-content">
-        <p className="title">한강에서 사진 찍으실 분</p>
-        <div>mynickname</div>
+        <p className="title">한강에서아나콘다람쥐어카센터미...</p>
+        <p className="nickname">닉네임이지롱</p>
         <div className="bottom-line" />
         <div className="description">
           <div className="description-icon">
             <TiDocumentText size="17" />
           </div>
           <div className="intro">
-            사진찍으실분?? 저는 모델 경력 2년차 프리랜서 모델입니다... 전문
-            사진작가분 구해요...
+            가나다라마바사가나다라마바사가나다라마바사가나다라마바사가나다라마바사아자...
           </div>
         </div>
         <div className="position">

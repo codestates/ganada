@@ -20,6 +20,7 @@ import Chat from './pages/Chat';
 import MyList from './pages/MyList';
 import ModelDetail from './pages/ModelDetail';
 import Modal from './components/Modal';
+import NotFound from './pages/NotFond';
 import PrivateRoute from './PrivateRoute';
 
 const cookies = new Cookies();
@@ -138,6 +139,7 @@ function App() {
         </Route>
         <Route path="/search" element={<SearchPage />} />
         <Route path="/write" element={<WritingPage />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
 
       <Footer />

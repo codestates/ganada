@@ -1,6 +1,10 @@
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setType } from '../../redux/searchConditionSlice';
 
 export default function MainBanner() {
+  const dispatch = useDispatch();
+
   return (
     <div className="main-banner">
       <div className="inner">
@@ -10,8 +14,12 @@ export default function MainBanner() {
             모델 찾기 어려우신거 압니다. <br /> 당신 주변에 있는 매력적인
             모델분을 소개합니다.
           </li>
-          <Link to="/search?type=model">
-            <button type="button" className="banner-btn">
+          <Link to="/search?type=model&keyword=unknown">
+            <button
+              type="button"
+              className="banner-btn"
+              onClick={() => dispatch(setType('model'))}
+            >
               내 주변 모델 둘러보기
             </button>
           </Link>
@@ -22,8 +30,12 @@ export default function MainBanner() {
             특별한 순간을 담아보세요. <br /> 당신 주변에 있는 작가님을
             소개합니다.
           </li>
-          <Link to="/search?type=photographer">
-            <button type="button" className="banner-btn">
+          <Link to="/search?type=photographer&keyword=unknown">
+            <button
+              type="button"
+              className="banner-btn"
+              onClick={() => dispatch(setType('photograpger'))}
+            >
               내 주변 사진작가 둘러보기
             </button>
           </Link>
