@@ -42,10 +42,10 @@ const upload = multer({
   limits: { fileSize: 5 * 1024 * 1024 }, // 5MB
 });
 
-router.post("/images", upload.single("file"), (req, res, next) => {
+router.post("/images", upload.array("file"), (req, res, next) => {
   console.log(req.files);
   // res.json({ url: `/uploads/${req.file.filename}` });
-  res.json({ url: `/uploads/${req.file.filename}` });
+  res.json(req.files.map((v) => v.filename));
   console.log(req.file.filename);
 });
 

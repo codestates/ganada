@@ -21,7 +21,7 @@
       display: flex;
 
       .chat-rooms {
-        width: 40%;
+        width: 30%;
         height: 100%;
         border: none;
         background-color: white;
@@ -94,7 +94,7 @@
       }
       .chat-message {
         background-color: #fff;
-        width: 60%;
+        width: 70%;
         .chat-message-wrraper {
           position: relative;
           display: flex;
@@ -224,8 +224,30 @@
             width: 100%;
             padding: 1rem;
             background-color: rgba(214, 214, 214, 0.123);
+            display: flex;
+            align-items: center;
+
+            .emoji {
+              position: relative;
+              margin-right: 10px;
+              svg {
+                cursor: pointer;
+              }
+              .emoji-picker-react {
+                position: absolute;
+                top: -350px;
+                background-color: #ffffff;
+                box-shadow: 0 5px 15px #7e7e7e44;
+                border-color: #b8b8b8;
+                .emoji-scroll-wrapper::-webkit-scrollbar {
+                  background-color: #ffffff;
+                  width: 5px;
+                }
+              }
+            }
 
             .input-wrraper {
+              width: 100%;
               position: relative;
               display: flex;
               background-color: white;
@@ -242,7 +264,6 @@
                 overflow-wrap: break-word;
                 border: none;
                 resize: none;
-                line-height: 1.2;
                 background: transparent;
                 width: calc(100% - 70px);
                 letter-spacing: -0.5px;
