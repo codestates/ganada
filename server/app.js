@@ -35,7 +35,7 @@ app.use("/auth", authRouter);
 app.use("/users", usersRouter);
 app.use("/boards", boardsRouter);
 app.use("/reviews", reviewsRouter);
-app.use("/chatrooms", chatRoomsRouter);
+app.use("/chatRooms", chatRoomsRouter);
 app.use("/chatcontents", chatContentsRouter);
 app.use("/images", express.static(path.join(__dirname, "uploads")));
 

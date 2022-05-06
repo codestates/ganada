@@ -16,6 +16,9 @@ router.post("/:id/reservations", boardsController.postReservations);
 router.patch("/:id/reservations", boardsController.finishReservations);
 router.delete("/:boardId/reservations", boardsController.deleteReservations);
 
+// chatRoom API
+router.post("/:boardId/chatRooms", boardsController.createChat);
+
 // 이미지 업로드용 라우터
 try {
   // 폴더 저장 경로가 존재하지 않는 경우 폴더 만들어주기
@@ -30,7 +33,6 @@ const upload = multer({
   storage: multer.diskStorage({
     // 나중에는 반드시 S3로 대체해야한다. 재배포마다 용량 잡아먹어서 문제된다.
     destination(req, file, done) {
-      console.log("여기서 에러");
       done(null, "uploads/");
     },
     filename(req, file, done) {
@@ -50,7 +52,6 @@ router.post("/images", upload.single("file"), (req, res, next) => {
 });
 
 //  /uploads/gunslinger1651603947316.png
-
 router.post("/", upload.single("file"), async (req, res, next) => {
   try {
     const {
