@@ -13,9 +13,17 @@ module.exports = {
       },
       userId: {
         type: Sequelize.INTEGER,
+        references: {
+          model: "users",
+          key: "id",
+        },
       },
       chatroomId: {
         type: Sequelize.INTEGER,
+        references: {
+          model: "chatrooms",
+          key: "id",
+        },
       },
       createdAt: {
         allowNull: false,

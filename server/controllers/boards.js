@@ -40,7 +40,7 @@ module.exports = {
         include: [
           {
             model: users,
-            attributes: ["name"],
+            attributes: ["name", "kind", "time", "again"],
           },
         ],
       });

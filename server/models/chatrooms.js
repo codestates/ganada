@@ -16,34 +16,24 @@ module.exports = (sequelize, DataTypes) => {
   }
   chatrooms.init(
     {
-      userId: DataTypes.INTEGER,
-      // cascade를 통해 user 삭제 시 채팅방 삭제
-      boardId: DataTypes.INTEGER,
-      // cascade를 통해 board 삭제 시 채팅방 삭제
-      //   userId: {
-      //     type: DataTypes.INTEGER,
-      //     references: {
-      //       model: "users",
-      //       key: "id",
-      //     },
-      //     onDelete: "cascade",
-      //   },
-      //   receiverId: {
-      //     type: DataTypes.INTEGER,
-      //     references: {
-      //       model: "users",
-      //       key: "id",
-      //     },
-      //     onDelete: "cascade",
-      //   },
-      //   boardId: {
-      //     type: DataTypes.INTEGER,
-      //     references: {
-      //       model: "boards",
-      //       key: "id",
-      //     },
-      //     onDelete: "cascade",
-      //   },
+      userId: {
+        type: DataTypes.INTEGER,
+        references: {
+          model: "users",
+          key: "id",
+        },
+        onDelete: "cascade",
+        onUpdate: "cascade",
+      },
+      boardId: {
+        type: DataTypes.INTEGER,
+        references: {
+          model: "boards",
+          key: "id",
+        },
+        onDelete: "cascade",
+        onUpdate: "cascade",
+      },
     },
     {
       sequelize,

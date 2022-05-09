@@ -10,30 +10,24 @@ module.exports = {
       },
       userId: {
         type: Sequelize.INTEGER,
-<<<<<<< HEAD:server/migrations/20220509015210-create-user-chatroom.js
-=======
-        // references: {
-        //   model: "Users",
-        //   key: "id",
-        // },
-        // onDelete: "cascade",
-        // onUpdate: "cascade",
->>>>>>> remotes/origin/feature/2-modify:server/migrations/20220503144324-create-chat-rooms.js
+        references: {
+          model: "users",
+          key: "id",
+        },
       },
       chatroomId: {
         type: Sequelize.INTEGER,
-<<<<<<< HEAD:server/migrations/20220509015210-create-user-chatroom.js
-=======
-        // references: {
-        //   model: "Users",
-        //   key: "id",
-        // },
-        // onDelete: "cascade",
-        // onUpdate: "cascade",
->>>>>>> remotes/origin/feature/2-modify:server/migrations/20220503144324-create-chat-rooms.js
+        references: {
+          model: "chatrooms",
+          key: "id",
+        },
       },
       boardId: {
         type: Sequelize.INTEGER,
+        references: {
+          model: "boards",
+          key: "id",
+        },
       },
       createdAt: {
         allowNull: false,

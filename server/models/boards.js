@@ -16,7 +16,10 @@ module.exports = (sequelize, DataTypes) => {
   }
   boards.init(
     {
-      category: DataTypes.INTEGER,
+      category: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0,
+      },
       title: DataTypes.STRING,
       image: DataTypes.STRING,
       description: DataTypes.STRING,
@@ -25,17 +28,19 @@ module.exports = (sequelize, DataTypes) => {
       longitude: DataTypes.STRING,
       mainAddress: DataTypes.STRING,
       detailAddress: DataTypes.STRING,
-      status: DataTypes.INTEGER,
-      userId: DataTypes.INTEGER,
-      // user 삭제 시 cascade를 통해 게시글 삭제
-      // userId: {
-      //   type: DataTypes.INTEGER,
-      //   references: {
-      //     model: "users",
-      //     key: "id",
-      //   },
-      //   onDelete: "cascade",
-      // },
+      status: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0,
+      },
+      userId: {
+        type: DataTypes.INTEGER,
+        references: {
+          model: "users",
+          key: "id",
+        },
+        onDelete: "cascade",
+        onUpdate: "cascade",
+      },
     },
     {
       sequelize,

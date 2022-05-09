@@ -16,10 +16,24 @@ module.exports = (sequelize, DataTypes) => {
   chatcontents.init(
     {
       chats: DataTypes.STRING,
-      userId: DataTypes.INTEGER,
-      // cascade를 통해 user 삭제 시 채팅방 기록 삭제
-      chatroomId: DataTypes.INTEGER,
-      // cascade를 통해 채팅방 삭제 시 기록 삭제
+      userId: {
+        type: DataTypes.INTEGER,
+        references: {
+          model: "users",
+          key: "id",
+        },
+        onDelete: "cascade",
+        onUpdate: "cascade",
+      },
+      chatroomId: {
+        type: DataTypes.INTEGER,
+        references: {
+          model: "chatrooms",
+          key: "id",
+        },
+        onDelete: "cascade",
+        onUpdate: "cascade",
+      },
     },
     {
       sequelize,
