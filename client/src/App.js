@@ -1,8 +1,9 @@
 import './scss/style.scss';
-import { Route, Routes, useNavigate, Navigate } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Cookies } from 'react-cookie';
+import { useSelector, useDispatch } from 'react-redux';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Main from './components/Main/Main';
@@ -27,9 +28,10 @@ const cookies = new Cookies();
 const cookieToken = cookies.get('jwt');
 
 function App() {
-  const [isLogin, setIsLogin] = useState('');
+  const dispatch = useDispatch();
+  const userInfo = useSelector((state) => state.userInfo);
+  const { token } = useSelector((state) => state.auth);
   const navigate = useNavigate();
-  const [userInfo, setUserInfo] = useState('');
   const [modal, setModal] = useState({
     open: false,
     title: '',
@@ -37,33 +39,36 @@ function App() {
     callback: false,
   });
 
-  useEffect(() => {
-    axios
-      .get(`http://localhost:4000/users`, {
-        headers: { authorization: `Bearer ${isLogin}` },
-      })
-      .then((res) => {
-        setUserInfo(res.data.data);
-      });
-  }, [navigate, isLogin]);
+  const getUserInfo = () => {
+    try {
+      axios
+        .get(`http://localhost:4000/users`, {
+          headers: { authorization: `Bearer ${token}` },
+          withCredentials: true,
+        })
+        .then((res) => {
+          dispatch({
+            type: 'userInfo/setUpdateUserInfo',
+            payload: res.data.data,
+          });
+        });
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   useEffect(() => {
-    setIsLogin(localStorage.getItem('Token'));
+    dispatch({
+      type: 'auth/isLogin',
+      payload: localStorage.getItem('Token'),
+    });
   }, [navigate]);
 
-  //  useEffect(() => {
-  //   axios
-  //     .get(`http://localhost:4000/users`, {
-  //       headers: { authorization: `Bearer ${isLogin}` },
-  //     })
-  //     .then((res) => {
-  //       setUserInfo(res.data.data);
-  //     });
-  // }, [navigate, isLogin]);
-
-  // useEffect(() => {
-  //   setIsLogin(localStorage.getItem('Token'));
-  // }, [navigate]);
+  useEffect(() => {
+    if (token) {
+      getUserInfo();
+    }
+  }, [token]);
 
   // 서버에 토큰을 보내며 로그아웃 요청
   const handleLogout = () => {
@@ -72,7 +77,7 @@ function App() {
         `http://localhost:4000/auth/logout`,
         null,
         {
-          headers: { authorization: `Bearer ${isLogin}` },
+          headers: { authorization: `Bearer ${token}` },
         },
         {
           withCredentials: true,
@@ -80,9 +85,9 @@ function App() {
       )
       .then((res) => {
         localStorage.removeItem('Token');
-        setIsLogin('');
-        setUserInfo('');
-        // cookies.removeCookie('jwt');
+        dispatch({
+          type: 'auth/isLogout',
+        });
         navigate('/');
       });
   };
@@ -96,59 +101,27 @@ function App() {
         title={modal.title}
         callback={modal.callback}
       />
-      <Header
-        handleLogout={handleLogout}
-        cookieToken={cookieToken}
-        userInfo={userInfo}
-        isLogin={isLogin}
-      />
+      <Header handleLogout={handleLogout} cookieToken={cookieToken} />
       <Routes>
-        <Route path="/chat" element={<Chat userInfo={userInfo} />}>
+        <Route path="/chat" element={<Chat />}>
           <Route path=":chatRoomId" element={<Chat />} />
         </Route>
         <Route path="/" element={<Main />} />
-        <Route
-          path="/login"
-          element={<Login cookieToken={cookieToken} setIsLogin={setIsLogin} />}
-        />
+        <Route path="/login" element={<Login cookieToken={cookieToken} />} />
         <Route path="/signup" element={<Signup setModal={setModal} />} />
         <Route path="/photodetail" element={<PhotoDetail />} />
         <Route path="/modeldetail" element={<ModelDetail />} />
         <Route path="/mylist" element={<MyList />} />
-        <Route path="/mypage" element={<MyPage userInfo={userInfo} />}>
+        <Route path="/mypage" element={<MyPage />}>
           <Route
             path="edit"
-            element={
-              <Edit
-                userInfo={userInfo}
-                setUserInfo={setUserInfo}
-                isLogin={isLogin}
-                setModal={setModal}
-              />
-            }
+            element={<Edit getUserInfo={getUserInfo} setModal={setModal} />}
           />
           <Route
             path="change-password"
-            element={
-              <ChangePassword
-                userInfo={userInfo}
-                isLogin={isLogin}
-                setModal={setModal}
-              />
-            }
+            element={<ChangePassword setModal={setModal} />}
           />
-          <Route
-            path="leave"
-            element={
-              <LeaveId
-                userInfo={userInfo}
-                isLogin={isLogin}
-                setModal={setModal}
-                setIsLogin={setIsLogin}
-                setUserInfo={setUserInfo}
-              />
-            }
-          />
+          <Route path="leave" element={<LeaveId setModal={setModal} />} />
         </Route>
         <Route path="/search" element={<SearchPage />} />
         <Route path="/write/:id" element={<WritingPage />} />

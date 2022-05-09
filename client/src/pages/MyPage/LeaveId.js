@@ -1,21 +1,20 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 
-export default function LeaveId({
-  setModal,
-  userInfo,
-  isLogin,
-  setUserInfo,
-  setIsLogin,
-}) {
+export default function LeaveId({ setModal }) {
   const navigate = useNavigate();
+  const userInfo = useSelector((state) => state.userInfo);
+  const { token } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+
   const deleteUser = () => {
     axios
       .delete(
         `http://localhost:4000/users/${userInfo.id}`,
         {
-          headers: { authorization: `Bearer ${isLogin}` },
+          headers: { authorization: `Bearer ${token}` },
         },
         {
           withCredentials: true,
@@ -23,8 +22,7 @@ export default function LeaveId({
       )
       .then((res) => {
         localStorage.removeItem('Token');
-        setIsLogin('');
-        setUserInfo('');
+        dispatch({ type: 'auth/isLogout' });
         setModal({
           open: true,
           title: '탈퇴가 완료되었습니다.',
@@ -61,7 +59,9 @@ export default function LeaveId({
             </div>
           </div>
           <div className="btn-wrap">
-            <button type="submit">비동의</button>
+            <Link to="/">
+              <button type="submit">비동의</button>{' '}
+            </Link>
             <button className="active" type="submit" onClick={deleteUser}>
               탈퇴
             </button>

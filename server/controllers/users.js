@@ -47,7 +47,7 @@ module.exports = {
           where: { id: userInfo.id },
         });
         if (getUser) {
-          if (userInfo.password !== currentPassword) {
+          if (!bcrypt.compareSync(currentPassword, getUser.password)) {
             return res.status(401).json({ message: "비밀번호가 틀렸습니다." });
           } else {
             const hashed = await bcrypt.hash(password, 10);

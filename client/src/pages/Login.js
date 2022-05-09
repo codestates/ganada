@@ -2,7 +2,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useRef, useEffect, useState } from 'react';
 import axios from 'axios';
 
-export default function Login({ setIsLogin }) {
+export default function Login({ setIsLogin, getUserInfo }) {
   const inputRef = useRef(null);
   const navigate = useNavigate();
 
@@ -36,9 +36,6 @@ export default function Login({ setIsLogin }) {
               localStorage.setItem('Token', res.data.token);
               navigate('/');
             }
-          })
-          .then(() => {
-            setIsLogin(localStorage.getItem('Token'));
           });
       } catch (err) {
         console.log(err);
