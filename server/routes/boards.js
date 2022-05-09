@@ -12,9 +12,9 @@ router.patch("/:id", boardsController.patchPosts);
 router.delete("/:id", boardsController.deletePosts);
 
 // Reservations API
-router.post("/:id/reservations", boardsController.postReservations);
-router.patch("/:id/reservations", boardsController.finishReservations);
-router.delete("/:boardId/reservations", boardsController.deleteReservations);
+// router.post("/:id/reservations", boardsController.postReservations);
+// router.patch("/:id/reservations", boardsController.finishReservations);
+// router.delete("/:boardId/reservations", boardsController.deleteReservations);
 
 // chatRoom API
 router.post("/:boardId/chatRooms", boardsController.createChat);
@@ -44,7 +44,7 @@ const upload = multer({
   limits: { fileSize: 5 * 1024 * 1024 }, // 5MB
 });
 
-router.post("/images", upload.single("file"), (req, res, next) => {
+router.post("/images", upload.array("file"), (req, res, next) => {
   console.log(req.files);
   // res.json({ url: `/uploads/${req.file.filename}` });
   res.json({ url: `/uploads/${req.file.filename}` });

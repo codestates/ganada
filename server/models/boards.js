@@ -9,40 +9,26 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      models.boards.hasMany(models.reservations);
-      models.boards.hasMany(models.chatRooms);
-      models.boards.belongsTo(models.Users);
     }
   }
   boards.init(
     {
       category: DataTypes.INTEGER,
       title: DataTypes.STRING,
-      image: {
-        type: DataTypes.STRING,
-        allowNull: true,
-      },
+      image: DataTypes.STRING,
       description: DataTypes.STRING,
       tags: DataTypes.STRING,
       latitude: DataTypes.STRING,
       longitude: DataTypes.STRING,
       mainAddress: DataTypes.STRING,
       detailAddress: DataTypes.STRING,
-      userId: {
-        type: DataTypes.INTEGER,
-        references: {
-          model: "Users",
-          key: "id",
-        },
-        onDelete: "cascade",
-      },
+      status: DataTypes.INTEGER,
+      userId: DataTypes.INTEGER,
+      // user 삭제 시 cascade를 통해 게시글 삭제
     },
     {
       sequelize,
       modelName: "boards",
-      charset: "utf8mb4",
-      collate: "utf8mb4_general_ci",
-      sequelize,
     }
   );
   return boards;

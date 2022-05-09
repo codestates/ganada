@@ -1,4 +1,4 @@
-const { Users, boards, reservations, chatRooms } = require("../models");
+const { users, boards, chatrooms } = require("../models");
 const { isAuthorized } = require("./tokenFunctions");
 
 module.exports = {
@@ -19,7 +19,7 @@ module.exports = {
         order: [["createdAt", "DESC"]],
         include: [
           {
-            model: Users,
+            model: users,
             attributes: ["id", "name"],
           },
         ],
@@ -38,7 +38,7 @@ module.exports = {
         where: { id },
         include: [
           {
-            model: Users,
+            model: users,
             attributes: ["name"],
           },
         ],
@@ -170,67 +170,67 @@ module.exports = {
     }
   },
 
-  postReservations: async (req, res) => {
-    try {
-      const { status, boardId } = req.body;
-      const createReservations = await reservations.create({
-        status,
-        boardId,
-      });
-      if (createReservations) {
-        return res.status(200).json({ createReservations });
-      }
-    } catch (err) {
-      return res.status(500).json({ message: "서버 에러" });
-    }
-  },
+  // postReservations: async (req, res) => {
+  //   try {
+  //     const { status, boardId } = req.body;
+  //     const createReservations = await reservations.create({
+  //       status,
+  //       boardId,
+  //     });
+  //     if (createReservations) {
+  //       return res.status(200).json({ createReservations });
+  //     }
+  //   } catch (err) {
+  //     return res.status(500).json({ message: "서버 에러" });
+  //   }
+  // },
 
-  finishReservations: async (req, res) => {
-    try {
-      const { boardId } = req.body;
-      const existReservations = await reservations.findOne({
-        where: { boardId },
-      });
-      if (existReservations) {
-        const { status } = req.body;
-        await reservations.update(
-          {
-            status,
-          },
-          {
-            where: { boardId },
-          }
-        );
-      }
-      return res.status(200).json({ message: "업데이트 완료" });
-    } catch (err) {
-      return res.status(500).json({ message: "서버 에러" });
-    }
-  },
+  // finishReservations: async (req, res) => {
+  //   try {
+  //     const { boardId } = req.body;
+  //     const existReservations = await reservations.findOne({
+  //       where: { boardId },
+  //     });
+  //     if (existReservations) {
+  //       const { status } = req.body;
+  //       await reservations.update(
+  //         {
+  //           status,
+  //         },
+  //         {
+  //           where: { boardId },
+  //         }
+  //       );
+  //     }
+  //     return res.status(200).json({ message: "업데이트 완료" });
+  //   } catch (err) {
+  //     return res.status(500).json({ message: "서버 에러" });
+  //   }
+  // },
 
-  deleteReservations: async (req, res) => {
-    try {
-      const { boardId } = req.body;
-      const existReservations = await reservations.findOne({
-        where: { boardId },
-      });
-      if (existReservations) {
-        await reservations.destroy({
-          where: { boardId },
-        });
-      }
-      return res.status(200).json({ message: "삭제 완료" });
-    } catch (err) {
-      return res.status(500).json({ message: "서버 에러" });
-    }
-  },
+  // deleteReservations: async (req, res) => {
+  //   try {
+  //     const { boardId } = req.body;
+  //     const existReservations = await reservations.findOne({
+  //       where: { boardId },
+  //     });
+  //     if (existReservations) {
+  //       await reservations.destroy({
+  //         where: { boardId },
+  //       });
+  //     }
+  //     return res.status(200).json({ message: "삭제 완료" });
+  //   } catch (err) {
+  //     return res.status(500).json({ message: "서버 에러" });
+  //   }
+  // },
 
   createChat: async (req, res) => {
     const userInfo = isAuthorized(req);
     const { boardId } = req.params;
     if (userInfo) {
       try {
-        const createChat = await chatRooms.create({
+        const createChat = await chatrooms.create({
           boardId: boardId,
           userId: userInfo.id,
         });

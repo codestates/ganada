@@ -11,8 +11,8 @@ router.patch("/:id/changePassword", usersController.changePassword);
 
 router.delete("/:id", usersController.deleteUser);
 router.get("/", usersController.getUser);
-router.get("/:id/reviews", usersController.getReviews);
-router.post("/:id/reviews", usersController.postReviews);
+// router.get("/:id/reviews", usersController.getReviews);
+// router.post("/:id/reviews", usersController.postReviews);
 
 // 이미지 업로드용 라우터
 try {

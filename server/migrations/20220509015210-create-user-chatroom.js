@@ -1,14 +1,17 @@
 "use strict";
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("reservations", {
+    await queryInterface.createTable("user_chatrooms", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      status: {
+      userId: {
+        type: Sequelize.INTEGER,
+      },
+      chatroomId: {
         type: Sequelize.INTEGER,
       },
       boardId: {
@@ -25,6 +28,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("reservations");
+    await queryInterface.dropTable("user_chatrooms");
   },
 };
