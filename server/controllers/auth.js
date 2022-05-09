@@ -11,6 +11,7 @@ const {
   removeAccessToken,
   isAuthorized,
 } = require("../controllers/tokenFunctions");
+const { get } = require("../routes/auth");
 
 module.exports = {
   signUp: async (req, res) => {
@@ -90,7 +91,57 @@ module.exports = {
   },
 
   kakao: async (req, res) => {
-    return res.status(200).json({ message: "ok" });
+    // 클라이언트에서 전달받은 코드를 이용해서 카카오에 token 요청
+    const code = req.headers["authorization"];
+    // console.log(code);
+    try {
+      const token = await axios.post(
+        `https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id=${process.env.KAKAO_CLIENT_ID}&redirect_uri=${process.env.KAKAO_REDIRECT_URI}&code=${code}&client_secret=${process.env.KAKAO_CLIENT_SECRET}`,
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
+          },
+        }
+      );
+      // console.log(token.data);
+      // 카카오에서 발급받은 토큰으로 유저정보 요청
+      const kakaoUserInfo = await axios.get(
+        "https://kapi.kakao.com/v2/user/me",
+        {
+          headers: {
+            Authorization: `Bearer ${token.data.access_token}`,
+          },
+        }
+      );
+      // console.log(kakaoUserInfo.data);
+      const { email, profile } = kakaoUserInfo.data.kakao_account;
+      const userInfo = await Users.findOne({ where: { email } });
+      // 유저 정보가 있는지 확인
+      if (!userInfo) {
+        const newUserInfo = await Users.create({
+          email: email,
+          name: profile.nickname,
+          image: profile.profile_image_url,
+        });
+        console.log(newUserInfo);
+        const payload = {
+          newUserInfo,
+        };
+        // 토큰 생성 후 쿠키에 전달하고 클라이언트에 응답
+        const accessToken = generateAccessToken(payload);
+        res
+          .status(200)
+          .cookie("jwt", accessToken, {
+            maxAge: 24 * 6 * 60 * 10000,
+            sameSite: "none",
+            secure: true,
+            httpOnly: true,
+          })
+          .json({ token: accessToken, message: "로그인 성공" });
+      }
+    } catch (err) {
+      res.status(500).json({ message: "서버 에러" });
+    }
   },
 
   naver: async (req, res) => {
