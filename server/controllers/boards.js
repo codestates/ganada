@@ -1,3 +1,4 @@
+// const { users, boards, reservations, chatRooms } = require("../models");
 const { users, boards, chatrooms } = require("../models");
 const { isAuthorized } = require("./tokenFunctions");
 

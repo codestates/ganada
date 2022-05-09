@@ -20,6 +20,8 @@ import Chat from './pages/Chat';
 import MyList from './pages/MyList';
 import ModelDetail from './pages/ModelDetail';
 import Modal from './components/Modal';
+import ModifyPage from './pages/ModifyPage';
+import NotFound from './pages/NotFound';
 
 const cookies = new Cookies();
 const cookieToken = cookies.get('jwt');
@@ -149,7 +151,9 @@ function App() {
           />
         </Route>
         <Route path="/search" element={<SearchPage />} />
-        <Route path="/write" element={<WritingPage />} />
+        <Route path="/write/:id" element={<WritingPage />} />
+        <Route path="/modify" element={<ModifyPage />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
 
       <Footer />

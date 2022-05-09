@@ -1,23 +1,42 @@
 import axios from 'axios';
-import { useNavigate, useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import Image from '../components/Write/Image';
 import SelectPlaceModal from '../components/Write/SelectPlaceModal';
 import Tag from '../components/Search-list/Tag';
 
-function WritingPage({ role = 1 }) {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+function WritingPage() {
   const inputTitleRef = useRef(null);
-  const [title, setTitle] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [title, setTitle] = useState(''); // 15글자 + ...
   const [description, setDescription] = useState('');
-  const [tags, setTags] = useState([]);
-  const [place, setPlace] = useState('');
+  const [tagInfo, setTagInfo] = useState([]);
+  const [mainAddress, setMainAddress] = useState('');
   const [detailAddress, setDetailAddress] = useState('');
   const [coordinate, setCoordinate] = useState({});
   const [category, setCategory] = useState('');
+  const [images, setImages] = useState('');
+  const navigate = useNavigate();
+  const type = Number(useParams().id);
+  const reqData = {
+    category: 0,
+    title,
+    description,
+    tags: tagInfo.toString(),
+    latitude: coordinate.lat,
+    longitude: coordinate.lng,
+    mainAddress,
+    detailAddress,
+  };
 
   useEffect(() => {
     if (inputTitleRef.current !== null) inputTitleRef.current.focus();
   }, []);
+
+  useEffect(() => {
+    // console.log(images);
+    console.log(tagInfo);
+  }, [tagInfo]);
 
   const titleHandler = (e) => {
     setTitle(e.target.value);
@@ -32,47 +51,49 @@ function WritingPage({ role = 1 }) {
   };
 
   const modalHandler = (address, latlng) => {
-    if (isModalOpen && address) {
-      setPlace(address);
+    if (isModalOpen && address && latlng) {
+      setMainAddress(address);
+      setDetailAddress('');
       setCoordinate({ ...latlng });
     }
     setIsModalOpen(!isModalOpen);
   };
 
+  const cancleHandler = () => {
+    navigate(-1);
+  };
+
   const requestHandler = async () => {
-    if (!title || !description || !place || !detailAddress) {
+    if (!title || !description || !mainAddress || !detailAddress || !images) {
       alert('모든 항목이 입력되어야 합니다.');
     } else {
+      const data = new FormData();
+      for (const key in images) {
+        if (Object.prototype.hasOwnProperty.call(images, key)) {
+          data.append('file', images[key]);
+        }
+      }
       await axios
-        .post(
-          'http://localhost:4000/boards',
-          {
-            category: 0,
-            title,
-            image: 'abc',
-            description,
-            tags: tags.toString(),
-            sex: 'a',
-            age: 'c',
-            height: 'd',
-            weight: 'e',
-            latitude: coordinate.lat,
-            longitude: coordinate.lng,
-            mainAddress: place,
-            detailAddress,
-          },
-          { withCredentials: true },
-        )
+        .post('http://localhost:4000/boards/images', data, {
+          withCredentials: true,
+        })
         .then((result) => {
-          console.log(result);
+          console.log(result.status);
         });
     }
+    await axios
+      .post('http://localhost:4000/boards', reqData, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        console.log('요청 성공');
+      });
   };
 
   return (
     <div className="write-page-container">
       <div className="write-page-header">
-        <h2>{role ? '모델 등록' : '사진 작가 등록'} </h2>
+        <h2>{type ? '모델 등록' : '사진 작가 등록'} </h2>
       </div>
       <div className="title-container">
         <div className="title">
@@ -93,9 +114,7 @@ function WritingPage({ role = 1 }) {
           <span>이미지</span>
         </div>
         <div className="image-upload-area">
-          {[1, 2, 3].map((item) => {
-            return <Image key={item} />;
-          })}
+          <Image setImages={setImages} />
         </div>
       </div>
       <div className="introduction-container">
@@ -115,7 +134,12 @@ function WritingPage({ role = 1 }) {
           <span>촬영지</span>
         </div>
         <div className="search-place-wrapper">
-          <input className="show-address" type="text" disabled value={place} />
+          <input
+            className="show-address"
+            type="text"
+            disabled
+            value={mainAddress}
+          />
           <button
             type="button"
             className="btn-open-modal"
@@ -140,11 +164,11 @@ function WritingPage({ role = 1 }) {
           <span>컨셉</span>
         </div>
         <div className="tag-wrapper">
-          <Tag selected={role} setTags={setTags} />
+          <Tag type={type} setTagInfo={setTagInfo} />
         </div>
       </div>
       <div className="action-button">
-        <button className="cancle-button" type="button">
+        <button className="cancle-button" type="button" onClick={cancleHandler}>
           취소
         </button>
         <button

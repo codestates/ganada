@@ -1,3 +1,4 @@
+// const { users, reviews } = require("../models");
 const { users } = require("../models");
 const { isAuthorized } = require("./tokenFunctions");
 const bcrypt = require("bcrypt");

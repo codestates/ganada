@@ -29,7 +29,7 @@ const upload = multer({
     // 나중에는 반드시 S3로 대체해야한다. 재배포마다 용량 잡아먹어서 문제된다.
     destination(req, file, done) {
       console.log("여기서 에러");
-      done(null, "uploads/");
+      done(null, "uploads");
     },
     filename(req, file, done) {
       //   const ext = path.extname(file.originalname); // 확장자 추출(.png)
@@ -43,7 +43,7 @@ const upload = multer({
 router.post("/images", upload.single("file"), (req, res, next) => {
   console.log(req.files);
   // res.json({ url: `/uploads/${req.file.filename}` });
-  res.json({ url: `/uploads/${req.file.filename}` });
+  res.json(req.files.map((v) => v.filename));
   console.log(req.file.filename);
 });
 

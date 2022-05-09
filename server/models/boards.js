@@ -9,6 +9,9 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      // models.boards.hasMany(models.reservations);
+      // models.boards.hasMany(models.chatRooms);
+      // models.boards.belongsTo(models.users);
     }
   }
   boards.init(
@@ -25,6 +28,14 @@ module.exports = (sequelize, DataTypes) => {
       status: DataTypes.INTEGER,
       userId: DataTypes.INTEGER,
       // user 삭제 시 cascade를 통해 게시글 삭제
+      // userId: {
+      //   type: DataTypes.INTEGER,
+      //   references: {
+      //     model: "users",
+      //     key: "id",
+      //   },
+      //   onDelete: "cascade",
+      // },
     },
     {
       sequelize,

@@ -11,11 +11,11 @@ export default function Edit({ userInfo, isLogin, setModal, setUserInfo }) {
     phoneNumber: userInfo.phoneNumber,
   });
   const [err, setErr] = useState({});
-  const [file, setFile] = useState(null);
-  const [imageSrc, setImageSrc] = useState(
-    'https://static.nid.naver.com/images/web/user/default.png?type=s160',
-  );
-  const Folder = process.env.REACT_APP_IMAGE_FOLDER;
+  const [file, setFile] = useState('');
+  const [imageSrc, setImageSrc] = useState('');
+  const defaultImage =
+    'https://static.nid.naver.com/images/web/user/default.png?type=s160';
+  // const Folder = process.env.REACT_APP_IMAGE_FOLDER;
   const imagesPath = `http://localhost:4000/images/`;
 
   const handleInput = (e) => {
@@ -50,11 +50,10 @@ export default function Edit({ userInfo, isLogin, setModal, setUserInfo }) {
     setErr(errCheck(inputValue));
   };
 
-  // 이미지 변경
-
-  const encodeFile = (file1) => {
+  // 이미지 미리보기
+  const encodeFile = (e) => {
     const reader = new FileReader();
-    reader.readAsDataURL(file1);
+    reader.readAsDataURL(e);
     return new Promise(() => {
       reader.onload = () => {
         setImageSrc(reader.result);
@@ -62,13 +61,12 @@ export default function Edit({ userInfo, isLogin, setModal, setUserInfo }) {
     });
   };
 
-  useEffect(() => {}, [userInfo]);
   const deleteImg = () => {
-    setImageSrc(
-      'https://static.nid.naver.com/images/web/user/default.png?type=s160',
-    );
-    setFile(null);
+    setImageSrc(defaultImage);
+    setFile(defaultImage);
   };
+
+  console.log(file);
   const modifyUsersInfo = async () => {
     const patchData = {
       id: userInfo.id,
@@ -78,6 +76,7 @@ export default function Edit({ userInfo, isLogin, setModal, setUserInfo }) {
     if (file) {
       const data = new FormData();
       const fileName = Date.now() + file.name;
+      console.log(fileName);
       data.append('name', fileName);
       data.append('file', file);
       patchData.image = fileName;
@@ -117,7 +116,11 @@ export default function Edit({ userInfo, isLogin, setModal, setUserInfo }) {
       }
     }
   };
-
+  console.log(userInfo.image);
+  // 사진 삭제 누르면 이미지가 기본으로 바뀌어야함.
+  // 이미지를 누르면 파일로 바뀌어야함
+  // 파일을 누르면 내가지금 누른 이미지의 이미지가 바뀌어야함
+  // 만약 이미지가 null 일경우 naver
   return (
     <div className="mypage-content">
       <div className="inner">
@@ -132,10 +135,16 @@ export default function Edit({ userInfo, isLogin, setModal, setUserInfo }) {
                     사진삭제
                   </button>
                   <img
-                    src={file ? imageSrc : imagesPath + userInfo.image}
+                    src={
+                      // eslint-disable-next-line no-nested-ternary
+                      file
+                        ? imageSrc
+                        : userInfo.image === null
+                        ? defaultImage
+                        : imagesPath + userInfo.image
+                    }
                     alt="imagd"
                   />
-                  {/* {imageSrc && <img src={imageSrc} alt="preview-img" />} */}
                   <input
                     type="file"
                     id="file"
@@ -144,6 +153,7 @@ export default function Edit({ userInfo, isLogin, setModal, setUserInfo }) {
                       encodeFile(e.target.files[0]);
                       setFile(e.target.files[0]);
                     }}
+                    multiple
                   />
                   <label className="icon-wrap" htmlFor="file">
                     <MdPhotoCamera size="23" />

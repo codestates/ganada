@@ -9,6 +9,10 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      // models.users.hasMany(models.reviews);
+      // models.users.hasMany(models.chatContents);
+      // models.users.hasMany(models.boards);
+      // models.users.hasMany(models.chatRooms);
     }
   }
   users.init(
@@ -25,6 +29,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "users",
+      // tableName: "users",
     }
   );
   return users;

@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import { MdPhotoCamera } from 'react-icons/md';
 import { AiOutlinePlus } from 'react-icons/ai';
 
-function Image() {
+function Image({ setImages }) {
   const inputImageRef = useRef(null);
   const [imageSrc, setImageSrc] = useState('');
 
@@ -11,16 +11,23 @@ function Image() {
   };
 
   const imageUploadHandler = (e) => {
-    const file = e.target.files[0];
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => {
-      setImageSrc(reader.result);
-    };
+    const nowSelectImageList = e.target.files;
+    if (Object.keys(nowSelectImageList).length > 3) {
+      alert('이미지는 최대 3개까지 업로드 가능합니다.');
+      return;
+    }
+    setImages(nowSelectImageList);
+    const nowImageURLList = [...imageSrc];
+    for (let i = 0; i < nowSelectImageList.length; i += 1) {
+      const nowImageUrl = URL.createObjectURL(nowSelectImageList[i]);
+      nowImageURLList.push(nowImageUrl);
+    }
+    setImageSrc(nowImageURLList);
   };
 
   const deleteImageHandler = () => {
     setImageSrc('');
+    setImages('');
   };
 
   return (
@@ -36,9 +43,12 @@ function Image() {
           accept="image/jpg,image/png,image/jpeg"
           onChange={imageUploadHandler}
           ref={inputImageRef}
+          multiple
         />
         {imageSrc ? (
-          <img src={imageSrc} alt="preview-img" />
+          imageSrc.map((image) => {
+            return <img src={image} alt="preview-img" />;
+          })
         ) : (
           <>
             <MdPhotoCamera size="40" style={{ color: 'lightgray' }} />
