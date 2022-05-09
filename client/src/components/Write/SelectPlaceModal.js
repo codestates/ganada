@@ -1,5 +1,7 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
+import { ImCross } from 'react-icons/im';
 import Map from './Map';
+import { useOutsideClick } from '../../hooks/useOutsideClick';
 
 function SelectPlaceModal({ modalHandler }) {
   const [inputText, setInputText] = useState('');
@@ -9,6 +11,10 @@ function SelectPlaceModal({ modalHandler }) {
 
   function handleSubmit(e) {
     e.preventDefault();
+    if (!inputText) {
+      alert('검색어를 입력하세요');
+      return;
+    }
     setSearchValue(inputText);
     setInputText('');
   }
@@ -29,6 +35,7 @@ function SelectPlaceModal({ modalHandler }) {
           <button className="btn-search" type="button" onClick={handleSubmit}>
             검색
           </button>
+          <ImCross size="20" className="btn-cancle" onClick={modalHandler} />
         </form>
         <Map
           searchValue={searchValue}

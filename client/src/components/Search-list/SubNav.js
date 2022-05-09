@@ -1,17 +1,30 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useSearchParams, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect, useRef } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import Tag from './Tag';
+import { useOutsideClick } from '../../hooks/useOutsideClick';
 import { setType } from '../../redux/searchConditionSlice';
 
 function SubNav() {
   const [selected, setSelected] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
-  const navigate = useNavigate();
+  const dropdownRef = useRef(null);
+  const [isActive, setIsActive] = useOutsideClick(dropdownRef, false);
   const type = searchParams.get('type');
   const keyword = searchParams.get('keyword');
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (searchParams.get('type') === 'model') {
+      setIsClicked(!isClicked);
+      setSelected(!selected);
+    }
+  }, []);
+
+  const dropDownHandler = () => {
+    setIsActive(!isActive);
+  };
 
   const btnModelPhotograhper = () => {
     setIsClicked(!isClicked);
@@ -25,13 +38,6 @@ function SubNav() {
       setSearchParams({ type, keyword });
     }
   };
-
-  useEffect(() => {
-    if (searchParams.get('type') === 'model') {
-      setIsClicked(!isClicked);
-      setSelected(!selected);
-    }
-  }, []);
 
   return (
     <div className="searchPage-header">
@@ -62,16 +68,27 @@ function SubNav() {
             </button>
           </Link>
         </div>
-        <Tag selected={selected} />
+        <Tag type={type === 'model' ? 1 : 0} />
       </div>
       <div className="header-right">
-        <div>
-          <Link to="/write">
-            <button type="button" className="btn-write">
-              글쓰기
-            </button>
-          </Link>
-        </div>
+        <button
+          type="button"
+          onClick={dropDownHandler}
+          className="dropdown-trigger"
+          ref={dropdownRef}
+        >
+          글 쓰기
+        </button>
+        <nav className={`menu ${isActive ? 'active' : 'inactive'}`}>
+          <ul>
+            <li>
+              <Link to="/write/0">작가 등록</Link>
+            </li>
+            <li>
+              <Link to="/write/1">모델 등록</Link>
+            </li>
+          </ul>
+        </nav>
       </div>
     </div>
   );

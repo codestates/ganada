@@ -11,8 +11,8 @@ router.patch("/:id/changePassword", usersController.changePassword);
 
 router.delete("/:id", usersController.deleteUser);
 router.get("/", usersController.getUser);
-router.get("/:id/reviews", usersController.getReviews);
-router.post("/:id/reviews", usersController.postReviews);
+// router.get("/:id/reviews", usersController.getReviews);
+// router.post("/:id/reviews", usersController.postReviews);
 
 // 이미지 업로드용 라우터
 try {
@@ -41,10 +41,10 @@ const upload = multer({
 });
 
 router.post("/images", upload.single("file"), (req, res, next) => {
-  // console.log(req.files);
-  res.json({ url: `/uploads/${req.file.filename}` });
-  // res.json(req.files.map((v) => v.filename));
-  // console.log(req.file.filename);
+  console.log(req.files);
+  // res.json({ url: `/uploads/${req.file.filename}` });
+  res.json(req.file.filename);
+  console.log(req.file.filename);
 });
 
 //  /uploads/gunslinger1651603947316.png

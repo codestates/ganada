@@ -1,7 +1,7 @@
 "use strict";
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-  class chatContents extends Model {
+  class chatcontents extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -9,20 +9,22 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      models.chatContents.belongsTo(models.Users);
-      models.chatContents.belongsTo(models.chatRooms);
+      // models.chatContents.belongsTo(models.users);
+      // models.chatContents.belongsTo(models.chatRooms);
     }
   }
-  chatContents.init(
+  chatcontents.init(
     {
       chats: DataTypes.STRING,
       userId: DataTypes.INTEGER,
-      roomId: DataTypes.INTEGER,
+      // cascade를 통해 user 삭제 시 채팅방 기록 삭제
+      chatroomId: DataTypes.INTEGER,
+      // cascade를 통해 채팅방 삭제 시 기록 삭제
     },
     {
       sequelize,
-      modelName: "chatContents",
+      modelName: "chatcontents",
     }
   );
-  return chatContents;
+  return chatcontents;
 };

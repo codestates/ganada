@@ -1,17 +1,18 @@
 const nodemailer = require("nodemailer");
 const dotenv = require("dotenv");
 dotenv.config();
-const { Users } = require("../models");
+const { users } = require("../models");
 const code = Math.floor(Math.random() * 1000000);
 
 module.exports = {
   mailVerification: async (req, res) => {
     const { email } = req.body;
+    console.log(typeof users);
 
     if (!email) {
       return res.json({ message: "필수 항목을 입력하세요." });
     }
-    const USER = await Users.findOne({ where: { email } });
+    const USER = await users.findOne({ where: { email } });
     if (USER) {
       return res.json({ message: "이미 사용중인 이메일입니다." });
     } else {

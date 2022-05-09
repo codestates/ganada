@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const axios = require("axios");
 const bcrypt = require("bcrypt");
-const { Users } = require("../models");
+const { users } = require("../models");
 const dotenv = require("dotenv");
 dotenv.config();
 const random = require("./mailVerification");
@@ -29,8 +29,8 @@ module.exports = {
       return res.json({ message: "필수 항목을 입력하세요." });
     }
     try {
-      const userEmail = await Users.findOne({ where: { email } });
-      const userNickname = await Users.findOne({ where: { name } });
+      const userEmail = await users.findOne({ where: { email } });
+      const userNickname = await users.findOne({ where: { name } });
       const hashed = await bcrypt.hash(password, 10);
 
       if (Number(emailValidate) !== random.number) {
@@ -42,7 +42,7 @@ module.exports = {
       } else if (userNickname) {
         return res.json({ message: "중복된 닉네임입니다." });
       } else {
-        await Users.create({
+        await users.create({
           email,
           name,
           phoneNumber,
@@ -59,7 +59,7 @@ module.exports = {
     const { email, password } = req.body;
 
     try {
-      const user = await Users.findOne({ where: { email } });
+      const user = await users.findOne({ where: { email } });
       if (!user || !bcrypt.compareSync(password, user.dataValues.password)) {
         return res.json({ message: "잘못된 정보를 입력" });
       } else {
@@ -115,10 +115,10 @@ module.exports = {
       );
       // console.log(kakaoUserInfo.data);
       const { email, profile } = kakaoUserInfo.data.kakao_account;
-      const userInfo = await Users.findOne({ where: { email } });
+      const userInfo = await users.findOne({ where: { email } });
       // 유저 정보가 있는지 확인
       if (!userInfo) {
-        const newUserInfo = await Users.create({
+        const newUserInfo = await users.create({
           email: email,
           name: profile.nickname,
           image: profile.profile_image_url,
@@ -164,9 +164,9 @@ module.exports = {
       // const password = process.env.SOCIAL_LOGIN_PASSWORD;
       const image = naverUserInfo.response.profile_image;
 
-      let userInfo = await Users.findOne({ email });
+      let userInfo = await users.findOne({ email });
       if (!userInfo) {
-        userInfo = await Users.create({ email, name, password, image });
+        userInfo = await users.create({ email, name, password, image });
       }
       const accessToken = generateToken(userInfo, "accessToken"); //도형님이 만든 토큰명으로 변경하기
       const refreshToken = generateToken(userInfo, "refreshToken");

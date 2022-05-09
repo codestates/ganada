@@ -8,7 +8,6 @@ function MyList() {
 
   return (
     <div className="mylist-container">
-      <Header />
       {posts.map((post) => {
         return <List key={post.id} post={post} />;
       })}

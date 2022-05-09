@@ -3,12 +3,12 @@ import { IoIosArrowDropright, IoIosArrowDropleft } from 'react-icons/io';
 import { Link } from 'react-router-dom';
 
 const images = [
-  `${process.env.PUBLIC_URL}/img/jungleNuNu.jpg`,
-  `${process.env.PUBLIC_URL}/img/jungleNuNu2.jpg`,
-  `${process.env.PUBLIC_URL}/img/jungleNuNu3.jpg`,
+  `${process.env.PUBLIC_URL}/img/tpgus/gu_1.jpeg`,
+  `${process.env.PUBLIC_URL}/img/tpgus/gu_2.jpeg`,
+  `${process.env.PUBLIC_URL}/img/tpgus/gu_3.jpeg`,
 ];
 
-function ImageSlider({ image }) {
+function ImageSlider() {
   const TOTAL_SLIDES = images.length - 1;
   const [currentSlide, setCurrentSlide] = useState(0);
   const slideRef = useRef(null);
@@ -42,9 +42,9 @@ function ImageSlider({ image }) {
         <IoIosArrowDropleft className="nextBtn" />
       </button>
       <div className="sliderContainer" ref={slideRef}>
-        <img src={image[0]} alt="nunu1" />
-        <img src={image[1]} alt="nunu2" />
-        <img src={image[2]} alt="nunu3" />
+        <img src={images[0]} alt="nunu1" />
+        <img src={images[1]} alt="nunu2" />
+        <img src={images[2]} alt="nunu3" />
       </div>
     </div>
   );

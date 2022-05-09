@@ -9,40 +9,42 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      models.boards.hasMany(models.reservations);
-      models.boards.hasMany(models.chatRooms);
-      models.boards.belongsTo(models.Users);
+      // models.boards.hasMany(models.reservations);
+      // models.boards.hasMany(models.chatRooms);
+      // models.boards.belongsTo(models.users);
     }
   }
   boards.init(
     {
-      category: DataTypes.INTEGER,
-      title: DataTypes.STRING,
-      image: {
-        type: DataTypes.STRING,
-        allowNull: true,
+      category: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0,
       },
+      title: DataTypes.STRING,
+      image: DataTypes.STRING,
       description: DataTypes.STRING,
       tags: DataTypes.STRING,
       latitude: DataTypes.STRING,
       longitude: DataTypes.STRING,
       mainAddress: DataTypes.STRING,
       detailAddress: DataTypes.STRING,
+      status: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0,
+      },
       userId: {
         type: DataTypes.INTEGER,
         references: {
-          model: "Users",
+          model: "users",
           key: "id",
         },
         onDelete: "cascade",
+        onUpdate: "cascade",
       },
     },
     {
       sequelize,
       modelName: "boards",
-      charset: "utf8mb4",
-      collate: "utf8mb4_general_ci",
-      sequelize,
     }
   );
   return boards;

@@ -1,6 +1,7 @@
 .searchPage-container {
   width: 1320px;
   margin: 0 auto;
+
   .top-icon {
     position: fixed;
     bottom: 70px;
@@ -89,12 +90,48 @@
     }
 
     .header-right {
+      position: relative;
       width: 50%;
-      // border: 1px solid blue;
       display: flex;
-      align-items: end;
       justify-content: end;
-      .btn-write {
+      align-items: end;
+
+      .menu {
+        background: #ffffff;
+        border-radius: 8px;
+        position: absolute;
+        top: 90px;
+        right: 0;
+        width: 300px;
+        box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-20px);
+        transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s;
+      }
+
+      .menu.active {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+        z-index: 1;
+      }
+
+      .menu li {
+        border-bottom: 1px solid #dddddd;
+      }
+
+      .menu li a {
+        text-decoration: none;
+        color: #333333;
+        padding: 15px 20px;
+        display: block;
+        &:hover {
+          background: #e9e9e9;
+        }
+      }
+
+      .dropdown-trigger {
         cursor: pointer;
         width: 100px;
         height: 30px;
@@ -102,10 +139,11 @@
         background: rgb(255, 255, 255);
         margin: 0 10px 10px 0;
         &:hover {
-          background: #adadad;
-          transition: 0.1s;
-          color: white;
-          font-weight: bold;
+          box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
+          // background: #adadad;
+          // transition: 0.1s;
+          // color: white;
+          // font-weight: bold;
         }
       }
     }
@@ -118,7 +156,8 @@
     .post-wrapper {
       margin: 50px 20px 0 20px;
       width: 29%;
-      animation: fadein 2s;
+      // animation: fadein 2s;
+      animation: fadeInDown 1s ease-in-out;
       height: 500px;
       display: flex;
       box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.1);
@@ -257,13 +296,24 @@
         }
       }
     }
-    @keyframes fadein {
-      from {
+
+    @keyframes fadeInDown {
+      0% {
         opacity: 0;
+        transform: translateY(-70px);
       }
-      to {
+      100% {
         opacity: 1;
+        transform: none;
       }
     }
+    // @keyframes fadein {
+    //   from {
+    //     opacity: 0;
+    //   }
+    //   to {
+    //     opacity: 1;
+    //   }
+    // }
   }
 }

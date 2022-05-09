@@ -1,25 +1,22 @@
-import { createSlice } from '@reduxjs/tooklit';
-import { GiStarSattelites } from 'react-icons/gi';
+import { createSlice } from '@reduxjs/toolkit';
 
-const initialState = {
+const initialUserInfo = {
   email: '',
   name: '',
   phoneNumber: '',
   image: '',
-};
-// kind time agin ?
+}; // 유저 정보
 
 const userSlice = createSlice({
   name: 'user',
-  initialState: { accessToken: null, userInfo: initialState },
+  initialState: { accessToken: null, userInfo: initialUserInfo },
   reducers: {
     login: (state, action) => {
       state.userInfo = action.payload;
-      // state.userInfo.name
     },
-    logout: (state, action) => {
+    logout: (state) => {
       state.accessToken = null;
-      state.userInfo = initialState;
+      state.userInfo = initialUserInfo;
     },
   },
 });

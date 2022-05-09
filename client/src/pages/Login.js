@@ -2,7 +2,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useRef, useEffect, useState } from 'react';
 import axios from 'axios';
 
-export default function Login({ setIsLogin }) {
+export default function Login({ setIsLogin, getUserInfo }) {
   const inputRef = useRef(null);
   const navigate = useNavigate();
 
@@ -36,9 +36,6 @@ export default function Login({ setIsLogin }) {
               localStorage.setItem('Token', res.data.token);
               navigate('/');
             }
-          })
-          .then(() => {
-            setIsLogin(localStorage.getItem('Token'));
           });
       } catch (err) {
         console.log(err);
@@ -52,11 +49,11 @@ export default function Login({ setIsLogin }) {
 
   // kakao에 인가코드 요청
   // 받은 인가코드를 KakaoLogin 컴포넌트에서 서버로 전달
-  // const kakaoLoginHandler = () => {
-  //   window.location.assign(
-  //     `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=3c966eda204574d25499e2211ea62d5d&redirect_uri=http://localhost:3000/auth/kakao/callback`,
-  //   );
-  // };
+  const kakaoLoginHandler = () => {
+    window.location.assign(
+      `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=3c966eda204574d25499e2211ea62d5d&redirect_uri=http://localhost:3000/auth/kakao/callback`,
+    );
+  };
 
   return (
     <section className="login">
@@ -78,8 +75,7 @@ export default function Login({ setIsLogin }) {
               placeholder="비밀번호"
               onChange={handleInputValue('password')}
             />
-            <div className="signup-warning"> {errorMessage}</div>
-
+            <div className="signup-warning">{errorMessage}</div>
             <div className="btn-wrap">
               <button type="submit" className="login-btn">
                 로그인
@@ -93,7 +89,7 @@ export default function Login({ setIsLogin }) {
               <button
                 type="submit"
                 className="login-btn kakao"
-                // onClick={kakaoLoginHandler}
+                onClick={kakaoLoginHandler}
               >
                 <img
                   src="img/kakaologo.png"

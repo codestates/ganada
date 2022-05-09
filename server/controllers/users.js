@@ -1,4 +1,5 @@
-const { Users, reviews } = require("../models");
+// const { users, reviews } = require("../models");
+const { users } = require("../models");
 const { isAuthorized } = require("./tokenFunctions");
 const bcrypt = require("bcrypt");
 
@@ -8,12 +9,12 @@ module.exports = {
     const userInfo = isAuthorized(req);
     try {
       if (userInfo) {
-        const getUser = await Users.findOne({
+        const getUser = await users.findOne({
           attributes: ["id", "name", "phoneNumber", "image"],
           where: { id: userInfo.id },
         });
         if (getUser) {
-          await Users.update(
+          await users.update(
             {
               name,
               phoneNumber,
@@ -41,16 +42,16 @@ module.exports = {
     const userInfo = isAuthorized(req);
     try {
       if (userInfo) {
-        const getUser = await Users.findOne({
+        const getUser = await users.findOne({
           attributes: ["id", "password"],
           where: { id: userInfo.id },
         });
         if (getUser) {
-          if (userInfo.password !== currentPassword) {
+          if (!bcrypt.compareSync(currentPassword, getUser.password)) {
             return res.status(401).json({ message: "비밀번호가 틀렸습니다." });
           } else {
             const hashed = await bcrypt.hash(password, 10);
-            await Users.update(
+            await users.update(
               {
                 password: hashed,
               },
@@ -76,12 +77,12 @@ module.exports = {
 
     try {
       if (userInfo) {
-        const getUser = await Users.findOne({
+        const getUser = await users.findOne({
           attributes: ["id", "email", "name", "phoneNumber"],
           where: { id: userInfo.id },
         });
         if (getUser) {
-          await Users.destroy({ where: { id: userInfo.id } });
+          await users.destroy({ where: { id: userInfo.id } });
           return res.status(200).json({ message: "삭제 완료" });
         }
       } else {
@@ -97,7 +98,7 @@ module.exports = {
 
     try {
       if (userInfo) {
-        const getUser = await Users.findOne({
+        const getUser = await users.findOne({
           attributes: [
             "id",
             "email",
@@ -119,83 +120,83 @@ module.exports = {
     }
   },
 
-  getReviews: async (req, res) => {
-    try {
-      // 1차 테스트 완료
-      const { userId } = req.body;
-      const checkReview = await reviews.findAll({
-        attributes: ["kind", "time", "again"],
-        where: { userId },
-        include: [
-          {
-            model: Users,
-            attributes: ["name"],
-          },
-        ],
-      });
-      return res.status(200).json({ data: checkReview, message: "검색 완료" });
-    } catch (err) {
-      return res.status(500).json({ message: "서버 에러" });
-    }
-  },
+  // getReviews: async (req, res) => {
+  //   try {
+  //     // 1차 테스트 완료
+  //     const { userId } = req.body;
+  //     const checkReview = await reviews.findAll({
+  //       attributes: ["kind", "time", "again"],
+  //       where: { userId },
+  //       include: [
+  //         {
+  //           model: users,
+  //           attributes: ["name"],
+  //         },
+  //       ],
+  //     });
+  //     return res.status(200).json({ data: checkReview, message: "검색 완료" });
+  //   } catch (err) {
+  //     return res.status(500).json({ message: "서버 에러" });
+  //   }
+  // },
 
-  postReviews: async (req, res) => {
-    try {
-      const { kind, time, again, userId } = req.body;
-      const postReview = await reviews.create({
-        kind,
-        time,
-        again,
-        userId,
-        include: [
-          {
-            model: Users,
-            attributes: ["name"],
-          },
-        ],
-      });
-      return res.status(200).json({ data: postReview, message: "작성 완료" });
-    } catch (err) {
-      return res.status(500).json({ message: "서버 에러" });
-    }
-  },
+  // postReviews: async (req, res) => {
+  //   try {
+  //     const { kind, time, again, userId } = req.body;
+  //     const postReview = await reviews.create({
+  //       kind,
+  //       time,
+  //       again,
+  //       userId,
+  //       include: [
+  //         {
+  //           model: users,
+  //           attributes: ["name"],
+  //         },
+  //       ],
+  //     });
+  //     return res.status(200).json({ data: postReview, message: "작성 완료" });
+  //   } catch (err) {
+  //     return res.status(500).json({ message: "서버 에러" });
+  //   }
+  // },
 
-  getReviews: async (req, res) => {
-    try {
-      // 1차 테스트 완료
-      const { id } = req.params;
-      const checkReview = await reviews.findOne({
-        attributes: ["kind", "time", "again"],
-        where: { id },
-        include: [
-          {
-            model: Users,
-            attributes: ["name"],
-          },
-        ],
-      });
-      return res.status(200).json({ data: checkReview, message: "검색 완료" });
-    } catch (err) {
-      return res.status(500).json({ message: "서버 에러" });
-    }
-  },
+  // getReviews: async (req, res) => {
+  //   try {
+  //     // 1차 테스트 완료
+  //     const { id } = req.params;
+  //     const checkReview = await reviews.findOne({
+  //       attributes: ["kind", "time", "again"],
+  //       where: { id },
+  //       include: [
+  //         {
+  //           model: users,
+  //           attributes: ["name"],
+  //         },
+  //       ],
+  //     });
+  //     return res.status(200).json({ data: checkReview, message: "검색 완료" });
+  //   } catch (err) {
+  //     return res.status(500).json({ message: "서버 에러" });
+  //   }
+  // },
 
-  postReviews: async (req, res) => {
-    try {
-      const { kind, time, again, userId } = req.body;
-      await reviews.update(
-        {
-          kind: kind,
-          time: time,
-          again: again,
-        },
-        {
-          where: { userId },
-        }
-      );
-      return res.status(200).json({ message: "증가" });
-    } catch (err) {
-      return res.status(500).json({ message: "서버 에러" });
-    }
-  },
+  // postReviews: async (req, res) => {
+  //   try {
+  //     const { kind, time, again, userId } = req.body;
+  //     await reviews.update(
+  //       {
+  //         kind: kind,
+  //         time: time,
+  //         again: again,
+  //       },
+  //       {
+  //         where: { userId },
+  //       }
+  //     );
+  //     return res.status(200).json({ message: "증가" });
+  //   } catch (err) {
+  //     return res.status(500).json({ message: "서버 에러" });
+  //   }
+  // },
 };

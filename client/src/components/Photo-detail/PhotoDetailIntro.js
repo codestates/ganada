@@ -1,3 +1,5 @@
+import { useSelector } from 'react-redux';
+
 function PhotoDetailIntro({ isLogin }) {
   return (
     <div className="intro-container">

@@ -3,15 +3,13 @@ import { RiLogoutBoxRLine } from 'react-icons/ri';
 import { FaUserCircle, FaRegEdit } from 'react-icons/fa';
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { setKeyword } from '../redux/searchConditionSlice';
 
-export default function Header({
-  handleLogout,
-  userInfo,
-  isLogin,
-  cookieToken,
-}) {
+export default function Header({ handleLogout, cookieToken, isLogin }) {
+  const userINfo = useSelector((state) => state.userInfo);
+  const { token } = useSelector((state) => state.auth);
+
   const location = useLocation();
   const [scrollPosition, setScrollPosition] = useState(0);
   const [isTrue, setIsTrue] = useState(false);
@@ -34,14 +32,14 @@ export default function Header({
 
   useEffect(() => {
     window.addEventListener('scroll', updateScroll);
-  });
+  }, []);
 
   // 헤더 숨길 경로
-  const hideHeader = ['/login', '/signup', '/write'];
+  const hideHeader = ['/login', '/signup'];
   if (hideHeader.includes(location.pathname)) {
     return null;
   }
-  if (isLogin && cookieToken) {
+  if (token && cookieToken) {
     return (
       <header className={scrollPosition ? 'header-active' : ''}>
         <div className="inner">
@@ -79,16 +77,16 @@ export default function Header({
                 <div className="profile">
                   <img
                     src={
-                      userInfo.image === null
+                      userINfo.image === null
                         ? 'https://static.nid.naver.com/images/web/user/default.png?type=s160'
-                        : imagesPath + userInfo.image
+                        : imagesPath + userINfo.image
                     }
                     alt=""
                   />
                 </div>
                 <div className={isTrue ? 'list active' : 'list'}>
                   <h3>
-                    {userInfo.name}님 <br />
+                    {userINfo.name}님 <br />
                     <span>환영합니다!</span>
                   </h3>
                   <ul>

@@ -8,7 +8,7 @@ function PhotoDetailModal({ handleModal }) {
   const url = window.location.href;
   const [isShow, setIsShow] = useState(false);
 
-  const handleShow = () => {
+  const showBoxHandler = () => {
     setIsShow(!isShow);
   };
 
@@ -27,7 +27,7 @@ function PhotoDetailModal({ handleModal }) {
               <button
                 type="button"
                 className="copy-link-btn"
-                onClick={handleShow}
+                onClick={showBoxHandler}
               >
                 <BiCopy className="copy-icon" />
                 링크복사

@@ -1,0 +1,77 @@
+{
+  "chatRooms": [
+    {
+      "id": 0,
+      "users": [
+        {
+          "id": 1,
+          "name": "유정이",
+          "image": "https://static.independent.co.uk/s3fs-public/thumbnails/image/2017/09/27/08/jennifer-lawrence.jpg?quality=75&width=982&height=726&auto=webp"
+        },
+        {
+          "id": 11,
+          "name": "운영자",
+          "image": "https://static.independent.co.uk/s3fs-public/thumbnails/image/2017/09/27/08/jennifer-lawrence.jpg?quality=75&width=982&height=726&auto=webp"
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "users": [
+        {
+          "id": 13,
+          "name": "하이용",
+          "image": "https://static.independent.co.uk/s3fs-public/thumbnails/image/2017/09/27/08/jennifer-lawrence.jpg?quality=75&width=982&height=726&auto=webp"
+        },
+        {
+          "id": 11,
+          "name": "운영자",
+          "image": "https://static.independent.co.uk/s3fs-public/thumbnails/image/2017/09/27/08/jennifer-lawrence.jpg?quality=75&width=982&height=726&auto=webp"
+        }
+      ]
+    }
+  ],
+  "chatContents": [
+    {
+      "id": 1,
+      "userId": 11,
+      "createdAt": "2022-04-24:24:12:12",
+      "chats": "하이!",
+      "chatRoomId": 0
+    },
+    {
+      "id": 2,
+      "userId": 1,
+      "createdAt": "2022-04-24:24:12:10",
+      "chats": "hello!!!",
+      "chatRoomId": 0
+    },
+    {
+      "id": 3,
+      "userId": 11,
+      "createdAt": "2022-04-24:24:12:09",
+      "chats": "헬로우 월드입니다!! 오늘 시간 괜찮으신가요 !!!!!!",
+      "chatRoomId": 0
+    },
+    {
+      "id": 4,
+      "userId": 11,
+      "createdAt": "2022-04-24:24:12:12",
+      "chats": "하이!",
+      "chatRoomId": 1
+    },
+    {
+      "id": 5,
+      "userId": 13,
+      "createdAt": "2022-04-24:24:12:10",
+      "chatRoomId": 1
+    },
+    {
+      "id": 6,
+      "userId": 11,
+      "createdAt": "2022-04-24:24:12:09",
+      "chats": "모델구하시는거 맞냐구요 ㅋ ㅋㅋㅋㅋㅋㅋㅋㅋ",
+      "chatRoomId": 1
+    }
+  ]
+}
