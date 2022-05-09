@@ -67,6 +67,7 @@ function WritingPage() {
     if (!title || !description || !mainAddress || !detailAddress || !images) {
       alert('모든 항목이 입력되어야 합니다.');
     } else {
+      navigate('/photodetail', { state: { status: 1 }, replace: true });
       const data = new FormData();
       for (const key in images) {
         if (Object.prototype.hasOwnProperty.call(images, key)) {

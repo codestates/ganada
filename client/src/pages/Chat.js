@@ -1,22 +1,33 @@
 import { IoMdSend } from 'react-icons/io';
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import Picker from 'emoji-picker-react';
 import { MdInsertEmoticon } from 'react-icons/md';
+import { io } from 'socket.io-client';
 import ChatRooms from '../components/Chats/ChatRooms';
 import Message from '../components/Chats/Message';
 import Reservation from '../components/Chats/Reservation';
 import MessageNull from '../components/Chats/MessageNull';
 import RecieverName from '../components/Chats/RecieverName';
 
-export default function Chat({ userInfo }) {
+export default function Chat() {
   const [chatRooms, setChatRooms] = useState([]);
   const [receiverUser, setReceiverUser] = useState([]);
   const [message, setMessage] = useState(null);
+  const socket = useRef(io('ws://localhost:4100'));
   const [newMessage, setNewMessage] = useState('');
   const { chatRoomId } = useParams();
   const [showEmoji, setShowEmojij] = useState(false);
+  const userInfo = useSelector((state) => state.userInfo);
+
+  useEffect(() => {
+    socket.current.emit('addUser', userInfo.id);
+    socket.current.on('getUsers', (users) => {
+      console.log(users);
+    });
+  }, [userInfo]);
 
   const emojiShowHide = () => {
     setShowEmojij(!showEmoji);

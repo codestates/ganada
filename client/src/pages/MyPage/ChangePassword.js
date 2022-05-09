@@ -1,13 +1,12 @@
 import { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
-export default function ChangePassword({
-  userInfo,
-  isLogin,
-  setModal,
-  setUserInfo,
-}) {
+export default function ChangePassword({ setModal }) {
+  const userInfo = useSelector((state) => state.userInfo);
+  const { token } = useSelector((state) => state.auth);
+
   const [inputPassword, setinputPassword] = useState({
     currentPassword: '',
     password: '',
@@ -47,9 +46,6 @@ export default function ChangePassword({
   const focusBlur = (e) => {
     setErr(errCheck(inputPassword));
   };
-  console.log(userInfo);
-  console.log(inputPassword);
-
   const modifyPassword = async () => {
     if (Object.keys(err).length !== 0) {
       setModal({
@@ -67,7 +63,7 @@ export default function ChangePassword({
               rePassword: inputPassword.rePassword,
             },
             {
-              headers: { authorization: `Bearer ${isLogin}` },
+              headers: { authorization: `Bearer ${token}` },
             },
             {
               withCredentials: true,
@@ -78,12 +74,13 @@ export default function ChangePassword({
               open: true,
               title: '변경이 완료되었습니다.',
               callback: () => {
-                navigate('/mypage/edit');
+                navigate('/mypage/change-password');
               },
             });
           });
       } catch (error) {
-        if (error.response.data.message === '비밀번호가 일치하지 않습니다.') {
+        console.log(error);
+        if (error.response.data.message === '비밀번호가 틀렸습니다.') {
           setModal({
             open: true,
             title: '현재 비밀 번호가 일치하지 않습니다.',
@@ -133,7 +130,9 @@ export default function ChangePassword({
             </div>
           </div>
           <div className="btn-wrap">
-            <button type="submit"> 취소 </button>
+            <Link to="/">
+              <button type="submit"> 취소 </button>
+            </Link>
             <button type="submit" className="active" onClick={modifyPassword}>
               적용
             </button>

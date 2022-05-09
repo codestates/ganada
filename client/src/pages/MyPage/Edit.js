@@ -1,11 +1,14 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import { MdPhotoCamera } from 'react-icons/md';
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 
-export default function Edit({ userInfo, isLogin, setModal, setUserInfo }) {
-  const navigate = useNavigate();
+export default function Edit({ setModal, getUserInfo }) {
+  const userInfo = useSelector((state) => state.userInfo);
+  const { token } = useSelector((state) => state.auth);
+
   const [inputValue, setInputValue] = useState({
     name: userInfo.name,
     phoneNumber: userInfo.phoneNumber,
@@ -15,7 +18,6 @@ export default function Edit({ userInfo, isLogin, setModal, setUserInfo }) {
   const [imageSrc, setImageSrc] = useState('');
   const defaultImage =
     'https://static.nid.naver.com/images/web/user/default.png?type=s160';
-  // const Folder = process.env.REACT_APP_IMAGE_FOLDER;
   const imagesPath = `http://localhost:4000/images/`;
 
   const handleInput = (e) => {
@@ -25,6 +27,7 @@ export default function Edit({ userInfo, isLogin, setModal, setUserInfo }) {
       [name]: value,
     });
   };
+
   // error test
   const errCheck = (value) => {
     const errors = {};
@@ -61,15 +64,16 @@ export default function Edit({ userInfo, isLogin, setModal, setUserInfo }) {
     });
   };
 
+  // 이미지 삭제
   const deleteImg = () => {
     setImageSrc(defaultImage);
     setFile(defaultImage);
   };
 
-  console.log(file);
-  const modifyUsersInfo = async () => {
+  // 개인정보 수정
+  const modifyUsersInfo = async (e) => {
+    e.preventDefault();
     const patchData = {
-      id: userInfo.id,
       name: inputValue.name,
       phoneNumber: inputValue.phoneNumber,
     };
@@ -98,23 +102,24 @@ export default function Edit({ userInfo, isLogin, setModal, setUserInfo }) {
             `http://localhost:4000/users/${userInfo.id}/changeInfo`,
             patchData,
             {
-              headers: { authorization: `Bearer ${isLogin}` },
+              headers: { authorization: `Bearer ${token}` },
             },
             {
               withCredentials: true,
             },
           )
           .then((res) => {
-            setUserInfo({ ...userInfo, ...res.data.data });
             setModal({
               open: true,
               title: '변경이 완료되었습니다.',
+              callback: () => {},
             });
           });
       } catch (error) {
         console.log(error);
       }
     }
+    getUserInfo();
   };
   console.log(userInfo.image);
   // 사진 삭제 누르면 이미지가 기본으로 바뀌어야함.
@@ -191,9 +196,11 @@ export default function Edit({ userInfo, isLogin, setModal, setUserInfo }) {
             </tr>
           </tbody>
           <div className="btn-wrap">
-            <button className={err === null ? 'active' : null} type="submit">
-              취소
-            </button>
+            <Link to="/">
+              <button className={err === null ? 'active' : null} type="submit">
+                취소
+              </button>
+            </Link>
             <button type="submit" className="active" onClick={modifyUsersInfo}>
               적용
             </button>
