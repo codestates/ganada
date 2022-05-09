@@ -1,4 +1,4 @@
-const { Users, boards, reservations, chatRooms } = require("../models");
+const { users, boards, reservations, chatRooms } = require("../models");
 const { isAuthorized } = require("./tokenFunctions");
 
 module.exports = {
@@ -19,7 +19,7 @@ module.exports = {
         order: [["createdAt", "DESC"]],
         include: [
           {
-            model: Users,
+            model: users,
             attributes: ["id", "name"],
           },
         ],
@@ -38,7 +38,7 @@ module.exports = {
         where: { id },
         include: [
           {
-            model: Users,
+            model: users,
             attributes: ["name"],
           },
         ],

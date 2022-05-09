@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       models.boards.hasMany(models.reservations);
       models.boards.hasMany(models.chatRooms);
-      models.boards.belongsTo(models.Users);
+      models.boards.belongsTo(models.users);
     }
   }
   boards.init(
@@ -31,7 +31,7 @@ module.exports = (sequelize, DataTypes) => {
       userId: {
         type: DataTypes.INTEGER,
         references: {
-          model: "Users",
+          model: "users",
           key: "id",
         },
         onDelete: "cascade",

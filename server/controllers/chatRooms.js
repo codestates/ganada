@@ -1,4 +1,4 @@
-const chatRooms = require("../models/chatRooms");
+const chatRooms = require("../models/chatrooms");
 const { boards, users } = require("../models");
 const { isAuthorized } = require("./tokenFunctions");
 

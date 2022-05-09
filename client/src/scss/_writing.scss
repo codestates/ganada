@@ -3,15 +3,14 @@ $radius: 10px;
 .write-page-container {
   width: 1320px;
   margin: 0 auto;
-  margin-top: 50px;
   span {
     font-weight: 500;
   }
   .write-page-header {
+    padding-top: 100px;
     display: flex;
     justify-content: center;
   }
-
   .title-container {
     width: 100%;
     display: flex;
@@ -174,8 +173,10 @@ $radius: 10px;
     .show-address {
       border: 1px solid rgb(211, 211, 211);
       font-weight: bold;
-      padding: 5px;
+      padding-left: 15px;
       width: 50%;
+      background-color: #eeeeee;
+      text-align: left;
     }
     .btn-open-modal {
       color: rgb(255, 255, 255);
@@ -229,6 +230,8 @@ $radius: 10px;
         width: 100%;
         display: flex;
         justify-content: center;
+        align-items: center;
+        position: relative;
         input {
           width: 40%;
         }
@@ -239,7 +242,16 @@ $radius: 10px;
           background-color: #adadad;
           border: 1px solid #adadad;
           border-radius: $radius;
-          padding: 0 1.5rem;
+          // width: 7%;
+          padding: 10px 20px;
+          cursor: pointer;
+        }
+
+        .btn-cancle {
+          position: absolute;
+          right: 20px;
+          color: #adadad;
+          cursor: pointer;
         }
       }
 
@@ -249,6 +261,7 @@ $radius: 10px;
         width: 100%;
         display: flex;
         justify-content: center;
+        align-items: center;
 
         input {
           width: 40%;
@@ -263,6 +276,7 @@ $radius: 10px;
           background-color: #adadad;
           border: 1px solid #adadad;
           border-radius: $radius;
+          cursor: pointer;
         }
       }
     }

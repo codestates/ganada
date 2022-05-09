@@ -44,15 +44,19 @@ const upload = multer({
   limits: { fileSize: 5 * 1024 * 1024 }, // 5MB
 });
 
+let fileNames = [];
 router.post("/images", upload.array("file"), (req, res, next) => {
-  console.log(req.files);
+  // console.log(req);
   // res.json({ url: `/uploads/${req.file.filename}` });
+  req.files.forEach((v) => {
+    fileNames.push(`${v.filename}`);
+  });
   res.json(req.files.map((v) => v.filename));
-  console.log(req.file.filename);
 });
 
 //  /uploads/gunslinger1651603947316.png
-router.post("/", upload.single("file"), async (req, res, next) => {
+router.post("/", async (req, res, next) => {
+  // console.log(req.files);
   try {
     const {
       category,
@@ -73,7 +77,7 @@ router.post("/", upload.single("file"), async (req, res, next) => {
       longitude,
       mainAddress,
       detailAddress,
-      image: `/uploads/${req.file.filename}`,
+      image: `${fileNames}`,
     });
     return res.status(200).json({ data: createBoards, message: "작성 완료" });
   } catch (err) {

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { BsFillArrowUpCircleFill } from 'react-icons/bs';
 import { useSelector, useDispatch } from 'react-redux';
 import SubNav from '../components/Search-list/SubNav';
@@ -62,8 +62,8 @@ const images = {
 
 function SearchPage() {
   const [topBtn, setTopBtn] = useState(false);
+  const outterRef = useRef();
   const { keyword, tags, type } = useSelector((state) => state.searchCondition);
-  const dispatch = useDispatch();
 
   const goToTopHandler = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -90,8 +90,8 @@ function SearchPage() {
   }, [tags, type, keyword]);
 
   return (
-    <div className="searchPage-container">
-      <SubNav />
+    <div className="searchPage-container" ref={outterRef}>
+      <SubNav dropdownRef={outterRef} />
       <div className="searchPage-body">
         {['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'].map((item) => {
           return <Post key={item} image={images[item]} />;

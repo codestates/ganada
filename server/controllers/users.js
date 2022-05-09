@@ -1,4 +1,4 @@
-const { Users, reviews } = require("../models");
+const { users, reviews } = require("../models");
 const { isAuthorized } = require("./tokenFunctions");
 const bcrypt = require("bcrypt");
 
@@ -8,12 +8,12 @@ module.exports = {
     const userInfo = isAuthorized(req);
     try {
       if (userInfo) {
-        const getUser = await Users.findOne({
+        const getUser = await users.findOne({
           attributes: ["id", "name", "phoneNumber", "image"],
           where: { id: userInfo.id },
         });
         if (getUser) {
-          await Users.update(
+          await users.update(
             {
               name,
               phoneNumber,
@@ -41,7 +41,7 @@ module.exports = {
     const userInfo = isAuthorized(req);
     try {
       if (userInfo) {
-        const getUser = await Users.findOne({
+        const getUser = await users.findOne({
           attributes: ["id", "password"],
           where: { id: userInfo.id },
         });
@@ -50,7 +50,7 @@ module.exports = {
             return res.status(401).json({ message: "비밀번호가 틀렸습니다." });
           } else {
             const hashed = await bcrypt.hash(password, 10);
-            await Users.update(
+            await users.update(
               {
                 password: hashed,
               },
@@ -76,12 +76,12 @@ module.exports = {
 
     try {
       if (userInfo) {
-        const getUser = await Users.findOne({
+        const getUser = await users.findOne({
           attributes: ["id", "email", "name", "phoneNumber"],
           where: { id: userInfo.id },
         });
         if (getUser) {
-          await Users.destroy({ where: { id: userInfo.id } });
+          await users.destroy({ where: { id: userInfo.id } });
           return res.status(200).json({ message: "삭제 완료" });
         }
       } else {
@@ -97,7 +97,7 @@ module.exports = {
 
     try {
       if (userInfo) {
-        const getUser = await Users.findOne({
+        const getUser = await users.findOne({
           attributes: [
             "id",
             "email",
@@ -128,7 +128,7 @@ module.exports = {
         where: { userId },
         include: [
           {
-            model: Users,
+            model: users,
             attributes: ["name"],
           },
         ],
@@ -149,7 +149,7 @@ module.exports = {
         userId,
         include: [
           {
-            model: Users,
+            model: users,
             attributes: ["name"],
           },
         ],
@@ -169,7 +169,7 @@ module.exports = {
         where: { id },
         include: [
           {
-            model: Users,
+            model: users,
             attributes: ["name"],
           },
         ],
