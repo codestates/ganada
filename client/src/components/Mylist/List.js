@@ -17,9 +17,7 @@ function List({ post, token }) {
     <div className="mylist-body">
       <div className="slider-container">
         <ul>
-          <li className="image-list">
-            <ImageSlider />
-          </li>
+          <li className="image-list">{/* <ImageSlider /> */}</li>
         </ul>
       </div>
       <div className="descript-container">

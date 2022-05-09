@@ -18,13 +18,13 @@ module.exports = {
           "mainAddress",
           "detailAddress",
         ],
-        order: [["createdAt", "DESC"]],
-        include: [
-          {
-            model: Users,
-            attributes: ["id", "name"],
-          },
-        ],
+        // order: [["createdAt", "DESC"]],
+        // include: [
+        //   {
+        //     model: Users,
+        //     attributes: ["id", "name"],
+        //   },
+        // ],
       });
       return res.json({ data: searchPosts, message: "조회 완료" });
     } catch (err) {

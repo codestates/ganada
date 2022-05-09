@@ -10,21 +10,21 @@ module.exports = {
       },
       userId: {
         type: Sequelize.INTEGER,
-        references: {
-          model: "Users",
-          key: "id",
-        },
-        onDelete: "cascade",
-        onUpdate: "cascade",
+        // references: {
+        //   model: "Users",
+        //   key: "id",
+        // },
+        // onDelete: "cascade",
+        // onUpdate: "cascade",
       },
       receiverId: {
         type: Sequelize.INTEGER,
-        references: {
-          model: "Users",
-          key: "id",
-        },
-        onDelete: "cascade",
-        onUpdate: "cascade",
+        // references: {
+        //   model: "Users",
+        //   key: "id",
+        // },
+        // onDelete: "cascade",
+        // onUpdate: "cascade",
       },
       boardId: {
         type: Sequelize.INTEGER,

@@ -15,10 +15,24 @@ function WritingPage({ role = 1 }) {
   const [coordinate, setCoordinate] = useState({});
   const [category, setCategory] = useState('');
   const [images, setImages] = useState('');
+  const reqData = {
+    category: 0,
+    title,
+    description,
+    tags: tags.toString(),
+    latitude: coordinate.lat,
+    longitude: coordinate.lng,
+    mainAddress,
+    detailAddress,
+  };
 
   useEffect(() => {
     if (inputTitleRef.current !== null) inputTitleRef.current.focus();
   }, []);
+
+  useEffect(() => {
+    // console.log(images);
+  }, [images]);
 
   const titleHandler = (e) => {
     setTitle(e.target.value);
@@ -41,33 +55,30 @@ function WritingPage({ role = 1 }) {
   };
 
   const requestHandler = async () => {
-    if (!title || !description || !mainAddress || !detailAddress) {
+    if (!title || !description || !mainAddress || !detailAddress || !images) {
       alert('모든 항목이 입력되어야 합니다.');
     } else {
+      const data = new FormData();
+      for (const key in images) {
+        if (Object.prototype.hasOwnProperty.call(images, key)) {
+          data.append('file', images[key]);
+        }
+      }
       await axios
-        .post(
-          'http://localhost:4000/boards',
-          {
-            category: 0,
-            title,
-            image: 'abc',
-            description,
-            tags: tags.toString(),
-            // sex: 'a',
-            // age: 'c',
-            // height: 'd',
-            // weight: 'e',
-            latitude: coordinate.lat,
-            longitude: coordinate.lng,
-            mainAddress,
-            detailAddress,
-          },
-          { withCredentials: true },
-        )
+        .post('http://localhost:4000/boards/images', data, {
+          withCredentials: true,
+        })
         .then((result) => {
           console.log(result);
         });
     }
+    await axios
+      .post('http://localhost:4000/boards', reqData, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        console.log('요청 성공');
+      });
   };
 
   return (
@@ -94,7 +105,7 @@ function WritingPage({ role = 1 }) {
           <span>이미지</span>
         </div>
         <div className="image-upload-area">
-          <Image />
+          <Image setImages={setImages} />
         </div>
       </div>
       <div className="introduction-container">
@@ -144,7 +155,7 @@ function WritingPage({ role = 1 }) {
           <span>컨셉</span>
         </div>
         <div className="tag-wrapper">
-          <Tag selected={role} setTags={setTags} />
+          <Tag selected={role} setTagss={setTags} />
         </div>
       </div>
       <div className="action-button">

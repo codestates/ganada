@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { setTags } from '../../redux/searchConditionSlice';
 
-function Tag({ selected }) {
+function Tag({ selected, setTagss }) {
   const modelTags = ['청순', '섹시', '귀염', '도도', '지적', '날씬', '순수'];
   const photographerTags = ['실내촬영', '실외촬영', '노출촬영', '부분노출'];
   const [selectedTags, setSelectedTags] = useState([]);
@@ -14,12 +14,14 @@ function Tag({ selected }) {
       tags = tags.filter((tag) => tag !== e.target.textContent);
       setSelectedTags(tags);
       dispatch(setTags(tags));
+      setTagss(tags);
     } else {
       e.target.classList.add('selected');
       const tags = selectedTags.slice();
       tags.push(e.target.textContent);
       setSelectedTags(tags);
       dispatch(setTags(tags));
+      setTagss(tags);
     }
   };
   useEffect(() => {

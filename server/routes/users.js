@@ -41,11 +41,18 @@ const upload = multer({
 });
 
 router.post("/images", upload.single("file"), (req, res, next) => {
-  console.log(req.files);
-  // res.json({ url: `/uploads/${req.file.filename}` });
-  res.json(req.files.map((v) => v.filename));
-  console.log(req.file.filename);
+  // console.log(req.files);
+  res.json({ url: `/uploads/${req.file.filename}` });
+  // res.json(req.files.map((v) => v.filename));
+  // console.log(req.file.filename);
 });
 
 //  /uploads/gunslinger1651603947316.png
 module.exports = router;
+
+// //
+// 서버 폴더에 저장이 됨
+// db에도 파일 경로든 이름이든 저장됨.
+
+// 클라이언트한테 어떤식으로 전달하면 클라이언트가 그걸 받아서
+// 바로 적용이 가능?

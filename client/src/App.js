@@ -21,6 +21,7 @@ import MyList from './pages/MyList';
 import ModelDetail from './pages/ModelDetail';
 import Modal from './components/Modal';
 import NotFound from './pages/NotFound';
+import KakaoLogin from './components/KakaoLogin';
 
 const cookies = new Cookies();
 const cookieToken = cookies.get('jwt');
@@ -114,41 +115,44 @@ function App() {
         <Route path="/photodetail" element={<PhotoDetail />} />
         <Route path="/modeldetail" element={<ModelDetail />} />
         <Route path="/mylist" element={<MyList />} />
-        <Route path="/mypage" element={<MyPage userInfo={userInfo} />}>
-          <Route
-            path="edit"
-            element={
-              <Edit
-                userInfo={userInfo}
-                setUserInfo={setUserInfo}
-                isLogin={isLogin}
-                setModal={setModal}
-              />
-            }
-          />
-          <Route
-            path="change-password"
-            element={
-              <ChangePassword
-                userInfo={userInfo}
-                isLogin={isLogin}
-                setModal={setModal}
-              />
-            }
-          />
-          <Route
-            path="leave"
-            element={
-              <LeaveId
-                userInfo={userInfo}
-                isLogin={isLogin}
-                setModal={setModal}
-                setIsLogin={setIsLogin}
-                setUserInfo={setUserInfo}
-              />
-            }
-          />
-        </Route>
+        <Route
+          path="/auth/kakao/callback"
+          element={<KakaoLogin setIsLogin={setIsLogin} />}
+        />
+        <Route path="/mypage" element={<MyPage userInfo={userInfo} />} />
+        <Route
+          path="edit"
+          element={
+            <Edit
+              userInfo={userInfo}
+              setUserInfo={setUserInfo}
+              isLogin={isLogin}
+              setModal={setModal}
+            />
+          }
+        />
+        <Route
+          path="change-password"
+          element={
+            <ChangePassword
+              userInfo={userInfo}
+              isLogin={isLogin}
+              setModal={setModal}
+            />
+          }
+        />
+        <Route
+          path="leave"
+          element={
+            <LeaveId
+              userInfo={userInfo}
+              isLogin={isLogin}
+              setModal={setModal}
+              setIsLogin={setIsLogin}
+              setUserInfo={setUserInfo}
+            />
+          }
+        />
         <Route path="/search" element={<SearchPage />} />
         <Route path="/write" element={<WritingPage />} />
         <Route path="*" element={<NotFound />} />

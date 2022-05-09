@@ -76,6 +76,7 @@ export default function Edit({ userInfo, isLogin, setModal, setUserInfo }) {
     if (file) {
       const data = new FormData();
       const fileName = Date.now() + file.name;
+      console.log(fileName);
       data.append('name', fileName);
       data.append('file', file);
       patchData.image = fileName;
