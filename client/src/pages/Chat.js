@@ -12,12 +12,13 @@ import Reservation from '../components/Chats/Reservation';
 import MessageNull from '../components/Chats/MessageNull';
 import RecieverName from '../components/Chats/RecieverName';
 
-export default function Chat() {
+export default function Chat({ setReservationModal }) {
   const [chatRooms, setChatRooms] = useState([]);
   const [receiverUser, setReceiverUser] = useState([]);
   const [message, setMessage] = useState(null);
-  const socket = useRef(io('ws://localhost:4100'));
+  const socket = useRef(io('ws://localhost:4000'));
   const [newMessage, setNewMessage] = useState('');
+  const [arrivalMessage, setArrivalMessgae] = useState('');
   const { chatRoomId } = useParams();
   const [showEmoji, setShowEmojij] = useState(false);
   const userInfo = useSelector((state) => state.userInfo);
@@ -29,6 +30,12 @@ export default function Chat() {
     });
   }, [userInfo]);
 
+  useEffect(() => {
+    socket.current.emit('ping', newMessage);
+    socket.current.on('pong', (data) => {
+      console.log(data);
+    });
+  }, [newMessage]);
   const emojiShowHide = () => {
     setShowEmojij(!showEmoji);
   };
@@ -132,7 +139,7 @@ export default function Chat() {
               {message ? (
                 <>
                   <RecieverName receiverUser={receiverUser} />
-                  <Reservation />
+                  <Reservation setReservationModal={setReservationModal} />
                 </>
               ) : null}
               <div className="messages">

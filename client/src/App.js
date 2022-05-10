@@ -23,6 +23,7 @@ import ModelDetail from './pages/ModelDetail';
 import Modal from './components/Modal';
 import ModifyPage from './pages/ModifyPage';
 import NotFound from './pages/NotFound';
+import ReservationModal from './components/Chats/ReservationModal';
 
 const cookies = new Cookies();
 const cookieToken = cookies.get('jwt');
@@ -38,6 +39,7 @@ function App() {
     message: '',
     callback: false,
   });
+  const [reservationModal, setReservationModal] = useState(false);
 
   const getUserInfo = () => {
     try {
@@ -94,6 +96,10 @@ function App() {
 
   return (
     <>
+      <ReservationModal
+        reservationModal={reservationModal}
+        setReservationModal={setReservationModal}
+      />
       <Modal
         open={modal.open}
         setPopup={setModal}
@@ -103,7 +109,15 @@ function App() {
       />
       <Header handleLogout={handleLogout} cookieToken={cookieToken} />
       <Routes>
-        <Route path="/chat" element={<Chat />}>
+        <Route
+          path="/chat"
+          element={
+            <Chat
+              setModal={setModal}
+              setReservationModal={setReservationModal}
+            />
+          }
+        >
           <Route path=":chatRoomId" element={<Chat />} />
         </Route>
         <Route path="/" element={<Main />} />

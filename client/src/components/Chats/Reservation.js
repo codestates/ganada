@@ -1,6 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-export default function Reservation() {
+export default function Reservation({ setReservationModal }) {
+  const handleOpen = () => {
+    setReservationModal(true);
+  };
+
   return (
     <div className="reservation-wrraper">
       <img
@@ -12,7 +16,7 @@ export default function Reservation() {
           <div className="status">예약중</div>
           <div className="board-title">같이 한강 가실분 구해요</div>
         </div>
-        <button type="button" className="reservation-btn">
+        <button type="button" className="reservation-btn" onClick={handleOpen}>
           예약하기
         </button>
       </div>
