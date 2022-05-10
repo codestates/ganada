@@ -113,7 +113,10 @@ function App() {
         <Route path="/photodetail" element={<PhotoDetail />} />
         <Route path="/modeldetail" element={<ModelDetail />} />
         <Route path="/mylist" element={<MyList />} />
-        <Route path="/auth/kakao/callback" element={<KakaoLogin />} />
+        <Route
+          path="/auth/kakao/callback"
+          element={<KakaoLogin setModal={setModal} getUserInfo={getUserInfo} />}
+        />
         <Route path="/mypage" element={<MyPage />}>
           <Route
             path="edit"

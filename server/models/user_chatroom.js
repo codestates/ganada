@@ -14,9 +14,33 @@ module.exports = (sequelize, DataTypes) => {
   }
   user_chatroom.init(
     {
-      userId: DataTypes.INTEGER,
-      chatroomId: DataTypes.INTEGER,
-      boardId: DataTypes.INTEGER,
+      userId: {
+        type: DataTypes.INTEGER,
+        references: {
+          model: "users",
+          key: "id",
+        },
+        onDelete: "cascade",
+        onUpdate: "cascade",
+      },
+      chatroomId: {
+        type: DataTypes.INTEGER,
+        references: {
+          model: "chatrooms",
+          key: "id",
+        },
+        onDelete: "cascade",
+        onUpdate: "cascade",
+      },
+      boardId: {
+        type: DataTypes.INTEGER,
+        references: {
+          model: "boards",
+          key: "id",
+        },
+        onDelete: "cascade",
+        onUpdate: "cascade",
+      },
     },
     {
       sequelize,

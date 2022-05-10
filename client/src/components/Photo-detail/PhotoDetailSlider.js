@@ -1,4 +1,5 @@
 import { useRef, useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
 
 function PhotoDetailSlider() {

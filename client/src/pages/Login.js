@@ -49,7 +49,8 @@ export default function Login({ setIsLogin, getUserInfo }) {
 
   // kakao에 인가코드 요청
   // 받은 인가코드를 KakaoLogin 컴포넌트에서 서버로 전달
-  const kakaoLoginHandler = () => {
+  const kakaoLoginHandler = (e) => {
+    e.preventDefault();
     window.location.assign(
       `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=3c966eda204574d25499e2211ea62d5d&redirect_uri=http://localhost:3000/auth/kakao/callback`,
     );

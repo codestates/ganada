@@ -53,46 +53,46 @@ module.exports = {
     }
   },
 
-  posts: async (req, res) => {
-    // const userInfo = isAuthorized(req);
-    const userInfo = 1;
-    try {
-      if (userInfo) {
-        const {
-          category,
-          title,
-          // image,
-          description,
-          // tags,
-          latitude,
-          longitude,
-          mainAddress,
-          detailAddress,
-        } = req.body;
-        const createPost = await boards.create({
-          category,
-          title,
-          // image,
-          description,
-          // tags,
-          latitude,
-          longitude,
-          // mainAddress,
-          detailAddress,
-          userId: userInfo.id,
-        });
-        if (createPost) {
-          return res
-            .status(200)
-            .json({ data: createPost, message: "작성 완료" });
-        }
-      } else {
-        res.status(401).json({ message: "권한이 없습니다." });
-      }
-    } catch (err) {
-      return res.status(500).json({ message: "서버 에러" });
-    }
-  },
+  // posts: async (req, res) => {
+  //   // const userInfo = isAuthorized(req);
+  //   const userInfo = 1;
+  //   try {
+  //     if (userInfo) {
+  //       const {
+  //         category,
+  //         title,
+  //         // image,
+  //         description,
+  //         // tags,
+  //         latitude,
+  //         longitude,
+  //         mainAddress,
+  //         detailAddress,
+  //       } = req.body;
+  //       const createPost = await boards.create({
+  //         category,
+  //         title,
+  //         // image,
+  //         description,
+  //         // tags,
+  //         latitude,
+  //         longitude,
+  //         // mainAddress,
+  //         detailAddress,
+  //         userId: userInfo.id,
+  //       });
+  //       if (createPost) {
+  //         return res
+  //           .status(200)
+  //           .json({ data: createPost, message: "작성 완료" });
+  //       }
+  //     } else {
+  //       res.status(401).json({ message: "권한이 없습니다." });
+  //     }
+  //   } catch (err) {
+  //     return res.status(500).json({ message: "서버 에러" });
+  //   }
+  // },
 
   patchPosts: async (req, res) => {
     const userInfo = isAuthorized(req);
