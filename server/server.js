@@ -3,6 +3,8 @@ const http = require("http");
 const app = require("./app");
 const server = http.createServer(app);
 const HTTP_PORT = 4000; // ec2 사용 시 80으로 변경하기
+const { chatrooms, chatcontent } = require("../server/models");
+const db = require("./models/index");
 
 // socket.io server 구현하기
 const socketIO = require("socket.io");
@@ -14,57 +16,70 @@ const io = socketIO(server, {
   },
 });
 
-const { chatContent } = require("./models");
 const { isAuthorized } = require("./controllers/tokenFunctions");
+const boards = require("./models/boards");
 
 io.on("connection", (socket) => {
   console.log(`socket.io running on port ${HTTP_PORT}`);
 
-  socket.on("ping", (msg) => {
-    console.log(msg);
-    socket.emit("pong", {
-      msg: new Date().getTime(),
-    });
+  // 채팅방 참여 로직 필요
+  socket.on("join", async (data, req, res) => {
+    const { chatroomId } = data;
+    socket.join(chatroomId);
+    try {
+      // 채팅방이 생성 될 때 유정님한테 필요한 자료는?
+      // user("이미지", "닉네임", "아이디")
+      // board("아이디", "타이틀", "이미지")
+      const { id, userId, boardId } = data;
+      await db.chatrooms.create({
+        id,
+        userId,
+        boardId,
+      });
+    } catch (err) {
+      console.log(err);
+    }
   });
 
-  // roomId: room 과 관련해서 client 와 협의하기
-  socket.on("join", ({ roomId: room, userInfo }) => {
-    socket.join(room);
-    io.to(room).emit("onConnect", {
-      hello: "hello",
-      chats: `${userInfo.name} 님이 입장했습니다.`,
+  socket.on("onSend", async (data, req, res) => {
+    const { chats, userId, chatroomId, boardId } = data;
+    io.to(chatroomId).emit("onReceive", {
+      chats,
+      userId,
+      chatroomId,
     });
-
-    console.log(chats);
-
-    socket.on("onSend", async (chats) => {
-      io.to(room).emit("onReceive", {
-        ...userInfo,
-        Users: {
-          name: userInfo.name,
-          image: userInfo.image,
-        },
+    try {
+      const createChat = await db.chatcontents.create({
         chats,
+        userId,
+        chatroomId,
       });
-
-      try {
-        await chatContent.create({
-          userId: userInfo.id,
-          roomId: room,
-          chats,
+      if (createChat) {
+        await db.user_chatroom.create({
+          // 게시글 작성자 아이디를 가져와보자
+          userId,
+          chatroomId,
+          boardId,
         });
-      } catch (err) {
-        console.log(err);
       }
-    });
+    } catch (err) {
+      console.log(err);
+    }
+  });
 
-    socket.on("disconnect", () => {
-      socket.leave(room);
-      io.to(room).emit("onDisconnect", {
-        hello: "hello",
-        chats: `${userInfo.name} 님과 채팅이 종료됐습니다.`,
+  // 상대방 과 내가 한 방에 있어야하는 테이블이 필요하다. (board까지 가지고 올 수 있는..)
+
+  // 채팅방 삭제 로직 필요
+  socket.on("leave", async (data) => {
+    const { id } = data;
+    socket.leave(id);
+    try {
+      await db.chatrooms.destroy({
+        where: { id },
       });
-    });
+    } catch (err) {
+      console.log(err);
+    }
   });
 });
 

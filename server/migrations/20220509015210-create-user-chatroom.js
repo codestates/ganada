@@ -1,15 +1,19 @@
 "use strict";
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("user_chatrooms", {
+    await queryInterface.createTable("chatcontents", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
+      chats: {
+        type: Sequelize.STRING,
+      },
       userId: {
         type: Sequelize.INTEGER,
+<<<<<<< HEAD
         references: {
           model: "users",
           key: "id",
@@ -21,6 +25,23 @@ module.exports = {
           model: "chatrooms",
           key: "id",
         },
+=======
+        // references: {
+        //   model: "Users",
+        //   key: "id",
+        // },
+        // onDelete: "cascade",
+        // onUpdate: "cascade",
+      },
+      chatroomId: {
+        type: Sequelize.INTEGER,
+        // references: {
+        //   model: "Users",
+        //   key: "id",
+        // },
+        // onDelete: "cascade",
+        // onUpdate: "cascade",
+>>>>>>> remotes/origin/feature/6-chat
       },
       boardId: {
         type: Sequelize.INTEGER,
@@ -40,6 +61,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("user_chatrooms");
+    await queryInterface.dropTable("chatcontents");
   },
 };

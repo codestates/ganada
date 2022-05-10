@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-const KakaoLogin = () => {
+const KakaoLogin = ({ setIsLogin }) => {
   const navigate = useNavigate();
 
   // 인가코드 가져오기
@@ -12,7 +12,6 @@ const KakaoLogin = () => {
       kakao(code);
     }
   }, []);
-
   // 서버에 인가코드 전달
   const kakao = async (code) => {
     await axios
@@ -23,6 +22,8 @@ const KakaoLogin = () => {
         withCredentials: true,
       })
       .then((res) => {
+        console.log(res);
+        alert('로그인 되었습니다!');
         navigate('/');
       });
   };

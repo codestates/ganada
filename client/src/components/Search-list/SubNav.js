@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Tag from './Tag';
 import { useOutsideClick } from '../../hooks/useOutsideClick';
 import { setType } from '../../redux/searchConditionSlice';
@@ -13,6 +13,7 @@ function SubNav() {
   const [isActive, setIsActive] = useOutsideClick(dropdownRef, false);
   const type = searchParams.get('type');
   const keyword = searchParams.get('keyword');
+  const { token } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -23,6 +24,10 @@ function SubNav() {
   }, []);
 
   const dropDownHandler = () => {
+    if (!token) {
+      alert('로그인이 필요합니다');
+      return;
+    }
     setIsActive(!isActive);
   };
 

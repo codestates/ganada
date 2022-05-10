@@ -40,7 +40,43 @@ Object.keys(db).forEach((modelName) => {
   }
 });
 
+const { boards, chatcontents, chatrooms, user_chatroom, users } =
+  sequelize.models;
+
+// Many to Many
+// user N : M chatrooms
+users.belongsToMany(chatrooms, {
+  through: "user_chatroom",
+  foreignKey: "userId",
+});
+chatrooms.belongsToMany(users, {
+  through: "user_chatroom",
+  foreignKey: "chatroomId",
+});
+
+// One to Many
+
+// users 1 : N boards
+users.hasMany(boards, { foreignKey: "userId" });
+boards.belongsTo(users, { foreignKey: "userId" });
+
+// users 1 : N chatcontents
+users.hasMany(chatcontents, { foreignKey: "userId" });
+chatcontents.belongsTo(users, { foreignKey: "userId" });
+
+// chatrooms 1: N chatcontents
+chatrooms.hasMany(chatcontents, { foreignKey: "chatroomId" });
+chatcontents.belongsTo(chatrooms, { foreignKey: "chatroomId" });
+
+// boards 1 : N chatrooms
+boards.hasMany(chatrooms, { foreignKey: "boardId" });
+chatrooms.belongsTo(boards, { foreignKey: "boardId" });
+
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
+
+db.user_chatroom = require("./user_chatroom")(sequelize, Sequelize);
+db.chatrooms = require("./chatrooms")(sequelize, Sequelize);
+db.chatcontents = require("./chatcontents")(sequelize, Sequelize);
 
 module.exports = db;

@@ -4,13 +4,13 @@ const multer = require("multer");
 const fs = require("fs");
 const path = require("path");
 
-// 닉네임, 전화번호 변경
 router.patch("/:id/changeInfo", usersController.changeInfo);
-// 비밀번호 변경
 router.patch("/:id/changePassword", usersController.changePassword);
-
 router.delete("/:id", usersController.deleteUser);
 router.get("/", usersController.getUser);
+
+// 유저 평가
+router.put("/:name", usersController.evaluateUser);
 // router.get("/:id/reviews", usersController.getReviews);
 // router.post("/:id/reviews", usersController.postReviews);
 

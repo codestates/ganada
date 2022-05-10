@@ -79,6 +79,7 @@ router.post("/", async (req, res, next) => {
       detailAddress,
       image: `${fileNames}`,
     });
+    fileNames = [];
     return res.status(200).json({ data: createBoards, message: "작성 완료" });
   } catch (err) {
     return res.status(500).json({ message: "서버 에러" });

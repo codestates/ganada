@@ -23,7 +23,7 @@ const userInfoSlice = createSlice({
         phoneNumber: res.phoneNumber,
         email: res.email,
       };
-      return result;
+      return result; // 잘못 썼음
     },
   },
 });

@@ -67,27 +67,40 @@ function WritingPage() {
     if (!title || !description || !mainAddress || !detailAddress || !images) {
       alert('모든 항목이 입력되어야 합니다.');
     } else {
-      const data = new FormData();
-      for (const key in images) {
-        if (Object.prototype.hasOwnProperty.call(images, key)) {
-          data.append('file', images[key]);
+      try {
+        const data = new FormData();
+        for (const key in images) {
+          if (Object.prototype.hasOwnProperty.call(images, key)) {
+            data.append('file', images[key]);
+          }
         }
+        const result = await axios.post(
+          'http://localhost:4000/boards/images',
+          data,
+          {
+            withCredentials: true,
+          },
+        );
+        if (result.status === 200) {
+          await axios
+            .post(`http://localhost:4000/boards`, reqData, {
+              withCredentials: true,
+            })
+            .then((res) => {
+              if (res.status === 200) {
+                navigate('/photodetail', {
+                  state: { status: 1 },
+                  replace: true,
+                });
+              } else {
+                alert('등록 실패');
+              }
+            });
+        }
+      } catch (error) {
+        console.log(error);
       }
-      await axios
-        .post('http://localhost:4000/boards/images', data, {
-          withCredentials: true,
-        })
-        .then((result) => {
-          console.log(result.status);
-        });
     }
-    await axios
-      .post('http://localhost:4000/boards', reqData, {
-        withCredentials: true,
-      })
-      .then((res) => {
-        console.log('요청 성공');
-      });
   };
 
   return (

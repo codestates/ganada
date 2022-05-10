@@ -400,4 +400,36 @@
       }
     }
   }
+  .alert-box {
+    position: absolute;
+    top: 90px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    font-size: 15px;
+    height: 50px;
+    width: 300px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    background-color: #fff;
+    animation: fadeinout 3s linear forwards;
+    @keyframes fadeinout {
+      // 0%,
+      100% {
+        opacity: 0;
+      }
+      0% {
+        opacity: 1;
+      }
+    }
+    .alert-icon {
+      position: relative;
+      left: 5px;
+      color: green;
+    }
+    .alert-sub {
+      position: relative;
+      left: 10px;
+    }
+  }
 }

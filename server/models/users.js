@@ -22,18 +22,9 @@ module.exports = (sequelize, DataTypes) => {
       password: DataTypes.STRING,
       phoneNumber: DataTypes.STRING,
       image: DataTypes.STRING,
-      kind: {
-        type: DataTypes.INTEGER,
-        defaultValue: 0,
-      },
-      time: {
-        type: DataTypes.INTEGER,
-        defaultValue: 0,
-      },
-      again: {
-        type: DataTypes.INTEGER,
-        defaultValue: 0,
-      },
+      kind: DataTypes.INTEGER,
+      time: DataTypes.INTEGER,
+      again: DataTypes.INTEGER,
     },
     {
       sequelize,

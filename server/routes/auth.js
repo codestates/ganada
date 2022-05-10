@@ -10,4 +10,6 @@ router.post("/kakao/callback", authController.kakao);
 router.get("/naver", authController.naver);
 router.post("/mailVerification", emailValidController.mailVerification);
 
+// 유저 평가
+
 module.exports = router;
