@@ -1,17 +1,15 @@
 import { useRef, useState, useEffect } from 'react';
 import { IoIosArrowDropright, IoIosArrowDropleft } from 'react-icons/io';
 
-const images = [
-  `${process.env.PUBLIC_URL}/img/jungleNuNu.jpg`,
-  `${process.env.PUBLIC_URL}/img/jungleNuNu2.jpg`,
-  `${process.env.PUBLIC_URL}/img/jungleNuNu3.jpg`,
-];
-
 function ImageSlider({ image }) {
-  const TOTAL_SLIDES = images.length - 1;
+  const parsedImages = image.split(',');
+  const TOTAL_SLIDES = parsedImages.length - 1;
   const [currentSlide, setCurrentSlide] = useState(0);
   const slideRef = useRef(null);
-  const nextSlide = () => {
+  const imagesPath = `http://localhost:4000/images/`;
+
+  const nextSlide = (e) => {
+    e.stopPropagation();
     if (currentSlide >= TOTAL_SLIDES) {
       // 더이상 넘어갈 수 없으면 슬라이드 초기화
       setCurrentSlide(0);
@@ -19,7 +17,8 @@ function ImageSlider({ image }) {
       setCurrentSlide(currentSlide + 1);
     }
   };
-  const prevSlide = () => {
+  const prevSlide = (e) => {
+    e.stopPropagation();
     if (currentSlide === 0) {
       setCurrentSlide(TOTAL_SLIDES);
     } else {
@@ -41,9 +40,9 @@ function ImageSlider({ image }) {
         <IoIosArrowDropleft className="nextBtn" />
       </button>
       <div className="sliderContainer" ref={slideRef}>
-        <img src={image[0]} alt="nunu1" />
-        <img src={image[1]} alt="nunu2" />
-        <img src={image[2]} alt="nunu3" />
+        <img src={imagesPath + parsedImages[0]} alt="profile-image" />;
+        <img src={imagesPath + parsedImages[1]} alt="profile-image" />;
+        <img src={imagesPath + parsedImages[2]} alt="profile-image" />;
       </div>
     </div>
   );

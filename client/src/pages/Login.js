@@ -47,6 +47,13 @@ export default function Login({ setIsLogin, getUserInfo }) {
     inputRef.current.focus();
   }, []);
 
+  const kakaoLoginHandler = (e) => {
+    e.preventDefault();
+    window.location.assign(
+      `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=3c966eda204574d25499e2211ea62d5d&redirect_uri=http://localhost:3000/auth/kakao/callback`,
+    );
+  };
+
   return (
     <section className="login">
       <div className="inner">
@@ -79,7 +86,11 @@ export default function Login({ setIsLogin, getUserInfo }) {
                 <img src="img/naverlogo.png" className="logo" alt="logo" />
                 <span>네이버 로그인</span>
               </button>
-              <button type="submit" className="login-btn kakao">
+              <button
+                type="submit"
+                className="login-btn kakao"
+                onClick={kakaoLoginHandler}
+              >
                 <img
                   src="img/kakaologo.png"
                   className="logo kakao"

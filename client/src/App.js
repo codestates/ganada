@@ -23,6 +23,8 @@ import ModelDetail from './pages/ModelDetail';
 import Modal from './components/Modal';
 import ModifyPage from './pages/ModifyPage';
 import NotFound from './pages/NotFound';
+import KakaoLogin from './components/KakaoLogin';
+import Test from './pages/Test';
 
 const cookies = new Cookies();
 const cookieToken = cookies.get('jwt');
@@ -109,9 +111,10 @@ function App() {
         <Route path="/" element={<Main />} />
         <Route path="/login" element={<Login cookieToken={cookieToken} />} />
         <Route path="/signup" element={<Signup setModal={setModal} />} />
-        <Route path="/photodetail" element={<PhotoDetail />} />
-        <Route path="/modeldetail" element={<ModelDetail />} />
+        <Route path="/photodetail/:id" element={<PhotoDetail />} />
+        <Route path="/modeldetail:id" element={<ModelDetail />} />
         <Route path="/mylist" element={<MyList />} />
+        <Route path="/auth/kakao/callback" element={<KakaoLogin />} />
         <Route path="/mypage" element={<MyPage />}>
           <Route
             path="edit"
@@ -127,6 +130,7 @@ function App() {
         <Route path="/write/:id" element={<WritingPage />} />
         <Route path="/modify" element={<ModifyPage />} />
         <Route path="*" element={<NotFound />} />
+        <Route path="/test" element={<Test setModal={setModal} />} />
       </Routes>
 
       <Footer />

@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios';
+// import { useEffect, useState } from 'react';
+// import axios from 'axios';
+import { Link } from 'react-router-dom';
 import ImageSlider from '../Search-list/ImageSlider';
 
 function List({ post, token }) {
@@ -22,6 +23,7 @@ function List({ post, token }) {
           </li>
         </ul>
       </div>
+      <div className="empty-line" />
       <div className="descript-container">
         <ul>
           <li className="description-title">{post.title}</li>
@@ -29,9 +31,11 @@ function List({ post, token }) {
           <li className="description-address">{post.detailAddress}</li>
         </ul>
         <div className="btn-container">
-          <button type="button" className="modi-btn">
-            수정
-          </button>
+          <Link to="/modify">
+            <button type="button" className="modi-btn">
+              수정
+            </button>
+          </Link>
           <button type="button" className="del-btn">
             삭제
           </button>

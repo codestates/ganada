@@ -35,7 +35,7 @@ export default function Header({ handleLogout, cookieToken, isLogin }) {
   }, []);
 
   // 헤더 숨길 경로
-  const hideHeader = ['/login', '/signup'];
+  const hideHeader = ['/login', '/signup', '/test'];
   if (hideHeader.includes(location.pathname)) {
     return null;
   }

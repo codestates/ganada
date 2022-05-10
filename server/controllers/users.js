@@ -2,6 +2,7 @@
 const { users } = require("../models");
 const { isAuthorized } = require("./tokenFunctions");
 const bcrypt = require("bcrypt");
+const boards = require("./boards");
 
 module.exports = {
   changeInfo: async (req, res) => {
@@ -114,6 +115,28 @@ module.exports = {
         }
       } else {
         return res.status(401).json({ message: "권한이 없습니다." });
+      }
+    } catch (err) {
+      return res.status(500).json({ message: "서버 에러" });
+    }
+  },
+
+  evaluateUser: async (req, res) => {
+    const userInfo = isAuthorized(req);
+
+    try {
+      // boards 상태가 2(종료) 됐을 때 발생한다.
+      const exitStatus = await boards.findOne({
+        attributes: ["status"],
+        include: [
+          {
+            model: users,
+            attributes: ["kind, time, again"],
+          },
+        ],
+      });
+      if (exitStatus.status === 2) {
+        const { userId } = req.params;
       }
     } catch (err) {
       return res.status(500).json({ message: "서버 에러" });
