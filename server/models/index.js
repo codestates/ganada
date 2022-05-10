@@ -75,4 +75,8 @@ chatrooms.belongsTo(boards, { foreignKey: "boardId" });
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
+db.user_chatroom = require("./user_chatroom")(sequelize, Sequelize);
+db.chatrooms = require("./chatrooms")(sequelize, Sequelize);
+db.chatcontents = require("./chatcontents")(sequelize, Sequelize);
+
 module.exports = db;

@@ -122,104 +122,34 @@ module.exports = {
   },
 
   evaluateUser: async (req, res) => {
-    const userInfo = isAuthorized(req);
+    // const userInfo = isAuthorized(req);
+    // 인증된 사용자만 평가할 수 있습니다.
 
+    const { name } = req.params;
+    const { kind, time, again } = req.body;
     try {
       // boards 상태가 2(종료) 됐을 때 발생한다.
-      const exitStatus = await boards.findOne({
-        attributes: ["status"],
-        include: [
-          {
-            model: users,
-            attributes: ["kind, time, again"],
-          },
-        ],
+      const existUser = await users.findOne({
+        attributes: ["kind", "time", "again"],
+        where: { name },
       });
-      if (exitStatus.status === 2) {
-        const { userId } = req.params;
+      if (existUser) {
+        const reviewResult = await users.update(
+          {
+            kind: existUser.dataValues.kind + kind,
+            time: existUser.dataValues.time + time,
+            again: existUser.dataValues.again + again,
+          },
+          {
+            where: { name },
+          }
+        );
+        return res
+          .status(200)
+          .json({ data: reviewResult, message: "평가 완료" });
       }
     } catch (err) {
       return res.status(500).json({ message: "서버 에러" });
     }
   },
-
-  // getReviews: async (req, res) => {
-  //   try {
-  //     // 1차 테스트 완료
-  //     const { userId } = req.body;
-  //     const checkReview = await reviews.findAll({
-  //       attributes: ["kind", "time", "again"],
-  //       where: { userId },
-  //       include: [
-  //         {
-  //           model: users,
-  //           attributes: ["name"],
-  //         },
-  //       ],
-  //     });
-  //     return res.status(200).json({ data: checkReview, message: "검색 완료" });
-  //   } catch (err) {
-  //     return res.status(500).json({ message: "서버 에러" });
-  //   }
-  // },
-
-  // postReviews: async (req, res) => {
-  //   try {
-  //     const { kind, time, again, userId } = req.body;
-  //     const postReview = await reviews.create({
-  //       kind,
-  //       time,
-  //       again,
-  //       userId,
-  //       include: [
-  //         {
-  //           model: users,
-  //           attributes: ["name"],
-  //         },
-  //       ],
-  //     });
-  //     return res.status(200).json({ data: postReview, message: "작성 완료" });
-  //   } catch (err) {
-  //     return res.status(500).json({ message: "서버 에러" });
-  //   }
-  // },
-
-  // getReviews: async (req, res) => {
-  //   try {
-  //     // 1차 테스트 완료
-  //     const { id } = req.params;
-  //     const checkReview = await reviews.findOne({
-  //       attributes: ["kind", "time", "again"],
-  //       where: { id },
-  //       include: [
-  //         {
-  //           model: users,
-  //           attributes: ["name"],
-  //         },
-  //       ],
-  //     });
-  //     return res.status(200).json({ data: checkReview, message: "검색 완료" });
-  //   } catch (err) {
-  //     return res.status(500).json({ message: "서버 에러" });
-  //   }
-  // },
-
-  // postReviews: async (req, res) => {
-  //   try {
-  //     const { kind, time, again, userId } = req.body;
-  //     await reviews.update(
-  //       {
-  //         kind: kind,
-  //         time: time,
-  //         again: again,
-  //       },
-  //       {
-  //         where: { userId },
-  //       }
-  //     );
-  //     return res.status(200).json({ message: "증가" });
-  //   } catch (err) {
-  //     return res.status(500).json({ message: "서버 에러" });
-  //   }
-  // },
 };

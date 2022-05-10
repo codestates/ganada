@@ -10,7 +10,7 @@ router.delete("/:id", usersController.deleteUser);
 router.get("/", usersController.getUser);
 
 // 유저 평가
-router.put("/:id/evaluateUser", usersController.evaluateUser);
+router.put("/:name", usersController.evaluateUser);
 // router.get("/:id/reviews", usersController.getReviews);
 // router.post("/:id/reviews", usersController.postReviews);
 
