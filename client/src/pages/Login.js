@@ -47,6 +47,8 @@ export default function Login({ setIsLogin, getUserInfo }) {
     inputRef.current.focus();
   }, []);
 
+  // kakao에 인가코드 요청
+  // 받은 인가코드를 KakaoLogin 컴포넌트에서 서버로 전달
   const kakaoLoginHandler = (e) => {
     e.preventDefault();
     window.location.assign(
@@ -74,8 +76,7 @@ export default function Login({ setIsLogin, getUserInfo }) {
               placeholder="비밀번호"
               onChange={handleInputValue('password')}
             />
-            <div className="signup-warning"> {errorMessage}</div>
-
+            <div className="signup-warning">{errorMessage}</div>
             <div className="btn-wrap">
               <button type="submit" className="login-btn">
                 로그인

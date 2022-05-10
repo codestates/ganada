@@ -208,6 +208,7 @@
     height: 500px;
     display: flex;
     align-items: center;
+    z-index: 0;
     .map-sub-container {
       border: 1px solid black;
       width: 100%;

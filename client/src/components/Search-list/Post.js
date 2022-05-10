@@ -1,8 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 import { FaMapMarkerAlt } from 'react-icons/fa';
 import { TiDocumentText } from 'react-icons/ti';
-import ImageSlider from './ImageSlider';
 import stringParser from '../../modules/string-parser';
+import ImageSlider from './ImageSlider';
 
 function Post({ post }) {
   const navigate = useNavigate();

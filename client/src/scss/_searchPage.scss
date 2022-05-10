@@ -167,6 +167,7 @@ $box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
     .post-wrapper {
       margin: 50px 20px 0 20px;
       width: 29%;
+      // animation: fadein 2s;
       animation: fadeInDown 1s ease-in-out;
       height: 500px;
       display: flex;
@@ -319,5 +320,13 @@ $box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
         transform: none;
       }
     }
+    // @keyframes fadein {
+    //   from {
+    //     opacity: 0;
+    //   }
+    //   to {
+    //     opacity: 1;
+    //   }
+    // }
   }
 }

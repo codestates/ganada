@@ -100,9 +100,6 @@ function WritingPage() {
       } catch (error) {
         console.log(error);
       }
-      // await axios.post('http://localhost:4000/boards', reqData, {
-      //   withCredentials: true,
-      // navigate('/photodetail', { state: { status: 1 }, replace: true });
     }
   };
 

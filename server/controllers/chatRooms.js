@@ -1,3 +1,5 @@
+// const chatRooms = require("../models/chatRooms");
+const { boards, users } = require("../models");
 const { user_chatroom, chatrooms, chatcontents } = require("../models");
 const { isAuthorized } = require("./tokenFunctions");
 const _ = require("lodash");

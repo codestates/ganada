@@ -11,6 +11,7 @@ const {
   removeAccessToken,
   isAuthorized,
 } = require("../controllers/tokenFunctions");
+const { get } = require("../routes/auth");
 
 module.exports = {
   signUp: async (req, res) => {
@@ -116,13 +117,13 @@ module.exports = {
       const { email, profile } = kakaoUserInfo.data.kakao_account;
       const userInfo = await users.findOne({ where: { email } });
       // 유저 정보가 있는지 확인
+      // console.log(userInfo.dataValues);
       if (!userInfo) {
         const newUserInfo = await users.create({
           email: email,
           name: profile.nickname,
           image: profile.profile_image_url,
         });
-        console.log(newUserInfo);
         const payload = {
           newUserInfo,
         };
@@ -137,6 +138,8 @@ module.exports = {
             httpOnly: true,
           })
           .json({ token: accessToken, message: "로그인 성공" });
+      } else {
+        res.redirect("/");
       }
     } catch (err) {
       res.status(500).json({ message: "서버 에러" });

@@ -33,7 +33,7 @@ function SearchPage() {
     console.log(tags);
     console.log(type);
     console.log(keyword);
-    // console.log(posts);
+    console.log(posts);
     getPosts();
   }, [tags, type, keyword]);
 
@@ -42,6 +42,7 @@ function SearchPage() {
       .get('http://localhost:4000/boards', { withCredentials: true })
       .then((res) => {
         setPosts(res.data.data);
+        console.log(posts);
       });
     console.log(posts);
   };

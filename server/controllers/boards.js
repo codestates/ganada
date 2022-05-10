@@ -26,6 +26,7 @@ module.exports = {
           },
         ],
       });
+      console.log(searchPosts);
       return res.json({ data: searchPosts, message: "조회 완료" });
     } catch (err) {
       return res.status(500).json({ message: "서버 에러입니다." });
