@@ -13,6 +13,7 @@ module.exports = {
       },
       userId: {
         type: Sequelize.INTEGER,
+<<<<<<< HEAD
         references: {
           model: "users",
           key: "id",
@@ -24,6 +25,23 @@ module.exports = {
           model: "chatrooms",
           key: "id",
         },
+=======
+        // references: {
+        //   model: "Users",
+        //   key: "id",
+        // },
+        // onDelete: "cascade",
+        // onUpdate: "cascade",
+      },
+      chatroomId: {
+        type: Sequelize.INTEGER,
+        // references: {
+        //   model: "Users",
+        //   key: "id",
+        // },
+        // onDelete: "cascade",
+        // onUpdate: "cascade",
+>>>>>>> remotes/origin/feature/6-chat
       },
       boardId: {
         type: Sequelize.INTEGER,
