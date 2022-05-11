@@ -1,25 +1,26 @@
 import { BsCamera } from 'react-icons/bs';
 
-function PhotoDetailReview() {
+function PhotoDetailReview({ post }) {
+  const totalPoint = post.user.kind + post.user.time + post.user.again;
   return (
     <div className="review-container">
       <div className="snap-point-title">
         <BsCamera className="snap-point-icon" />
         스냅포인트
-        <span className="snap-point">30포인트</span>
+        <span className="snap-point">{totalPoint} 포인트</span>
       </div>
       <ul>
         <li>
           친절하고 매너가 좋아요.
-          <span className="snap-point-sub">10포인트</span>
+          <span className="snap-point-sub">{post.user.kind} 포인트</span>
         </li>
         <li>
           시간 약속을 잘지켜요.
-          <span className="snap-point-sub">10포인트</span>
+          <span className="snap-point-sub">{post.user.time} 포인트</span>
         </li>
         <li>
           또 찍고싶어요.
-          <span className="snap-point-sub">10포인트</span>
+          <span className="snap-point-sub">{post.user.again} 포인트</span>
         </li>
       </ul>
     </div>
