@@ -1,6 +1,9 @@
 import React from 'react';
+// import { useLocation } from 'react-router-dom';
 
 export default function ChatRooms({ chatRoom, timeago }) {
+  // const location = useLocation();
+  // console.log(location.pathname.slice(6));
   const { createdAt, chats } =
     chatRoom.chatContents[chatRoom.chatContents.length - 1];
   const { name, image } = chatRoom.receiverId.users;

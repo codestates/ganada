@@ -2,7 +2,7 @@ import { AiOutlineSearch, AiOutlineMessage } from 'react-icons/ai';
 import { RiLogoutBoxRLine } from 'react-icons/ri';
 import { FaUserCircle, FaRegEdit } from 'react-icons/fa';
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setKeyword } from '../redux/searchConditionSlice';
 
@@ -18,10 +18,18 @@ export default function Header({ handleLogout, cookieToken, isLogin }) {
   const type = searchParams.get('type');
   const dispatch = useDispatch();
   const imagesPath = `http://localhost:4000/images/`;
+  const inSection = useRef();
 
-  const onClick = () => {
-    setIsTrue(!isTrue);
-  };
+  useEffect(() => {
+    const onClick = (e) => {
+      if (inSection.current && !inSection.current.contains(e.target)) {
+        setIsTrue(false);
+      }
+    };
+
+    document.addEventListener('mousedown', onClick);
+  }, [location]);
+
   const updateScroll = () => {
     setScrollPosition(window.scrollY || document.documentElement.scrollTop);
   };
@@ -73,8 +81,12 @@ export default function Header({ handleLogout, cookieToken, isLogin }) {
                   <AiOutlineMessage size="30" />
                 </Link>
               </li>
-              <div className="drop-menu " role="presentation" onClick={onClick}>
-                <div className="profile">
+              <div className="drop-menu " ref={inSection}>
+                <div
+                  className="profile"
+                  role="presentation"
+                  onClick={() => setIsTrue(!isTrue)}
+                >
                   <img
                     src={
                       userInfo.image === null
@@ -89,7 +101,7 @@ export default function Header({ handleLogout, cookieToken, isLogin }) {
                     {userInfo.name}님 <br />
                     <span>환영합니다!</span>
                   </h3>
-                  <ul>
+                  <ul role="presentation" onClick={() => setIsTrue(false)}>
                     <li>
                       <FaUserCircle size="20" color="grey" className="icon" />
                       <Link to="/mypage/edit">마이페이지</Link>
