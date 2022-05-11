@@ -29,7 +29,7 @@ function Post({ post }) {
           <div className="position-icon">
             <FaMapMarkerAlt size="17" />
           </div>
-          <div className="address">서울 중구 정동 5-8 뚝섬 한강 공원</div>
+          <div className="address">{parsedPost.mainAddress}</div>
         </div>
         {/* <Link to="/photodetail" className="detailLink">
           <button type="button" className="btnDetailView">

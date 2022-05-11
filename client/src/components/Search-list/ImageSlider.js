@@ -2,7 +2,11 @@ import { useRef, useState, useEffect } from 'react';
 import { IoIosArrowDropright, IoIosArrowDropleft } from 'react-icons/io';
 
 function ImageSlider({ image }) {
-  const parsedImages = image.split(',');
+  let parsedImages = null;
+  if (image) {
+    parsedImages = image.split(',');
+  }
+  // const parsedImages = image.split(',');
   const TOTAL_SLIDES = parsedImages.length - 1;
   const [currentSlide, setCurrentSlide] = useState(0);
   const slideRef = useRef(null);

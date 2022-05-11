@@ -3,28 +3,26 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import PhotoDetailModal from './PhotoDetailModal';
 
-function PhotoDetailHeader() {
-  const userInfo = useSelector((state) => state.userInfo);
+function PhotoDetailHeader({ post }) {
   const imagesPath = `http://localhost:4000/images/`;
   const [isOpen, setIsOpen] = useState(false);
-
   const handleModal = () => {
     setIsOpen(!isOpen);
   };
 
   const handleClickImg = () => {
-    if (!userInfo.image) {
+    if (!post.image) {
       window.open(
         'https://static.nid.naver.com/images/web/user/default.png?type=s160',
       );
     }
-    window.open(imagesPath + userInfo.image);
+    window.open(imagesPath + post.image);
   };
 
   return (
     <div className="header-container">
       <div className="pg-profile-container">
-        <div className="pg-nickname">{userInfo.name}</div>
+        <div className="pg-nickname">{post.name}</div>
         <div className="pg-profile-img-container">
           <button
             type="button"
@@ -33,9 +31,9 @@ function PhotoDetailHeader() {
           >
             <img
               src={
-                userInfo.image === null
+                post.image === null
                   ? 'https://static.nid.naver.com/images/web/user/default.png?type=s160'
-                  : imagesPath + userInfo.image
+                  : imagesPath + post.image
               }
               alt=""
             />
