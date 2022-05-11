@@ -35,12 +35,12 @@ module.exports = {
     try {
       const { id } = req.params;
       const searchPost = await boards.findOne({
-        attributes: ["title", "description", "createdAt"],
+        attributes: ["id", "title", "description", "createdAt"],
         where: { id },
         include: [
           {
             model: users,
-            attributes: ["name", "kind", "time", "again"],
+            attributes: ["id", "name", "kind", "time", "again"],
           },
         ],
       });

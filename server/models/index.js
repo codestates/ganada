@@ -40,19 +40,8 @@ Object.keys(db).forEach((modelName) => {
   }
 });
 
-const { boards, chatcontents, chatrooms, user_chatroom, users } =
+const { boards, chatcontents, chatrooms, user_chatroom, users, user_boards } =
   sequelize.models;
-
-// Many to Many
-// user N : M chatrooms
-users.belongsToMany(chatrooms, {
-  through: "user_chatroom",
-  foreignKey: "userId",
-});
-chatrooms.belongsToMany(users, {
-  through: "user_chatroom",
-  foreignKey: "chatroomId",
-});
 
 // One to Many
 
@@ -71,6 +60,15 @@ chatcontents.belongsTo(chatrooms, { foreignKey: "chatroomId" });
 // boards 1 : N chatrooms
 boards.hasMany(chatrooms, { foreignKey: "boardId" });
 chatrooms.belongsTo(boards, { foreignKey: "boardId" });
+
+users.hasMany(user_chatroom, { foreignKey: "userId" });
+user_chatroom.belongsTo(users, { foreignKey: "userId" });
+
+users.hasMany(user_boards, { foreignKey: "userId" });
+user_boards.belongsTo(users, { foreignKey: "userId" });
+
+boards.hasMany(user_boards, { foreignKey: "boardId" });
+user_boards.belongsTo(users, { foreignKey: "boardId" });
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
