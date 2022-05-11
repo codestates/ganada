@@ -14,10 +14,9 @@ function WritingPage() {
   const [mainAddress, setMainAddress] = useState('');
   const [detailAddress, setDetailAddress] = useState('');
   const [coordinate, setCoordinate] = useState({});
-  const [category, setCategory] = useState('');
   const [images, setImages] = useState('');
   const navigate = useNavigate();
-  const type = Number(useParams().id);
+  const category = Number(useParams().id);
   const reqData = {
     category: 0,
     title,
@@ -78,6 +77,7 @@ function WritingPage() {
           'http://localhost:4000/boards/images',
           data,
           {
+            // headers:'content-type':'multipart/form-data',
             withCredentials: true,
           },
         );
@@ -106,7 +106,7 @@ function WritingPage() {
   return (
     <div className="write-page-container">
       <div className="write-page-header">
-        <h2>{type ? '모델 등록' : '사진 작가 등록'} </h2>
+        <h2>{category ? '모델 등록' : '사진 작가 등록'} </h2>
       </div>
       <div className="title-container">
         <div className="title">
@@ -177,7 +177,7 @@ function WritingPage() {
           <span>컨셉</span>
         </div>
         <div className="tag-wrapper">
-          <Tag type={type} setTagInfo={setTagInfo} />
+          <Tag category={category} setTagInfo={setTagInfo} />
         </div>
       </div>
       <div className="action-button">
