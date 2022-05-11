@@ -12,6 +12,7 @@ const KakaoLogin = ({ setIsLogin }) => {
       kakao(code);
     }
   }, []);
+
   // 서버에 인가코드 전달
   const kakao = async (code) => {
     await axios
@@ -22,7 +23,7 @@ const KakaoLogin = ({ setIsLogin }) => {
         withCredentials: true,
       })
       .then((res) => {
-        console.log(res);
+        localStorage.setItem('Token', res.data.token);
         alert('로그인 되었습니다!');
         navigate('/');
       });

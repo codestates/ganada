@@ -88,7 +88,7 @@ function WritingPage() {
             })
             .then((res) => {
               if (res.status === 200) {
-                navigate('/photodetail', {
+                navigate(`/photodetail/${res.data.data.id}`, {
                   state: { status: 1 },
                   replace: true,
                 });

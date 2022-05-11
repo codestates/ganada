@@ -30,22 +30,25 @@ function SearchPage() {
   // }, []);
 
   useEffect(() => {
-    console.log(tags);
-    console.log(type);
-    console.log(keyword);
-    console.log(posts);
+    // console.log(tags);
+    // console.log(type);
+    // console.log(keyword);
+    // console.log(posts);
     getPosts();
   }, [tags, type, keyword]);
 
   const getPosts = async () => {
     await axios
-      .get('http://localhost:4000/boards', { withCredentials: true })
+      .get(
+        `http://localhost:4000/boards?category=${type}&keyword=${keyword}&tags=${tags}`,
+        { withCredentials: true },
+      )
       .then((res) => {
         setPosts(res.data.data);
-        console.log(posts);
+        // console.log(posts);
       });
-    console.log(posts);
   };
+  console.log(posts);
 
   return (
     <div className="searchPage-container">
