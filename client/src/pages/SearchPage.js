@@ -39,7 +39,10 @@ function SearchPage() {
 
   const getPosts = async () => {
     await axios
-      .get('http://localhost:4000/boards', { withCredentials: true })
+      .get(
+        `http://localhost:4000/boards?category=${type}&keyword=${keyword}&tags=${tags}`,
+        { withCredentials: true },
+      )
       .then((res) => {
         setPosts(res.data.data);
         console.log(posts);
