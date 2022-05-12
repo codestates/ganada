@@ -9,7 +9,6 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      // models.reviews.belongsTo(models.users);
     }
   }
   user_chatroom.init(
@@ -27,15 +26,6 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         references: {
           model: "chatrooms",
-          key: "id",
-        },
-        onDelete: "cascade",
-        onUpdate: "cascade",
-      },
-      boardId: {
-        type: DataTypes.INTEGER,
-        references: {
-          model: "boards",
           key: "id",
         },
         onDelete: "cascade",

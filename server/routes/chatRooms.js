@@ -1,9 +1,9 @@
 const router = require("express").Router();
 const chatRoomsController = require("../controllers/chatRooms");
 
-// 상황에 따라 경로 수정이 필요합니다. (잠시 보류)
-router.post("/", chatRoomsController.createChat);
-router.delete("/", chatRoomsController.deleteChat);
-router.get("/:id", chatRoomsController.test);
+// 채팅방 생성
+router.post("/", chatRoomsController.createRoom);
+router.delete("/:chatroomId", chatRoomsController.deleteRoom);
+router.get("/", chatRoomsController.getAllChatRoom);
 
 module.exports = router;
