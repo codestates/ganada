@@ -11,7 +11,6 @@ function Post({ post }) {
     navigate(`/photodetail/${post.id}`);
   };
   const parsedPost = stringParser(post);
-
   return (
     <div className="post-wrapper" onClick={clickHandler} aria-hidden="true">
       <ImageSlider image={post.image} />

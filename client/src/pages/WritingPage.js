@@ -15,7 +15,7 @@ function WritingPage() {
   const [mainAddress, setMainAddress] = useState('');
   const [detailAddress, setDetailAddress] = useState('');
   const [coordinate, setCoordinate] = useState({});
-  const [images, setImages] = useState('');
+  const [images, setImages] = useState([]);
   const navigate = useNavigate();
   const category = Number(useParams().id);
   const { token } = useSelector((state) => state.auth);
@@ -35,8 +35,8 @@ function WritingPage() {
   }, []);
 
   useEffect(() => {
-    // console.log(images);
-    console.log(tagInfo);
+    console.log(images);
+    // console.log(tagInfo);
   }, [tagInfo]);
 
   const titleHandler = (e) => {

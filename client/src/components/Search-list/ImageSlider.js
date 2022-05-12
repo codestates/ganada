@@ -44,9 +44,12 @@ function ImageSlider({ image }) {
         <IoIosArrowDropleft className="nextBtn" />
       </button>
       <div className="sliderContainer" ref={slideRef}>
-        <img src={imagesPath + parsedImages[0]} alt="profile-img" />;
-        <img src={imagesPath + parsedImages[1]} alt="profile-img" />;
-        <img src={imagesPath + parsedImages[2]} alt="profile-img" />;
+        {parsedImages.map((img) => {
+          return <img src={imagesPath + img} alt="profile" />;
+        })}
+        {/* <img src={imagesPath + parsedImages[0]} alt="profile-img" />
+        <img src={imagesPath + parsedImages[1]} alt="profile-img" />
+        <img src={imagesPath + parsedImages[2]} alt="profile-img" /> */}
       </div>
     </div>
   );
