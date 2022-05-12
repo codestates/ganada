@@ -78,7 +78,7 @@ export default function Header({ handleLogout, cookieToken, isLogin }) {
             <ul className="right-header">
               <li className="left-chat">
                 <Link to="/chat">
-                  <AiOutlineMessage size="30" />
+                  <AiOutlineMessage size="30" color="grey" />
                 </Link>
               </li>
               <div className="drop-menu " ref={inSection}>

@@ -14,28 +14,86 @@ import RecieverName from '../components/Chats/RecieverName';
 
 export default function Chat({ setReservationModal }) {
   const [chatRooms, setChatRooms] = useState([]);
-  const [receiverUser, setReceiverUser] = useState([]);
   const [message, setMessage] = useState(null);
-  const socket = useRef(io('ws://localhost:4000'));
-  const [newMessage, setNewMessage] = useState('');
-  const [arrivalMessage, setArrivalMessgae] = useState('');
+  const [arrivalMessage, setArrivalMessage] = useState(null);
+  const socket = useRef();
   const { chatRoomId } = useParams();
   const [showEmoji, setShowEmojij] = useState(false);
   const userInfo = useSelector((state) => state.userInfo);
+  const { token } = useSelector((state) => state.auth);
+  const [newMessage, setNewMessage] = useState('');
 
   useEffect(() => {
-    socket.current.emit('addUser', userInfo.id);
-    socket.current.on('getUsers', (users) => {
-      console.log(users);
-    });
-  }, [userInfo]);
-
-  useEffect(() => {
-    socket.current.emit('ping', newMessage);
-    socket.current.on('pong', (data) => {
+    socket.current = io('ws://localhost:4000');
+    socket.current.on('receiveMessage', (data) => {
+      const { chats, userId, chatroomId, updatedAt } = data;
       console.log(data);
+      setArrivalMessage({
+        userId,
+        chats,
+        chatroomId,
+        updatedAt,
+      });
     });
-  }, [newMessage]);
+  }, []);
+
+  useEffect(() => {
+    socket.current.emit('join', { chatroomId: chatRoomId });
+  }, [chatRoomId]);
+
+  useEffect(() => {
+    arrivalMessage && setMessage((prev) => [...prev, arrivalMessage]);
+  }, [arrivalMessage, chatRoomId]);
+  console.log(arrivalMessage);
+
+  useEffect(() => {
+    const getMessage = async () => {
+      try {
+        const res = await axios.get(
+          `http://localhost:4000/chatContents/${chatRoomId}}`,
+          {
+            headers: { authorization: `Bearer ${token}` },
+          },
+          { withCredentials: true },
+        );
+        setMessage(res.data.checkChatContents);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getMessage();
+  }, [chatRoomId, token]);
+
+  useEffect(() => {
+    const getChatRooms = async () => {
+      try {
+        const res = await axios.get(
+          'http://localhost:4000/chatRooms/',
+          {
+            headers: { authorization: `Bearer ${token}` },
+          },
+          { withCredentials: true },
+        );
+        setChatRooms(res.data.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getChatRooms();
+  }, [token]);
+
+  const sendMessage = (e) => {
+    const data = {
+      chats: newMessage,
+      userId: userInfo.id,
+      chatroomId: Number(chatRoomId),
+      updatedAt: new Date(Date.now()),
+    };
+    socket.current.emit('sendMessage', data);
+
+    setNewMessage('');
+  };
+
   const emojiShowHide = () => {
     setShowEmojij(!showEmoji);
   };
@@ -73,51 +131,9 @@ export default function Chat({ setReservationModal }) {
     return `${Math.floor(years)}년 전`;
   };
 
-  const handleSubmit = async (e) => {
-    const data = {
-      userId: 0,
-      createdAt: new Date(),
-      chats: newMessage,
-    };
-    try {
-      const res = await axios.post(
-        `http://localhost:4001/chatRooms/${chatRoomId}`,
-        data,
-      );
-      setNewMessage('');
-    } catch (err) {
-      console.log(err);
-      setNewMessage('');
-    }
-  };
-
-  useEffect(() => {
-    const getMessage = async () => {
-      try {
-        const res = await axios.get(
-          `http://localhost:4001/chatRooms/${chatRoomId}`,
-        );
-        setMessage(res.data.chatContents);
-        setReceiverUser(res.data.receiverId);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    getMessage();
-  }, [chatRoomId]);
-
-  useEffect(() => {
-    const getChatRooms = async () => {
-      try {
-        const res = await axios.get('http://localhost:4001/chatRooms');
-        setChatRooms(res.data);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    getChatRooms();
-  }, []);
-
+  // const test = () => {
+  //   socket.current.emit('test', newMessage);
+  // };
   return (
     <div className="chat">
       <div className="back">
@@ -138,7 +154,7 @@ export default function Chat({ setReservationModal }) {
             <div className="chat-message-wrraper">
               {message ? (
                 <>
-                  <RecieverName receiverUser={receiverUser} />
+                  <RecieverName />
                   <Reservation setReservationModal={setReservationModal} />
                 </>
               ) : null}
@@ -147,9 +163,8 @@ export default function Chat({ setReservationModal }) {
                   message.map((chat) => (
                     <Message
                       chat={chat}
-                      reverse={chat.userId !== 0}
+                      reverse={chat.userId !== userInfo.id}
                       timeago={timeago}
-                      receiverUser={receiverUser}
                     />
                   ))
                 ) : (
@@ -176,14 +191,14 @@ export default function Chat({ setReservationModal }) {
                       onChange={(e) => setNewMessage(e.target.value)}
                       value={newMessage}
                       onKeyPress={(e) =>
-                        e.key === 'Enter' ? handleSubmit() : null
+                        e.key === 'Enter' ? sendMessage(e) : null
                       }
                     />
                     {newMessage ? (
                       <button
                         type="button"
                         className={newMessage === '' ? 'send' : 'send active'}
-                        onClick={handleSubmit}
+                        onClick={sendMessage}
                       >
                         <IoMdSend size="30" />
                       </button>

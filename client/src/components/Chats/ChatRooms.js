@@ -4,17 +4,17 @@ import React from 'react';
 export default function ChatRooms({ chatRoom, timeago }) {
   // const location = useLocation();
   // console.log(location.pathname.slice(6));
-  const { createdAt, chats } =
-    chatRoom.chatContents[chatRoom.chatContents.length - 1];
-  const { name, image } = chatRoom.receiverId.users;
+  const imagesPath = `http://localhost:4000/images/`;
+
+  const { name, image, chats } = chatRoom;
   console.log(chatRoom);
   return (
     <ul>
       <li>
-        <img src={image} alt="" />
+        <img src={imagesPath + image} alt="" />
         <div className="chat-room-preview">
           <div className="room-nickname">
-            {name}님<span className="">{timeago(createdAt)}</span>
+            {name}님<span className="">{}</span>
           </div>
           <div className="description">{chats}</div>
         </div>
