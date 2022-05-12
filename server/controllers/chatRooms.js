@@ -8,7 +8,7 @@ const {
 } = require("../models");
 const { isAuthorized } = require("./tokenFunctions");
 dotenv.config();
-const { Op } = require("sequelize");
+const { Op, Model } = require("sequelize");
 
 module.exports = {
   createRoom: async (req, res) => {
@@ -146,69 +146,100 @@ module.exports = {
       if (!userInfo) {
         return res.status(401).json({ message: "권한이 없습니다." });
       } else {
-        const getAllChatRoom = await chatrooms.findAll({
+        // 접속자가 들어간 user_chatroom -> chatroomId를 알 수 있다.
+        const list = await user_chatroom.findAll({
           where: {
-            [Op.or]: [{ hostId: userInfo.id }, { guestId: userInfo.id }],
+            userId: userInfo.id,
           },
         });
+        const chatList = list.map((el) => el.dataValues);
+        const roomsId = chatList.map((el) => el.chatroomId); // 접속자가 속해 있는 chatroomId만 정렬 [16,17,18,20,21,22]
+        const roomList = await chatrooms.findAll({
+          where: {
+            id: {
+              [Op.in]: roomsId,
+            },
+          },
+        });
+        const roomsList = roomList.map((el) => el.dataValues);
+        const hostId = roomsList
+          .map((el) => el.hostId)
+          .filter((ele) => ele !== userInfo.id);
+        const guestId = roomsList
+          .map((el) => el.guestId)
+          .filter((ele) => ele !== userInfo.id);
+        const hostUser = await users.findAll({
+          where: {
+            id: {
+              [Op.in]: hostId,
+            },
+          },
+        });
+        const guestUser = await users.findAll({
+          where: {
+            id: {
+              [Op.in]: guestId,
+            },
+          },
+        });
+        const hostUserList = hostUser.map((el) => el.dataValues);
+        const guestUserList = guestUser.map((el) => el.dataValues);
 
-        // const FilterData = getAllChatRoom.data.filter(
-        //   (el) => el.guestId !== userInfo
-        // );
-        // const mapData = FilterData.map((el) => {
-        //   return { ...el, userId: el.guestId };
-        // });
-        // const FilterData2 = getAllChatRoom.data.filter(
-        //   (el) => el.hostId !== userInfo
-        // );
-        // const mapData2 = FilterData2.map((el) => {
-        //   return { ...el, userId: el.hostId };
-        // });
-        // const mapData3 = [...mapData, ...mapData2];
+        for (let i = 0; i < roomsList.length; i++) {
+          for (let j = 0; j < hostUserList.length; j++) {
+            if (roomsList[i].hostId === hostUserList[j].id) {
+              roomsList[i].name = hostUserList[j].name;
+              roomsList[i].image = hostUserList[j].image;
+            }
+          }
+        }
+        for (let i = 0; i < roomsList.length; i++) {
+          for (let j = 0; j < guestUserList.length; j++) {
+            if (roomsList[i].guestId === guestUserList[j].id) {
+              roomsList[i].name = guestUserList[j].name;
+              roomsList[i].image = guestUserList[j].image;
+            }
+          }
+        }
 
-        console.log(getAllChatRoom);
-        return res.status(200).json({ data: { getAllChatRoom } });
+        const roomId = roomsList.map((el) => el.id);
 
-        // //여기 보류
-        // // const getAllChatRoom = await user_chatroom.findAll({
-        // //   where: {
-        // //     userId: userInfo.id,
-        // //   },
-        // // });
-        // // const getAllChatRoomId = getAllChatRoom.map((v) => v.chatroomId);
-        // // const findOpponentUser = await chatrooms.findAll({
-        // //   where: {
-        // //     id: {
-        // //       [Op.in]: getAllChatRoomId,
-        // //     },
-        // //   },
-        // // });
-        // // 여기 보류 끝
-
-        // // 접속자가 현재 1번 유저다.
-        // const notHostUser = userInfo.id;
-        // // 2번 유저와 3번 유저랑 채팅한적이 있으면 [16,17,18] --> 2,3
-        // const oppoUser = getAllChatRoom.map((el) => el.id);
-        // const findOpponentUser = await users.findAll({
-        //   where: {
-        //     [Op.not]: [{ id: userInfo.id }],
-        //   },
-        // });
-        // // 접속한 사람이 1일 때 살아 있는 채팅방이면, chatrooms에서 상대방의 userId와 chatroomId가 필요하다.
-        // // 접속한 사람(1번 유저는) 채팅방을 삭제하지 않은 상태다.
-        // // 현재 샘플 데이터로는 [16,2],[17,2], [18,2], [20,3], [21,4], [22,5]
-
-        // // findOpponentUser.hostId 또는 guestId가 userInfo.id와 다른 경우를 뽑으면?
-        // // 1번 유저가 포함 된 상대방의 정보를 가져와야 한다.
-        // const chatList = await chatrooms.findAll({
-        //   where: {
-        //     id: oppoUser,
-        //   },
-        // });
-        // const chatListMap = chatList.map((el) => el.dataValues);
-        // console.log(oppoUser);
-        // 접속자가 hostId에 포함 된 경우 guestId 상대방을 찾고,
-        // 접속자가 guestId에 포함 된 경우 hostId를 찾아라.
+        const chatting = await chatcontents.findAll({
+          where: {
+            chatroomId: {
+              [Op.in]: roomId,
+            },
+          },
+        });
+        const chattings = chatting.map((el) => el.dataValues);
+        const chattingsMatch = {};
+        for (let i = 0; i < roomsList.length; i++) {
+          for (let j = 0; j < chattings.length; j++) {
+            if (
+              chattingsMatch[roomsList[i].id] === undefined &&
+              roomsList[i].id === chattings[j].chatroomId
+            ) {
+              chattingsMatch[roomsList[i].id] = [chattings[j].id];
+            } else if (roomsList[i].id === chattings[j].chatroomId) {
+              chattingsMatch[roomsList[i].id].push(chattings[j].id);
+            }
+          }
+        }
+        for (let i = 0; i < roomsList.length; i++) {
+          for (let j = 0; j < chattings.length; j++) {
+            for (let key in chattingsMatch) {
+              if (
+                roomsList[i].id === chattings[j].chatroomId &&
+                chattings[j].id === Math.max(...chattingsMatch[key])
+              ) {
+                roomsList[i].chats = chattings[j].chats;
+                roomsList[i].date = chattings[j].updatedAt;
+              }
+            }
+          }
+        }
+        const result = roomsList;
+        return res.status(200).json({ data: result, message: "작동" });
       }
     } catch (err) {
       console.log(err);

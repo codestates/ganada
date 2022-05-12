@@ -1,35 +1,26 @@
 const dotenv = require("dotenv");
-const { chatContents, users } = require("../models");
+const { chatcontents, users } = require("../models");
 dotenv.config();
 const { isAuthorized } = require("./tokenFunctions");
 
 module.exports = {
   getAllChatContents: async (req, res) => {
     const userInfo = isAuthorized(req);
-    const chatroomId = req.params.id;
+    const { chatroomId } = req.params;
 
     if (!userInfo) {
       return res.status(401).json({ message: "권한이 없습니다." });
     }
-
     try {
-      const chatsData = await chatContents.findAll({
+      const checkChatContents = await chatcontents.findAll({
+        order: [["createdAt", "DESC"]],
         where: {
           chatroomId: chatroomId,
         },
-        include: [
-          {
-            // import 시 자꾸 대문자로 지 맘대로 변환
-            model: users,
-            attributes: ["id", "name", "image"],
-          },
-        ],
       });
-      return res.status(200).json({
-        data: chatsData,
-        message: "채팅 기록 조회 완료",
-      });
+      return res.status(200).json({ checkChatContents });
     } catch (err) {
+      console.log(err);
       return res.status(500).json({ message: "서버 에러" });
     }
   },

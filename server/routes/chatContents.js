@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const chatContentsController = require("../controllers/chatContents");
 
-router.get("/:id", chatContentsController.getAllChatContents);
+router.get("/:chatroomId", chatContentsController.getAllChatContents);
 
 module.exports = router;
