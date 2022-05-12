@@ -25,17 +25,21 @@ export default function Chat({ setReservationModal }) {
 
   useEffect(() => {
     socket.current = io('ws://localhost:4000');
+  }, [socket]);
+
+  useEffect(() => {
     socket.current.on('receiveMessage', (data) => {
       const { chats, userId, chatroomId, updatedAt } = data;
-      console.log(data);
       setArrivalMessage({
         userId,
         chats,
         chatroomId,
         updatedAt,
       });
+      console.log(data);
     });
   }, []);
+  console.log(arrivalMessage);
 
   useEffect(() => {
     socket.current.emit('join', { chatroomId: chatRoomId });
@@ -44,7 +48,7 @@ export default function Chat({ setReservationModal }) {
   useEffect(() => {
     arrivalMessage && setMessage((prev) => [...prev, arrivalMessage]);
   }, [arrivalMessage, chatRoomId]);
-  console.log(arrivalMessage);
+  console.log(message);
 
   useEffect(() => {
     const getMessage = async () => {
@@ -90,7 +94,6 @@ export default function Chat({ setReservationModal }) {
       updatedAt: new Date(Date.now()),
     };
     socket.current.emit('sendMessage', data);
-
     setNewMessage('');
   };
 
@@ -131,9 +134,6 @@ export default function Chat({ setReservationModal }) {
     return `${Math.floor(years)}년 전`;
   };
 
-  // const test = () => {
-  //   socket.current.emit('test', newMessage);
-  // };
   return (
     <div className="chat">
       <div className="back">

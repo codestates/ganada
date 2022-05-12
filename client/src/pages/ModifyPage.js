@@ -15,13 +15,13 @@ function ModifyPage({ setModal }) {
   const { token } = useSelector((state) => state.auth);
   const { postState } = useSelector((state) => state.postInfo);
   const navigate = useNavigate();
-  console.log(tagInfo);
   useEffect(() => {
     if (inputTitleRef.current !== null) inputTitleRef.current.focus();
     setPostInfo({ ...postState });
   }, []);
 
   const titleHandler = (e) => {
+    console.log(images);
     setPostInfo({ ...postInfo, title: e.target.value });
   };
 
@@ -54,39 +54,47 @@ function ModifyPage({ setModal }) {
       !postInfo.description ||
       !postInfo.mainAddress ||
       !postInfo.detailAddress ||
-      !tagInfo.length === 0 ||
-      !images
+      tagInfo.length < 1 ||
+      Object.keys(images).length < 1
     ) {
       setModal({
         open: true,
         title: '모든 항목이 입력되어야 합니다.',
       });
-    } else {
-      const data = new FormData();
-      for (const key in images) {
-        if (Object.prototype.hasOwnProperty.call(images, key)) {
-          data.append('file', images[key]);
-        }
-      }
-      await axios
-        .post('http://localhost:4000/boards/images', data, {
-          withCredentials: true,
-        })
-        .then((result) => {
-          console.log(result);
-        });
+      return;
     }
-    setPostInfo({ ...postInfo, tagInfo });
+    const data = new FormData();
+    for (const key in images) {
+      if (Object.prototype.hasOwnProperty.call(images, key)) {
+        data.append('file', images[key]);
+      }
+    }
+    await axios
+      .post('http://localhost:4000/boards/images', data, {
+        withCredentials: true,
+      })
+      .then((result) => {
+        console.log(result);
+      });
+
+    setPostInfo({ ...postInfo, tags: tagInfo.toString() });
     await axios
       .patch(
         `http://localhost:4000/boards/${postState.id}`,
-        postInfo,
+        { ...postInfo, tags: tagInfo.toString() },
         { headers: { authorization: `Bearer ${token}` } },
         {
           withCredentials: true,
         },
       )
       .then((res) => {
+        setModal({
+          open: true,
+          title: '수정 되었습니다.',
+          callback: () => {
+            navigate(`/photodetail/${postState.id}`);
+          },
+        });
         console.log(res.data);
       });
   };

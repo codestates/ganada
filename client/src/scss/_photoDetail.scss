@@ -1,4 +1,5 @@
 .photoDetail-container {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -83,10 +84,12 @@
       overflow: hidden;
       box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
       .slider-img {
+        width: 600px;
         position: relative;
         display: flex;
         object-fit: cover;
         img {
+          aspect-ratio: 600/200;
           width: 100%;
           &:hover {
             cursor: pointer;
@@ -252,9 +255,10 @@
   }
 
   .chat-btn {
+    z-index: 10;
     position: fixed;
     right: 50px;
-    bottom: 20px;
+    bottom: 70px;
     padding: 3px 20px;
     line-height: 42px;
     border: none;

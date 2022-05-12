@@ -41,15 +41,15 @@ function PhotoDetailSlider({ image }) {
       </div>
       <div className="slider-img-container" role="button" aria-label="button">
         <div className="slider-img" ref={slideRef}>
-          {/* <img src={images[0]} alt="nunu1" />
-          <img src={images[1]} alt="nunu2" />
-          <img src={images[2]} alt="nunu3" /> */}
-          <img src={imagesPath + parsedImages[0]} alt="nunu3" />
+          {parsedImages.map((img) => {
+            return <img src={imagesPath + img} alt="profile" />;
+          })}
+          {/* <img src={imagesPath + parsedImages[0]} alt="nunu3" />
           <img src={imagesPath + parsedImages[1]} alt="nunu3" />
-          <img src={imagesPath + parsedImages[2]} alt="nunu3" />
+          <img src={imagesPath + parsedImages[2]} alt="nunu3" /> */}
         </div>
         <div className="dots-container">
-          {Array.from({ length: 3 }).map((item, index) => (
+          {Array.from({ length: parsedImages.length }).map((item, index) => (
             <button
               type="button"
               aria-label="dot"
