@@ -25,7 +25,7 @@ export default function Chat({ setReservationModal }) {
 
   useEffect(() => {
     socket.current = io('ws://localhost:4000');
-  }, [socket]);
+  }, []);
 
   useEffect(() => {
     socket.current.on('receiveMessage', (data) => {
@@ -39,14 +39,13 @@ export default function Chat({ setReservationModal }) {
       console.log(data);
     });
   }, []);
-  console.log(arrivalMessage);
 
   useEffect(() => {
     socket.current.emit('join', { chatroomId: chatRoomId });
   }, [chatRoomId]);
 
   useEffect(() => {
-    arrivalMessage && setMessage((prev) => [...prev, arrivalMessage]);
+    arrivalMessage && setMessage((prev) => [arrivalMessage, ...prev]);
   }, [arrivalMessage, chatRoomId]);
   console.log(message);
 
@@ -84,17 +83,21 @@ export default function Chat({ setReservationModal }) {
       }
     };
     getChatRooms();
-  }, [token]);
+  }, [token, arrivalMessage]);
 
   const sendMessage = (e) => {
-    const data = {
-      chats: newMessage,
-      userId: userInfo.id,
-      chatroomId: Number(chatRoomId),
-      updatedAt: new Date(Date.now()),
-    };
-    socket.current.emit('sendMessage', data);
-    setNewMessage('');
+    if (newMessage === '') {
+      console.log('못보냄');
+    } else {
+      const data = {
+        chats: newMessage,
+        userId: userInfo.id,
+        chatroomId: chatRoomId,
+        updatedAt: new Date(Date.now()),
+      };
+      socket.current.emit('sendMessage', data);
+      setNewMessage('');
+    }
   };
 
   const emojiShowHide = () => {
@@ -154,7 +157,7 @@ export default function Chat({ setReservationModal }) {
             <div className="chat-message-wrraper">
               {message ? (
                 <>
-                  <RecieverName />
+                  <RecieverName chatRooms={chatRooms} chatRoomId={chatRoomId} />
                   <Reservation setReservationModal={setReservationModal} />
                 </>
               ) : null}
@@ -165,6 +168,7 @@ export default function Chat({ setReservationModal }) {
                       chat={chat}
                       reverse={chat.userId !== userInfo.id}
                       timeago={timeago}
+                      chatRooms={chatRooms}
                     />
                   ))
                 ) : (

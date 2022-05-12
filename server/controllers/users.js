@@ -90,6 +90,7 @@ module.exports = {
         return res.status(401).json({ message: "권한이 없습니다." });
       }
     } catch (err) {
+      console.log(err);
       return res.status(500).json({ message: "서버 에러" });
     }
   },
