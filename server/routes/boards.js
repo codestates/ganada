@@ -8,8 +8,9 @@ const { isAuthorized } = require("../controllers/tokenFunctions");
 
 router.get("/", boardsController.getAllPosts);
 router.get("/:id", boardsController.getPosts);
+router.get("/user/:id", boardsController.getMyPosts);
 // router.post("/", boardsController.posts);
-router.patch("/:id", boardsController.patchPosts);
+// router.patch("/:id", boardsController.patchPosts);
 router.delete("/:id", boardsController.deletePosts);
 
 // Reservations API
@@ -57,7 +58,6 @@ router.post("/images", upload.array("file"), (req, res, next) => {
 
 //  /uploads/gunslinger1651603947316.png
 router.post("/", async (req, res, next) => {
-  // console.log(req.files);
   const userInfo = isAuthorized(req);
   if (userInfo) {
     try {
@@ -83,7 +83,7 @@ router.post("/", async (req, res, next) => {
         image: `${fileNames}`,
         userId: userInfo.id,
       });
-      fileNames = [];
+      // fileNames = [];
       return res.status(200).json({ data: createBoards, message: "작성 완료" });
     } catch (err) {
       return res.status(500).json({ message: "서버 에러" });
@@ -91,6 +91,57 @@ router.post("/", async (req, res, next) => {
   } else {
     return res.status(401).json({ message: "권한 없음" });
   }
+  // console.log(req.files);
 });
 
-module.exports = router;
+router.patch("/:id", async (req, res) => {
+  const userInfo = isAuthorized(req);
+
+  if (userInfo) {
+    try {
+      const { id } = req.params;
+      const searchPost = await boards.findOne({
+        where: { id },
+      });
+      if (searchPost) {
+        const {
+          title,
+          description,
+          tags,
+          latitude,
+          longitude,
+          mainAddress,
+          detailAddress,
+        } = req.body;
+        if (userInfo.id === searchPost.dataValues.userId) {
+          await boards.update(
+            {
+              category,
+              title,
+              description,
+              tags,
+              latitude,
+              longitude,
+              mainAddress,
+              detailAddress,
+              image: `${fileNames}`,
+              userId: userInfo.id,
+            },
+            {
+              where: { id },
+            }
+          );
+          fileNames = [];
+          return res
+            .status(200)
+            .json({ data: searchPost, message: "수정 완료" });
+        }
+      } else {
+        return res.status(400).json({ message: "권한이 없습니다." });
+      }
+    } catch (err) {
+      return res.status(500).json({ message: "서버 에러" });
+    }
+  }
+}),
+  (module.exports = router);

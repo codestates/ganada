@@ -124,11 +124,9 @@ function App() {
         <Route path="/" element={<Main />} />
         <Route path="/login" element={<Login cookieToken={cookieToken} />} />
         <Route path="/signup" element={<Signup setModal={setModal} />} />
-        <Route path="/photodetail" element={<PhotoDetail />} />
         <Route path="/photodetail/:id" element={<PhotoDetail />} />
-        <Route path="/modeldetail" element={<ModelDetail />} />
         <Route path="/modeldetail/:id" element={<ModelDetail />} />
-        <Route path="/mylist" element={<MyList />} />
+        <Route path="/mylist" element={<MyList setModal={setModal} />} />
         <Route path="/auth/kakao/callback" element={<KakaoLogin />} />
         <Route path="/mypage" element={<MyPage />}>
           <Route
@@ -141,9 +139,9 @@ function App() {
           />
           <Route path="leave" element={<LeaveId setModal={setModal} />} />
         </Route>
-        <Route path="/search" element={<SearchPage />} />
+        <Route path="/search" element={<SearchPage setModal={setModal} />} />
         <Route path="/write/:id" element={<WritingPage />} />
-        <Route path="/modify" element={<ModifyPage />} />
+        <Route path="/modify" element={<ModifyPage setModal={setModal} />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
 

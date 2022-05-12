@@ -6,9 +6,9 @@ module.exports = {
   getAllPosts: async (req, res) => {
     let { category, keyword, tags } = req.query;
     if (category === "model") {
-      category = 0;
-    } else {
       category = 1;
+    } else {
+      category = 0;
     }
     try {
       const searchPosts = await boards.findAll({
@@ -76,6 +76,7 @@ module.exports = {
           "description",
           "createdAt",
           "image",
+          "tags",
           "latitude",
           "longitude",
           "mainAddress",
@@ -95,66 +96,69 @@ module.exports = {
     }
   },
 
-  patchPosts: async (req, res) => {
-    const userInfo = isAuthorized(req);
-
-    if (userInfo) {
-      try {
-        const { id } = req.params;
-        const searchPost = await boards.findOne({
-          where: { id },
-        });
-        if (searchPost) {
-          const {
-            title,
-            image,
-            description,
-            tags,
-            sex,
-            age,
-            height,
-            weight,
-            latitude,
-            longitude,
-            mainAddress,
-            detailAddress,
-          } = req.body;
-          if (userInfo.id === searchPost.dataValues.userId) {
-            await boards.update(
-              {
-                title,
-                image,
-                description,
-                tags,
-                sex,
-                age,
-                height,
-                weight,
-                latitude,
-                longitude,
-                mainAddress,
-                detailAddress,
-              },
-              {
-                where: { id },
-              }
-            );
-            return res
-              .status(200)
-              .json({ data: searchPost, message: "수정 완료" });
-          }
-        } else {
-          return res.status(400).json({ message: "권한이 없습니다." });
-        }
-      } catch (err) {
-        return res.status(500).json({ message: "서버 에러" });
-      }
+  getMyPosts: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const searchPost = await boards.findAll({
+        where: { userId: id },
+      });
+      return res.status(200).json({ data: searchPost, message: "조회 성공" });
+    } catch (err) {
+      return res.status(500).json({ message: "서버 에러" });
     }
   },
 
+  // patchPosts: async (req, res) => {
+  //   const userInfo = isAuthorized(req);
+
+  //   if (userInfo) {
+  //     try {
+  //       const { id } = req.params;
+  //       const searchPost = await boards.findOne({
+  //         where: { id },
+  //       });
+  //       if (searchPost) {
+  //         const {
+  //           title,
+  //           image,
+  //           description,
+  //           tags,
+  //           latitude,
+  //           longitude,
+  //           mainAddress,
+  //           detailAddress,
+  //         } = req.body;
+  //         if (userInfo.id === searchPost.dataValues.userId) {
+  //           await boards.update(
+  //             {
+  //               title,
+  //               image,
+  //               description,
+  //               tags,
+  //               latitude,
+  //               longitude,
+  //               mainAddress,
+  //               detailAddress,
+  //             },
+  //             {
+  //               where: { id },
+  //             }
+  //           );
+  //           return res
+  //             .status(200)
+  //             .json({ data: searchPost, message: "수정 완료" });
+  //         }
+  //       } else {
+  //         return res.status(400).json({ message: "권한이 없습니다." });
+  //       }
+  //     } catch (err) {
+  //       return res.status(500).json({ message: "서버 에러" });
+  //     }
+  //   }
+  // },
+
   deletePosts: async (req, res) => {
     const userInfo = isAuthorized(req);
-
     if (userInfo) {
       try {
         const { id } = req.params;

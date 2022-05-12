@@ -1,66 +1,66 @@
 import axios from 'axios';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { useState, useRef, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import Image from '../components/Write/Image';
 import SelectPlaceModal from '../components/Write/SelectPlaceModal';
 import Tag from '../components/Search-list/Tag';
-import Modal from '../components/Modal';
 
-function ModifyPage({ role = 1 }) {
+function ModifyPage({ setModal }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const inputTitleRef = useRef(null);
-  const [title, setTitle] = useState('제목입니다람쥐'); // 15글자 + ...
-  const [description, setDescription] = useState('소개입니다');
-  const [tags, setTags] = useState([]);
-  const [mainAddress, setMainAddress] = useState('경기도 안양시 동안구 범계동');
-  const [detailAddress, setDetailAddress] =
-    useState('목련선경아파트 106동 1401호');
-  const [coordinate, setCoordinate] = useState({
-    lat: 39.77777,
-    lng: 128.03812,
-  });
-  const [category, setCategory] = useState('');
+  const [postInfo, setPostInfo] = useState({});
   const [images, setImages] = useState('');
-  const isLogin = true;
-  const reqData = {
-    category: 0,
-    title,
-    description,
-    tags: tags.toString(),
-    latitude: coordinate.lat,
-    longitude: coordinate.lng,
-    mainAddress,
-    detailAddress,
-  };
-
+  const [tagInfo, setTagInfo] = useState([]);
+  const { token } = useSelector((state) => state.auth);
+  const { postState } = useSelector((state) => state.postInfo);
+  const navigate = useNavigate();
+  console.log(tagInfo);
   useEffect(() => {
     if (inputTitleRef.current !== null) inputTitleRef.current.focus();
+    setPostInfo({ ...postState });
   }, []);
 
   const titleHandler = (e) => {
-    setTitle(e.target.value);
+    setPostInfo({ ...postInfo, title: e.target.value });
   };
 
   const descriptionHandler = (e) => {
-    setDescription(e.target.value);
+    setPostInfo({ ...postInfo, description: e.target.value });
   };
 
   const detailAddressHandler = (e) => {
-    setDetailAddress(e.target.value);
+    setPostInfo({ ...postInfo, detailAddress: e.target.value });
   };
 
   const modalHandler = (address, latlng) => {
     if (isModalOpen && address && latlng) {
-      setMainAddress(address);
-      setDetailAddress('');
-      setCoordinate({ ...latlng });
+      setPostInfo({
+        ...postInfo,
+        mainAddress: address,
+        detailAddress: '',
+        latitude: latlng.latitude,
+        longitude: latlng.longitude,
+      });
     }
     setIsModalOpen(!isModalOpen);
   };
-
+  const cancleHandler = () => {
+    navigate(-1);
+  };
   const requestHandler = async () => {
-    if (!title || !description || !mainAddress || !detailAddress || !images) {
-      alert('모든 항목이 입력되어야 합니다.');
+    if (
+      !postInfo.title ||
+      !postInfo.description ||
+      !postInfo.mainAddress ||
+      !postInfo.detailAddress ||
+      !tagInfo.length === 0 ||
+      !images
+    ) {
+      setModal({
+        open: true,
+        title: '모든 항목이 입력되어야 합니다.',
+      });
     } else {
       const data = new FormData();
       for (const key in images) {
@@ -68,6 +68,7 @@ function ModifyPage({ role = 1 }) {
           data.append('file', images[key]);
         }
       }
+      console.log(images);
       await axios
         .post('http://localhost:4000/boards/images', data, {
           withCredentials: true,
@@ -76,18 +77,24 @@ function ModifyPage({ role = 1 }) {
           console.log(result);
         });
     }
+    setPostInfo({ ...postInfo, tagInfo });
     await axios
-      .patch('http://localhost:4000/boards', reqData, {
-        withCredentials: true,
-      })
+      .patch(
+        `http://localhost:4000/boards/${postState.id}`,
+        postInfo,
+        { headers: { authorization: `Bearer ${token}` } },
+        {
+          withCredentials: true,
+        },
+      )
       .then((res) => {
-        console.log('요청 성공');
+        console.log(res.data);
       });
   };
 
   return (
     <div className="modify-page-container">
-      {isLogin ? (
+      {token ? (
         <div>
           <div className="modify-page-header">
             <h2>수정하기 </h2>
@@ -102,7 +109,7 @@ function ModifyPage({ role = 1 }) {
                 ref={inputTitleRef}
                 placeholder="제목을 입력하세요"
                 onChange={titleHandler}
-                value={title}
+                value={postInfo.title}
               />
             </div>
           </div>
@@ -122,7 +129,7 @@ function ModifyPage({ role = 1 }) {
               <textarea
                 className="input-introduction"
                 placeholder="촬영 내용을 소개해 주세요"
-                value={description}
+                value={postInfo.description}
                 onChange={descriptionHandler}
               />
             </div>
@@ -136,7 +143,7 @@ function ModifyPage({ role = 1 }) {
                 className="show-address"
                 type="text"
                 disabled
-                value={mainAddress}
+                value={postInfo.mainAddress}
               />
               <button
                 type="button"
@@ -149,7 +156,7 @@ function ModifyPage({ role = 1 }) {
                 className="input-detail-address"
                 type="text"
                 placeholder="상세주소 입력"
-                value={detailAddress}
+                value={postInfo.detailAddress}
                 onChange={detailAddressHandler}
               />
               {isModalOpen ? (
@@ -162,11 +169,15 @@ function ModifyPage({ role = 1 }) {
               <span>컨셉</span>
             </div>
             <div className="tag-wrapper">
-              <Tag selected={role} setTagss={setTags} />
+              <Tag type={postState.category || 0} setTagInfo={setTagInfo} />
             </div>
           </div>
           <div className="action-button">
-            <button className="cancle-button" type="button">
+            <button
+              className="cancle-button"
+              type="button"
+              onClick={cancleHandler}
+            >
               취소
             </button>
             <button
@@ -179,7 +190,7 @@ function ModifyPage({ role = 1 }) {
           </div>
         </div>
       ) : (
-        <Navigate to="/search" />
+        <Navigate to="/login" replace />
       )}
     </div>
   );

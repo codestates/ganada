@@ -15,7 +15,7 @@ function PhotoDetailMap({ post }) {
       position: markerPosition,
     });
     marker.setMap(map);
-    const iwContent = `<div style="font-size: 13px; padding:10px 0 10px 10px;">이곳에 위치하고 있어요!<br><a href="https://map.kakao.com/link/map/${post.mainAddress} ${post.detailAddress},${post.latitude},${post.longitude}" style="color:blue" target="_blank">큰지도보기</a> <a href="https://map.kakao.com/link/to/${post.mainAddress} ${post.detailAddress},${post.latitude},${post.longitude}" style="color:blue" target="_blank">길찾기</a></div>`;
+    const iwContent = `<div style="font-size: 13px; width:200px; text-align:center; padding: 10px;">${post.mainAddress} ${post.detailAddress}<a href="https://map.kakao.com/link/map/${post.mainAddress} ${post.detailAddress},${post.latitude},${post.longitude}" style="color:blue" target="_blank"><br>큰지도보기</a> <a href="https://map.kakao.com/link/to/${post.mainAddress} ${post.detailAddress},${post.latitude},${post.longitude}" style="color:blue" target="_blank">길찾기</a></div>`;
     const iwPosition = new kakao.maps.LatLng(post.latitude, post.longitude);
     // 인포윈도우를 생성합니다
     const infowindow = new kakao.maps.InfoWindow({

@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useState, useRef, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, Navigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import Image from '../components/Write/Image';
 import SelectPlaceModal from '../components/Write/SelectPlaceModal';
 import Tag from '../components/Search-list/Tag';
@@ -14,12 +15,12 @@ function WritingPage() {
   const [mainAddress, setMainAddress] = useState('');
   const [detailAddress, setDetailAddress] = useState('');
   const [coordinate, setCoordinate] = useState({});
-  const [category, setCategory] = useState('');
   const [images, setImages] = useState('');
   const navigate = useNavigate();
-  const type = Number(useParams().id);
+  const category = Number(useParams().id);
+  const { token } = useSelector((state) => state.auth);
   const reqData = {
-    category: 0,
+    category,
     title,
     description,
     tags: tagInfo.toString(),
@@ -78,14 +79,22 @@ function WritingPage() {
           'http://localhost:4000/boards/images',
           data,
           {
+            // headers:'content-type':'multipart/form-data',
             withCredentials: true,
           },
         );
         if (result.status === 200) {
           await axios
-            .post(`http://localhost:4000/boards`, reqData, {
-              withCredentials: true,
-            })
+            .post(
+              `http://localhost:4000/boards`,
+              reqData,
+              {
+                headers: { authorization: `Bearer ${token}` },
+              },
+              {
+                withCredentials: true,
+              },
+            )
             .then((res) => {
               if (res.status === 200) {
                 navigate(`/photodetail/${res.data.data.id}`, {
@@ -103,10 +112,14 @@ function WritingPage() {
     }
   };
 
+  if (!token) {
+    return <Navigate to="/login" replace />;
+  }
+
   return (
     <div className="write-page-container">
       <div className="write-page-header">
-        <h2>{type ? '모델 등록' : '사진 작가 등록'} </h2>
+        <h2>{category ? '모델 등록' : '사진 작가 등록'} </h2>
       </div>
       <div className="title-container">
         <div className="title">
@@ -177,7 +190,7 @@ function WritingPage() {
           <span>컨셉</span>
         </div>
         <div className="tag-wrapper">
-          <Tag type={type} setTagInfo={setTagInfo} />
+          <Tag type={category} setTagInfo={setTagInfo} />
         </div>
       </div>
       <div className="action-button">

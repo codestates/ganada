@@ -5,7 +5,7 @@ import Tag from './Tag';
 import { useOutsideClick } from '../../hooks/useOutsideClick';
 import { setType } from '../../redux/searchConditionSlice';
 
-function SubNav() {
+function SubNav({ setModal }) {
   const [selected, setSelected] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
@@ -25,7 +25,10 @@ function SubNav() {
 
   const dropDownHandler = () => {
     if (!token) {
-      alert('로그인이 필요합니다');
+      setModal({
+        open: true,
+        title: '로그인이 필요합니다.',
+      });
       return;
     }
     setIsActive(!isActive);

@@ -7,7 +7,6 @@ import KakaoShare from './KakaoShare';
 function PhotoDetailModal({ handleModal }) {
   const url = window.location.href;
   const [isShow, setIsShow] = useState(false);
-
   const showBoxHandler = () => {
     setIsShow(!isShow);
   };

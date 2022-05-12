@@ -6,7 +6,7 @@ function ImageSlider({ image }) {
   if (image) {
     parsedImages = image.split(',');
   }
-  // const parsedImages = image.split(',');
+
   const TOTAL_SLIDES = parsedImages.length - 1;
   const [currentSlide, setCurrentSlide] = useState(0);
   const slideRef = useRef(null);
@@ -44,9 +44,9 @@ function ImageSlider({ image }) {
         <IoIosArrowDropleft className="nextBtn" />
       </button>
       <div className="sliderContainer" ref={slideRef}>
-        <img src={imagesPath + parsedImages[0]} alt="profile-image" />;
-        <img src={imagesPath + parsedImages[1]} alt="profile-image" />;
-        <img src={imagesPath + parsedImages[2]} alt="profile-image" />;
+        <img src={imagesPath + parsedImages[0]} alt="profile-img" />;
+        <img src={imagesPath + parsedImages[1]} alt="profile-img" />;
+        <img src={imagesPath + parsedImages[2]} alt="profile-img" />;
       </div>
     </div>
   );

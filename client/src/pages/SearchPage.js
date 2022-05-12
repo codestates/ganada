@@ -5,7 +5,7 @@ import axios from 'axios';
 import SubNav from '../components/Search-list/SubNav';
 import Post from '../components/Search-list/Post';
 
-function SearchPage() {
+function SearchPage({ setModal }) {
   const [topBtn, setTopBtn] = useState(false);
   const outterRef = useRef();
   const { keyword, tags, type } = useSelector((state) => state.searchCondition);
@@ -52,7 +52,7 @@ function SearchPage() {
 
   return (
     <div className="searchPage-container">
-      <SubNav dropdownRef={outterRef} />
+      <SubNav dropdownRef={outterRef} setModal={setModal} />
       <div className="searchPage-body">
         {posts.length > 0 &&
           posts.map((post) => {

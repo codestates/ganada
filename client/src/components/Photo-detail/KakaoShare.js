@@ -1,8 +1,12 @@
 import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 function KakaoShare() {
   const images = ['/img/kakao.png'];
   const url = window.location.href;
+  const { postState } = useSelector((state) => state.postInfo);
+  const parsedImage = postState.image.split(',');
+  const imagesPath = `http://localhost:4000/images/`;
   useEffect(() => {
     initKakao();
   }, []);
@@ -21,10 +25,9 @@ function KakaoShare() {
     window.Kakao.Link.sendDefault({
       objectType: 'feed',
       content: {
-        title: '딸기 치즈 케익',
-        description: '#케익 #딸기 #삼평동 #카페 #분위기 #소개팅',
-        imageUrl:
-          'http://mud-kage.kakao.co.kr/dn/Q2iNx/btqgeRgV54P/VLdBs9cvyn8BJXB3o7N8UK/kakaolink40_original.png',
+        title: postState.title,
+        description: postState.description,
+        imageUrl: '/img/kakao.png',
         link: {
           mobileWebUrl: url,
           webUrl: url,

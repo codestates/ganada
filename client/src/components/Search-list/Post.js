@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { FaMapMarkerAlt } from 'react-icons/fa';
 import { TiDocumentText } from 'react-icons/ti';
+import { useState } from 'react';
 import stringParser from '../../modules/string-parser';
 import ImageSlider from './ImageSlider';
 
@@ -9,7 +10,6 @@ function Post({ post }) {
   const clickHandler = () => {
     navigate(`/photodetail/${post.id}`);
   };
-
   const parsedPost = stringParser(post);
 
   return (
