@@ -6,7 +6,7 @@ import Image from '../components/Write/Image';
 import SelectPlaceModal from '../components/Write/SelectPlaceModal';
 import Tag from '../components/Search-list/Tag';
 
-function WritingPage() {
+function WritingPage({ setModal }) {
   const inputTitleRef = useRef(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [title, setTitle] = useState(''); // 15글자 + ...
@@ -66,7 +66,11 @@ function WritingPage() {
 
   const requestHandler = async () => {
     if (!title || !description || !mainAddress || !detailAddress || !images) {
-      alert('모든 항목이 입력되어야 합니다.');
+      setModal({
+        open: true,
+        title: '모든 항목이 입력되어야 합니다.',
+      });
+      // alert('모든 항목이 입력되어야 합니다.');
     } else {
       try {
         const data = new FormData();
@@ -102,7 +106,11 @@ function WritingPage() {
                   replace: true,
                 });
               } else {
-                alert('등록 실패');
+                setModal({
+                  open: true,
+                  title: '등록 실패',
+                });
+                // alert('등록 실패');
               }
             });
         }
@@ -140,7 +148,7 @@ function WritingPage() {
           <span>이미지</span>
         </div>
         <div className="image-upload-area">
-          <Image setImages={setImages} />
+          <Image setImages={setImages} setModal={setModal} />
         </div>
       </div>
       <div className="introduction-container">

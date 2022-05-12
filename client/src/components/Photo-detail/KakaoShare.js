@@ -6,7 +6,7 @@ function KakaoShare() {
   const url = window.location.href;
   const { postState } = useSelector((state) => state.postInfo);
   const parsedImage = postState.image.split(',');
-  const imagesPath = `http://localhost:4000/images/`;
+  const imagesPath = `http://localhost:4000/images/${parsedImage[0]}`;
   useEffect(() => {
     initKakao();
   }, []);
@@ -27,7 +27,7 @@ function KakaoShare() {
       content: {
         title: postState.title,
         description: postState.description,
-        imageUrl: '/img/kakao.png',
+        imageUrl: imagesPath,
         link: {
           mobileWebUrl: url,
           webUrl: url,

@@ -140,7 +140,10 @@ function App() {
           <Route path="leave" element={<LeaveId setModal={setModal} />} />
         </Route>
         <Route path="/search" element={<SearchPage setModal={setModal} />} />
-        <Route path="/write/:id" element={<WritingPage />} />
+        <Route
+          path="/write/:id"
+          element={<WritingPage setModal={setModal} />}
+        />
         <Route path="/modify" element={<ModifyPage setModal={setModal} />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

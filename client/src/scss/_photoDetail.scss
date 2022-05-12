@@ -148,6 +148,13 @@
     border-bottom: 1px solid #dddddd;
     .intro-sub-container {
       flex: 1;
+      display: flex;
+      .half-container {
+        flex: 4;
+      }
+      .half-container-two {
+        flex: 6;
+      }
     }
     .intro-sub-title {
       font-size: 20px;
@@ -174,41 +181,6 @@
         font-size: 12px;
       }
     }
-    // .intro-btn-container {
-    //   float: right;
-    // }
-    // .intro-delete-btn {
-    //   margin-right: 20px;
-    //   padding: 7px 20px 7px 20px;
-    //   font-size: 12px;
-    //   border-color: #ff2216;
-    //   background: #fff;
-    //   color: #ff2216;
-    //   border: solid 1px;
-    //   border-radius: 5px;
-    //   letter-spacing: 1pt;
-    //   &:hover {
-    //     background-color: #ff2216;
-    //     color: #fff;
-    //     transition: 0.3s;
-    //     cursor: pointer;
-    //   }
-    // }
-    // .intro-modify-btn {
-    //   padding: 7px 20px 7px 20px;
-    //   font-size: 12px;
-    //   border-color: #adadad;
-    //   background: #fff;
-    //   color: #adadad;
-    //   border: solid 1px;
-    //   border-radius: 5px;
-    //   letter-spacing: 1pt;
-    //   &:hover {
-    //     background-color: #adadad;
-    //     color: #fff;
-    //     cursor: pointer;
-    //   }
-    // }
   }
 
   .map-container {
