@@ -68,7 +68,6 @@ function ModifyPage({ setModal }) {
           data.append('file', images[key]);
         }
       }
-      console.log(images);
       await axios
         .post('http://localhost:4000/boards/images', data, {
           withCredentials: true,
