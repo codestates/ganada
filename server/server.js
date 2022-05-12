@@ -36,16 +36,16 @@ io.on("connection", (socket) => {
       updatedAt,
     };
     io.to(chatroomId).emit("receiveBoardData", payload);
-    const welcomeChat = "Hello World";
-    const chatContent = await db.chatcontents
+    const boardStringfy = JSON.stringify(payload);
+    const chatting = await db.chatcontents
       .create({
         chatroomId,
-        chats: welcomeChat,
+        chats: `${boardStringfy}`,
       })
       .catch((err) => console.log(err));
   });
 
-  socket.on("sendMessage", async (data, req) => {
+  socket.on("sendMessage", async (data) => {
     const { chats, userId, chatroomId, updatedAt } = data;
     io.to(chatroomId).emit("receiveMessage", {
       userId,
