@@ -12,20 +12,24 @@ import Reservation from '../components/Chats/Reservation';
 import MessageNull from '../components/Chats/MessageNull';
 import RecieverName from '../components/Chats/RecieverName';
 
-export default function Chat({ setReservationModal }) {
+export default function Chat({ setReservationModal, setModal }) {
   const [chatRooms, setChatRooms] = useState([]);
   const [message, setMessage] = useState(null);
   const [arrivalMessage, setArrivalMessage] = useState(null);
+  const [chatUserInfo, setChatUserInfo] = useState({});
+  const [newMessage, setNewMessage] = useState('');
   const socket = useRef();
   const { chatRoomId } = useParams();
   const [showEmoji, setShowEmojij] = useState(false);
   const userInfo = useSelector((state) => state.userInfo);
   const { token } = useSelector((state) => state.auth);
-  const [newMessage, setNewMessage] = useState('');
+  const inSection = useRef();
+
+  console.log(chatUserInfo);
 
   useEffect(() => {
     socket.current = io('ws://localhost:4000');
-  }, []);
+  }, [token]);
 
   useEffect(() => {
     socket.current.on('receiveMessage', (data) => {
@@ -38,16 +42,15 @@ export default function Chat({ setReservationModal }) {
       });
       console.log(data);
     });
-  }, []);
+  }, [token]);
 
   useEffect(() => {
     socket.current.emit('join', { chatroomId: chatRoomId });
-  }, [chatRoomId]);
+  }, [chatRoomId, token]);
 
   useEffect(() => {
     arrivalMessage && setMessage((prev) => [arrivalMessage, ...prev]);
-  }, [arrivalMessage, chatRoomId]);
-  console.log(message);
+  }, [arrivalMessage, chatRoomId, token]);
 
   useEffect(() => {
     const getMessage = async () => {
@@ -65,7 +68,16 @@ export default function Chat({ setReservationModal }) {
       }
     };
     getMessage();
-  }, [chatRoomId, token]);
+  }, [chatRoomId, token, chatUserInfo]);
+
+  const getUserInfo = () => {
+    const filterMessage = message && message.map((el) => el.chatroomId)[0];
+    const sliceChatRooms = [...chatRooms].filter(
+      (el) => el.id === filterMessage,
+    );
+    return sliceChatRooms;
+  };
+  getUserInfo();
 
   useEffect(() => {
     const getChatRooms = async () => {
@@ -86,8 +98,8 @@ export default function Chat({ setReservationModal }) {
   }, [token, arrivalMessage]);
 
   const sendMessage = (e) => {
-    if (newMessage === '') {
-      console.log('못보냄');
+    if (newMessage === '' || newMessage === '\n') {
+      setNewMessage('');
     } else {
       const data = {
         chats: newMessage,
@@ -99,6 +111,16 @@ export default function Chat({ setReservationModal }) {
       setNewMessage('');
     }
   };
+
+  useEffect(() => {
+    const onClick = (e) => {
+      if (inSection.current && !inSection.current.contains(e.target)) {
+        setShowEmojij(false);
+      }
+    };
+
+    document.addEventListener('mousedown', onClick);
+  }, [chatRoomId]);
 
   const emojiShowHide = () => {
     setShowEmojij(!showEmoji);
@@ -116,11 +138,11 @@ export default function Chat({ setReservationModal }) {
     if (textarea) {
       textarea.style.height = 'auto';
       const height = textarea.scrollHeight;
-      textarea.style.height = `${height + 8}px`;
+      textarea.style.height = `${height + 3}px`;
     }
   };
   const timeago = (createdat) => {
-    const milliSeconds = new Date() - createdat;
+    const milliSeconds = Math.floor(new Date() - createdat);
     const seconds = milliSeconds / 1000;
     if (seconds < 60) return `방금 전`;
     const minutes = seconds / 60;
@@ -137,6 +159,12 @@ export default function Chat({ setReservationModal }) {
     return `${Math.floor(years)}년 전`;
   };
 
+  const setchat = (chatRoom) => {
+    setChatUserInfo(chatRoom);
+  };
+  // chatRoomId가 1일때 불러오기
+  // chatRoomId가 2일때 불러오기
+
   return (
     <div className="chat">
       <div className="back">
@@ -145,26 +173,32 @@ export default function Chat({ setReservationModal }) {
             <div className="chat-rooms-wrraper">
               <div className="nickname"> {userInfo.name} </div>
               <div className="chatRooms">
-                {chatRooms.map((chatRoom) => (
-                  <Link to={`${chatRoom.id}`}>
-                    <ChatRooms chatRoom={chatRoom} timeago={timeago} />
-                  </Link>
-                ))}
+                {chatRooms &&
+                  chatRooms.map((chatRoom) => (
+                    <Link
+                      to={`${chatRoom.id}`}
+                      onClick={(e) => setChatUserInfo(chatRoom)}
+                    >
+                      <ChatRooms chatRoom={chatRoom} timeago={timeago} />
+                    </Link>
+                  ))}
               </div>
             </div>
           </div>
           <div className="chat-message">
             <div className="chat-message-wrraper">
-              {message ? (
+              {chatRoomId ? (
                 <>
-                  <RecieverName chatRooms={chatRooms} chatRoomId={chatRoomId} />
+                  <RecieverName getUserInfo={getUserInfo} message={message} />
                   <Reservation setReservationModal={setReservationModal} />
                 </>
               ) : null}
               <div className="messages">
-                {message ? (
+                {chatRoomId ? (
+                  message &&
                   message.map((chat) => (
                     <Message
+                      getUserInfo={getUserInfo}
                       chat={chat}
                       reverse={chat.userId !== userInfo.id}
                       timeago={timeago}
@@ -175,9 +209,9 @@ export default function Chat({ setReservationModal }) {
                   <MessageNull />
                 )}
               </div>
-              {message ? (
+              {chatRoomId ? (
                 <div className="send-chat-input">
-                  <div className="emoji">
+                  <div className="emoji" ref={inSection}>
                     {showEmoji && <Picker onEmojiClick={handleEmojiClick} />}
                     <MdInsertEmoticon
                       size="24"
@@ -194,11 +228,14 @@ export default function Chat({ setReservationModal }) {
                       onKeyUp={autoResizeTextarea}
                       onChange={(e) => setNewMessage(e.target.value)}
                       value={newMessage}
-                      onKeyPress={(e) =>
-                        e.key === 'Enter' ? sendMessage(e) : null
+                      // eslint-disable-next-line react/jsx-no-duplicate-props
+                      onKeyUp={(e) =>
+                        e.key === 'Enter'
+                          ? sendMessage(e) && newMessage === ''
+                          : null
                       }
                     />
-                    {newMessage ? (
+                    {chatRoomId ? (
                       <button
                         type="button"
                         className={newMessage === '' ? 'send' : 'send active'}

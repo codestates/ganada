@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 
 export default function Reservation({ setReservationModal }) {
   const handleOpen = () => {
     setReservationModal(true);
   };
+  const { postState } = useSelector((state) => state.postInfo);
+  console.log(postState);
 
   return (
     <div className="reservation-wrraper">

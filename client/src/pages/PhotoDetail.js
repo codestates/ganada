@@ -37,13 +37,24 @@ function PhotoDetail() {
           },
           { withCredentials: true },
         )
-        .then(navigate('/chat'));
+        .then((res) => {});
+      // .then(navigate('/chat'));
     } catch (err) {
-      console.log(err);
+      if (err.response.data.message === '이미 채팅방이 존재합니다.') {
+        console.log(err.response.data.data);
+        navigate(`/chat/${err.response.data.data}`);
+      } else {
+        navigate(`/chat`);
+      }
     }
   };
 
-  console.log();
+  // 현재 채팅은 보드의 상태를 가지고 있어야한다.
+  // 내가 가지고있는 정보
+  // 보드의 정보
+  // 채팅 룸의 정보
+  // 채팅을 클릭시 ..내가 누른 보드의 상태를 저장해야한다?
+  //
   useEffect(() => {
     const getPostDetail = async () => {
       try {
