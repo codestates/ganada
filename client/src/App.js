@@ -19,7 +19,6 @@ import PhotoDetail from './pages/PhotoDetail';
 import MediaFooterNav from './components/MediaFooterNav';
 import Chat from './pages/Chat';
 import MyList from './pages/MyList';
-import ModelDetail from './pages/ModelDetail';
 import Modal from './components/Modal';
 import KakaoLogin from './components/KakaoLogin';
 import ModifyPage from './pages/ModifyPage';
@@ -45,7 +44,7 @@ function App() {
   const getUserInfo = () => {
     try {
       axios
-        .get(`http://localhost:4000/users`, {
+        .get(`${process.env.REACT_APP_API_URL}users`, {
           headers: { authorization: `Bearer ${token}` },
           withCredentials: true,
         })
@@ -77,7 +76,7 @@ function App() {
   const handleLogout = () => {
     axios
       .post(
-        `http://localhost:4000/auth/logout`,
+        `${process.env.REACT_APP_API_URL}auth/logout`,
         null,
         {
           headers: { authorization: `Bearer ${token}` },
@@ -124,8 +123,10 @@ function App() {
         <Route path="/" element={<Main />} />
         <Route path="/login" element={<Login cookieToken={cookieToken} />} />
         <Route path="/signup" element={<Signup setModal={setModal} />} />
-        <Route path="/photodetail/:id" element={<PhotoDetail />} />
-        <Route path="/modeldetail/:id" element={<ModelDetail />} />
+        <Route
+          path="/photodetail/:id"
+          element={<PhotoDetail setModal={setModal} />}
+        />
         <Route path="/mylist" element={<MyList setModal={setModal} />} />
         <Route path="/auth/kakao/callback" element={<KakaoLogin />} />
         <Route path="/mypage" element={<MyPage />}>
@@ -140,7 +141,10 @@ function App() {
           <Route path="leave" element={<LeaveId setModal={setModal} />} />
         </Route>
         <Route path="/search" element={<SearchPage setModal={setModal} />} />
-        <Route path="/write/:id" element={<WritingPage />} />
+        <Route
+          path="/write/:id"
+          element={<WritingPage setModal={setModal} />}
+        />
         <Route path="/modify" element={<ModifyPage setModal={setModal} />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

@@ -77,7 +77,7 @@ router.post("/", async (req, res, next) => {
         image: `${fileNames}`,
         userId: userInfo.id,
       });
-      // fileNames = [];
+      fileNames = []; // 지우면 안돼요..
       return res.status(200).json({ data: createBoards, message: "작성 완료" });
     } catch (err) {
       return res.status(500).json({ message: "서버 에러" });
@@ -90,7 +90,6 @@ router.post("/", async (req, res, next) => {
 
 router.patch("/:id", async (req, res) => {
   const userInfo = isAuthorized(req);
-
   if (userInfo) {
     try {
       const { id } = req.params;
@@ -110,7 +109,6 @@ router.patch("/:id", async (req, res) => {
         if (userInfo.id === searchPost.dataValues.userId) {
           await boards.update(
             {
-              category,
               title,
               description,
               tags,

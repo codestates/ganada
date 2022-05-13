@@ -8,21 +8,6 @@ function Tag({ type, setTagInfo }) {
   const [selectedTags, setSelectedTags] = useState([]);
   const dispatch = useDispatch();
 
-  // const tagHandler = (e) => {
-  //   let tags = selectedTags.slice();
-  //   if (e.target.getAttribute('class') === 'tag selected') {
-  //     e.target.classList.remove('selected');
-  //     tags = tags.filter((tag) => tag !== e.target.textContent);
-  //   } else {
-  //     e.target.classList.add('selected');
-  //     tags.push(e.target.textContent);
-  //   }
-  //   setSelectedTags(tags);
-  // dispatch(setTags(tags));
-  // if (setTagInfo) {
-  //   setTagInfo(tags);
-  // }
-  // };
   const tagHandler = (e) => {
     let newTags = selectedTags.slice();
     if (newTags.indexOf(e.target.textContent) !== -1) {
@@ -41,7 +26,6 @@ function Tag({ type, setTagInfo }) {
     setSelectedTags([]);
     dispatch(setTags([]));
   }, [type]);
-  // console.log(selectedTags);
 
   return (
     <ul id="tags">

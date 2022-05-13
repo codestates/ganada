@@ -60,12 +60,13 @@ io.on("connection", (socket) => {
       chatroomId,
       updatedAt,
     });
-    const chatContent = await db.chatcontents.create({
-      userId: userId,
-      chatroomId: chatroomId,
-      chats: chats,
-    });
-    return chatContent;
+    const chatContent = await db.chatcontents
+      .create({
+        userId,
+        chatroomId: chatroomId,
+        chats: chats,
+      })
+      .catch((err) => console.log(err));
   });
 });
 

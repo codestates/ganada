@@ -108,55 +108,6 @@ module.exports = {
     }
   },
 
-  // patchPosts: async (req, res) => {
-  //   const userInfo = isAuthorized(req);
-
-  //   if (userInfo) {
-  //     try {
-  //       const { id } = req.params;
-  //       const searchPost = await boards.findOne({
-  //         where: { id },
-  //       });
-  //       if (searchPost) {
-  //         const {
-  //           title,
-  //           image,
-  //           description,
-  //           tags,
-  //           latitude,
-  //           longitude,
-  //           mainAddress,
-  //           detailAddress,
-  //         } = req.body;
-  //         if (userInfo.id === searchPost.dataValues.userId) {
-  //           await boards.update(
-  //             {
-  //               title,
-  //               image,
-  //               description,
-  //               tags,
-  //               latitude,
-  //               longitude,
-  //               mainAddress,
-  //               detailAddress,
-  //             },
-  //             {
-  //               where: { id },
-  //             }
-  //           );
-  //           return res
-  //             .status(200)
-  //             .json({ data: searchPost, message: "수정 완료" });
-  //         }
-  //       } else {
-  //         return res.status(400).json({ message: "권한이 없습니다." });
-  //       }
-  //     } catch (err) {
-  //       return res.status(500).json({ message: "서버 에러" });
-  //     }
-  //   }
-  // },
-
   deletePosts: async (req, res) => {
     const userInfo = isAuthorized(req);
     if (userInfo) {

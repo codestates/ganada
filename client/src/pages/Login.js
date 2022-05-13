@@ -23,7 +23,7 @@ export default function Login({ setIsLogin, getUserInfo }) {
       try {
         await axios
           .post(
-            `http://localhost:4000/auth/login`,
+            `${process.env.REACT_APP_API_URL}auth/login`,
             { email, password },
             { withCredentials: true },
           )
@@ -52,7 +52,7 @@ export default function Login({ setIsLogin, getUserInfo }) {
   const kakaoLoginHandler = (e) => {
     e.preventDefault();
     window.location.assign(
-      `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=3c966eda204574d25499e2211ea62d5d&redirect_uri=http://localhost:3000/auth/kakao/callback`,
+      `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.REACT_APP_KAKAO_CLIENT_ID}&redirect_uri=${process.env.REACT_APP_KAKAO_REDIRECT_URI}`,
     );
   };
 

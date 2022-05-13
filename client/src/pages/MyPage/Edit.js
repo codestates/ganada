@@ -18,7 +18,7 @@ export default function Edit({ setModal, getUserInfo }) {
   const [imageSrc, setImageSrc] = useState('');
   const defaultImage =
     'https://static.nid.naver.com/images/web/user/default.png?type=s160';
-  const imagesPath = `http://localhost:4000/images/`;
+  const imagesPath = `${process.env.REACT_APP_API_URL}images/`;
 
   const handleInput = (e) => {
     const { name, value } = e.target;
@@ -85,7 +85,7 @@ export default function Edit({ setModal, getUserInfo }) {
       data.append('file', file);
       patchData.image = fileName;
       try {
-        await axios.post('http://localhost:4000/users/images', data);
+        await axios.post(`${process.env.REACT_APP_API_URL}users/images`, data);
       } catch (error) {
         console.log(error);
       }
@@ -99,7 +99,7 @@ export default function Edit({ setModal, getUserInfo }) {
       try {
         await axios
           .patch(
-            `http://localhost:4000/users/${userInfo.id}/changeInfo`,
+            `${process.env.REACT_APP_API_URL}users/${userInfo.id}/changeInfo`,
             patchData,
             {
               headers: { authorization: `Bearer ${token}` },

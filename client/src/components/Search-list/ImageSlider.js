@@ -10,7 +10,7 @@ function ImageSlider({ image }) {
   const TOTAL_SLIDES = parsedImages.length - 1;
   const [currentSlide, setCurrentSlide] = useState(0);
   const slideRef = useRef(null);
-  const imagesPath = `http://localhost:4000/images/`;
+  const imagesPath = `${process.env.REACT_APP_API_URL}images/`;
 
   const nextSlide = (e) => {
     e.stopPropagation();
@@ -47,9 +47,6 @@ function ImageSlider({ image }) {
         {parsedImages.map((img) => {
           return <img src={imagesPath + img} alt="profile" />;
         })}
-        {/* <img src={imagesPath + parsedImages[0]} alt="profile-img" />
-        <img src={imagesPath + parsedImages[1]} alt="profile-img" />
-        <img src={imagesPath + parsedImages[2]} alt="profile-img" /> */}
       </div>
     </div>
   );

@@ -160,6 +160,7 @@ $box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
     }
   }
   .searchPage-body {
+    // position: relative;
     display: flex;
     flex-wrap: wrap;
     padding-bottom: 120px;
@@ -331,5 +332,10 @@ $box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
         transform: none;
       }
     }
+  }
+  .no-contents-container {
+    margin: 10% auto;
+    height: 420px;
+    color: #8d8b8b;
   }
 }

@@ -72,7 +72,7 @@ function ModifyPage({ setModal }) {
         }
       }
       await axios
-        .post('http://localhost:4000/boards/images', data, {
+        .post(`${process.env.REACT_APP_API_URL}boards/images`, data, {
           withCredentials: true,
         })
         .then((result) => {
@@ -80,7 +80,7 @@ function ModifyPage({ setModal }) {
         });
     }
     await axios
-      .patch('http://localhost:4000/boards', reqData, {
+      .patch(`${process.env.REACT_APP_API_URL}boards`, reqData, {
         withCredentials: true,
       })
       .then((res) => {
