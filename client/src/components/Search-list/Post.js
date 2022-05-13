@@ -30,11 +30,9 @@ function Post({ post }) {
           </div>
           <div className="address">{parsedPost.mainAddress}</div>
         </div>
-        {/* <Link to="/photodetail" className="detailLink">
-          <button type="button" className="btnDetailView">
-            view more
-          </button>
-        </Link> */}
+        <div className="status-container">
+          <div className="reservation-status">예약 종료</div>
+        </div>
       </div>
     </div>
   );

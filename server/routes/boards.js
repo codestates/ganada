@@ -3,7 +3,7 @@ const boardsController = require("../controllers/boards");
 const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
-const { boards, Users, Image } = require("../models");
+const { boards } = require("../models");
 const { isAuthorized } = require("../controllers/tokenFunctions");
 
 router.get("/", boardsController.getAllPosts);
@@ -42,15 +42,12 @@ const upload = multer({
 
 let fileNames = [];
 router.post("/images", upload.array("file"), (req, res, next) => {
-  // console.log(req);
-  // res.json({ url: `/uploads/${req.file.filename}` });
   req.files.forEach((v) => {
     fileNames.push(`${v.filename}`);
   });
   res.json(req.files.map((v) => v.filename));
 });
 
-//  /uploads/gunslinger1651603947316.png
 router.post("/", async (req, res, next) => {
   const userInfo = isAuthorized(req);
   if (userInfo) {
@@ -64,7 +61,9 @@ router.post("/", async (req, res, next) => {
         longitude,
         mainAddress,
         detailAddress,
+        image,
       } = req.body;
+      console.log(image);
       const createBoards = await boards.create({
         category,
         title,
@@ -85,7 +84,6 @@ router.post("/", async (req, res, next) => {
   } else {
     return res.status(401).json({ message: "권한 없음" });
   }
-  // console.log(req.files);
 });
 
 router.patch("/:id", async (req, res) => {
@@ -105,6 +103,7 @@ router.patch("/:id", async (req, res) => {
           longitude,
           mainAddress,
           detailAddress,
+          status,
         } = req.body;
         if (userInfo.id === searchPost.dataValues.userId) {
           await boards.update(
@@ -116,6 +115,7 @@ router.patch("/:id", async (req, res) => {
               longitude,
               mainAddress,
               detailAddress,
+              status,
               image: `${fileNames}`,
               userId: userInfo.id,
             },

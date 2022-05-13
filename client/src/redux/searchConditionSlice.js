@@ -4,6 +4,7 @@ const initialState = {
   keyword: '',
   tags: [],
   type: 'model',
+  bookingStatus: false,
 };
 
 const searchConditionSlice = createSlice({
@@ -25,6 +26,10 @@ const searchConditionSlice = createSlice({
     setType: (state, action) => {
       state.type = action.payload;
     },
+
+    setBookingStatus: (state, action) => {
+      state.bookingStatus = action.payload;
+    },
   },
 });
 
@@ -32,4 +37,5 @@ export const { setKeyword } = searchConditionSlice.actions;
 export const { resetKeyword } = searchConditionSlice.actions;
 export const { setType } = searchConditionSlice.actions;
 export const { setTags } = searchConditionSlice.actions;
+export const { setBookingStatus } = searchConditionSlice.actions;
 export default searchConditionSlice.reducer;

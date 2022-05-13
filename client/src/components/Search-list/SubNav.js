@@ -14,6 +14,7 @@ function SubNav({ setModal }) {
   const type = searchParams.get('type');
   const keyword = searchParams.get('keyword');
   const { token } = useSelector((state) => state.auth);
+  const { tags } = useSelector((state) => state.searchCondition);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -101,5 +102,4 @@ function SubNav({ setModal }) {
     </div>
   );
 }
-
 export default SubNav;
