@@ -160,9 +160,11 @@ $box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
     }
   }
   .searchPage-body {
+    // position: relative;
     display: flex;
     flex-wrap: wrap;
     padding-bottom: 120px;
+    // height: 100%;
     // justify-content: start;
     align-content: center;
 

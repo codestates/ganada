@@ -6,6 +6,7 @@
   align-items: center;
   animation: fadeInDown 1s ease-in-out;
   padding-bottom: 500px;
+  box-shadow: rgb(0 0 0 / 7%) 2px 7px 20px;
   .mylist-header {
     width: 70%;
   }
@@ -90,7 +91,7 @@
           padding: 0 0px 20px 0px;
           .icon-style {
             position: relative;
-            top: 2px;
+            top: 6px;
             right: 5px;
             font-size: 20px;
           }
@@ -107,7 +108,7 @@
           font-size: 1rem;
           .icon-style {
             position: relative;
-            top: 2px;
+            top: 6px;
             right: 4px;
             font-size: 20px;
           }
@@ -116,7 +117,7 @@
           display: flex;
           .icon-style {
             position: relative;
-            top: 2px;
+            top: 5px;
             right: 3px;
             font-size: 18px;
           }
