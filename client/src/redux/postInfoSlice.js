@@ -12,6 +12,7 @@ const postState = {
   mainAddress: '',
   detailAddress: '',
   status: 0,
+  chatRoomId: '',
 };
 
 const postInfoSlice = createSlice({
@@ -21,8 +22,11 @@ const postInfoSlice = createSlice({
     setPostInfo: (state, action) => {
       state.postState = action.payload;
     },
+    setChatBoard: (state, action) => {
+      state.postState.chatRoomId = action.payload;
+    },
   },
 });
 
-export const { setPostInfo } = postInfoSlice.actions;
+export const { setPostInfo, setChatBoard } = postInfoSlice.actions;
 export default postInfoSlice.reducer;

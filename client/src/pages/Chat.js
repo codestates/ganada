@@ -2,7 +2,7 @@ import { IoMdSend } from 'react-icons/io';
 import axios from 'axios';
 import { useEffect, useState, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import Picker from 'emoji-picker-react';
 import { MdInsertEmoticon } from 'react-icons/md';
 import { io } from 'socket.io-client';
@@ -11,21 +11,22 @@ import Message from '../components/Chats/Message';
 import Reservation from '../components/Chats/Reservation';
 import MessageNull from '../components/Chats/MessageNull';
 import RecieverName from '../components/Chats/RecieverName';
+import { setChatMessage } from '../redux/chatSlice';
+import { setChatRoom } from '../redux/chatRoomSlice';
 
 export default function Chat({ setReservationModal, setModal }) {
-  const [chatRooms, setChatRooms] = useState([]);
-  const [message, setMessage] = useState(null);
+  const socket = useRef();
+  const inSection = useRef();
   const [arrivalMessage, setArrivalMessage] = useState(null);
   const [chatUserInfo, setChatUserInfo] = useState({});
   const [newMessage, setNewMessage] = useState('');
-  const socket = useRef();
-  const { chatRoomId } = useParams();
   const [showEmoji, setShowEmojij] = useState(false);
-  const userInfo = useSelector((state) => state.userInfo);
+  const { chatRoomId } = useParams();
+  const dispatch = useDispatch();
   const { token } = useSelector((state) => state.auth);
-  const inSection = useRef();
-
-  console.log(chatUserInfo);
+  const userInfo = useSelector((state) => state.userInfo);
+  const message = useSelector((state) => state.chatMessage).data;
+  const chatRooms = useSelector((state) => state.chatRoom).data;
 
   useEffect(() => {
     socket.current = io('ws://localhost:4000');
@@ -49,7 +50,7 @@ export default function Chat({ setReservationModal, setModal }) {
   }, [chatRoomId, token]);
 
   useEffect(() => {
-    arrivalMessage && setMessage((prev) => [arrivalMessage, ...prev]);
+    arrivalMessage && dispatch(setChatMessage([arrivalMessage, ...message]));
   }, [arrivalMessage, chatRoomId, token]);
 
   useEffect(() => {
@@ -62,22 +63,13 @@ export default function Chat({ setReservationModal, setModal }) {
           },
           { withCredentials: true },
         );
-        setMessage(res.data.checkChatContents);
+        dispatch(setChatMessage(res.data.checkChatContents));
       } catch (err) {
         console.log(err);
       }
     };
     getMessage();
-  }, [chatRoomId, token, chatUserInfo]);
-
-  const getUserInfo = () => {
-    const filterMessage = message && message.map((el) => el.chatroomId)[0];
-    const sliceChatRooms = [...chatRooms].filter(
-      (el) => el.id === filterMessage,
-    );
-    return sliceChatRooms;
-  };
-  getUserInfo();
+  }, [chatRoomId, token, chatUserInfo, dispatch]);
 
   useEffect(() => {
     const getChatRooms = async () => {
@@ -89,7 +81,7 @@ export default function Chat({ setReservationModal, setModal }) {
           },
           { withCredentials: true },
         );
-        setChatRooms(res.data.data);
+        dispatch(setChatRoom(res.data.data));
       } catch (err) {
         console.log(err);
       }
@@ -159,12 +151,6 @@ export default function Chat({ setReservationModal, setModal }) {
     return `${Math.floor(years)}년 전`;
   };
 
-  const setchat = (chatRoom) => {
-    setChatUserInfo(chatRoom);
-  };
-  // chatRoomId가 1일때 불러오기
-  // chatRoomId가 2일때 불러오기
-
   return (
     <div className="chat">
       <div className="back">
@@ -189,8 +175,11 @@ export default function Chat({ setReservationModal, setModal }) {
             <div className="chat-message-wrraper">
               {chatRoomId ? (
                 <>
-                  <RecieverName getUserInfo={getUserInfo} message={message} />
-                  <Reservation setReservationModal={setReservationModal} />
+                  <RecieverName message={message} chatUserInfo={chatUserInfo} />
+                  <Reservation
+                    setReservationModal={setReservationModal}
+                    chatRoomId={chatRoomId}
+                  />
                 </>
               ) : null}
               <div className="messages">
@@ -198,7 +187,7 @@ export default function Chat({ setReservationModal, setModal }) {
                   message &&
                   message.map((chat) => (
                     <Message
-                      getUserInfo={getUserInfo}
+                      chatUserInfo={chatUserInfo}
                       chat={chat}
                       reverse={chat.userId !== userInfo.id}
                       timeago={timeago}

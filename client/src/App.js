@@ -124,7 +124,10 @@ function App() {
         <Route path="/" element={<Main />} />
         <Route path="/login" element={<Login cookieToken={cookieToken} />} />
         <Route path="/signup" element={<Signup setModal={setModal} />} />
-        <Route path="/photodetail/:id" element={<PhotoDetail />} />
+        <Route
+          path="/photodetail/:id"
+          element={<PhotoDetail setModal={setModal} />}
+        />
         <Route path="/modeldetail/:id" element={<ModelDetail />} />
         <Route path="/mylist" element={<MyList setModal={setModal} />} />
         <Route path="/auth/kakao/callback" element={<KakaoLogin />} />

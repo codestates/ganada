@@ -13,8 +13,24 @@ module.exports = (sequelize, DataTypes) => {
   }
   user_boards.init(
     {
-      userId: DataTypes.INTEGER,
-      boardId: DataTypes.INTEGER,
+      userId: {
+        type: DataTypes.INTEGER,
+        references: {
+          model: "users",
+          key: "id",
+        },
+        onDelete: "cascade",
+        onUpdate: "cascade",
+      },
+      boardId: {
+        type: DataTypes.INTEGER,
+        references: {
+          model: "boards",
+          key: "id",
+        },
+        onDelete: "cascade",
+        onUpdate: "cascade",
+      },
     },
     {
       sequelize,

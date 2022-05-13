@@ -24,31 +24,31 @@ io.on("connection", (socket) => {
   socket.on("join", async (data) => {
     const { chatroomId } = data;
     socket.join(chatroomId);
+    console.log(chatroomId);
   });
 
-  // // 채팅 시작을 누른 사람에게 기본적인 방에 대한 정보를 전달해준다.
-  // socket.on("sendBoardData", async (data) => {
-  //   const { chatroomId, id, image, title, updatedAt } = data;
-  //   const payload = {
-  //     boardId: id,
-  //     image,
-  //     title,
-  //     updatedAt,
-  //   };
-  //   io.to(chatroomId).emit("receiveBoardData", payload);
-  //   const welcomeChat = "Hello World";
-  //   const chatContent = await db.chatcontents
-  //     .create({
-  //       chatroomId,
-  //       chats: welcomeChat,
-  //     })
-  //     .catch((err) => console.log(err));
-  // });
+  // 채팅 시작을 누른 사람에게 기본적인 방에 대한 정보를 전달해준다.
+  socket.on("sendBoardData", async (data) => {
+    const { chatroomId, id, image, title, updatedAt } = data;
+    const payload = {
+      boardId: id,
+      image,
+      title,
+      updatedAt,
+    };
+    io.to(chatroomId).emit("receiveBoardData", payload);
+    const boardStringfy = JSON.stringify(payload);
+    const chatting = await db.chatcontents
+      .create({
+        chatroomId,
+        chats: `${boardStringfy}`,
+      })
+      .catch((err) => console.log(err));
+  });
 
   socket.on("sendMessage", async (data) => {
-    console.log(data);
     const { chats, userId, chatroomId, updatedAt } = data;
-    io.to(chatroomId).emit("receiveMessage", {
+    await io.to(chatroomId).emit("receiveMessage", {
       userId,
       chats,
       chatroomId,

@@ -9,9 +9,8 @@ const { isAuthorized } = require("../controllers/tokenFunctions");
 router.get("/", boardsController.getAllPosts);
 router.get("/:id", boardsController.getPosts);
 router.get("/user/:id", boardsController.getMyPosts);
-// router.post("/", boardsController.posts);
-// router.patch("/:id", boardsController.patchPosts);
 router.delete("/:id", boardsController.deletePosts);
+router.put("/:id", boardsController.changeBoardStatus);
 
 // chatRoom API
 router.post("/:boardId/chatRooms", boardsController.createChat);

@@ -193,4 +193,32 @@ module.exports = {
       return res.status(500).json({ message: "서버 에러" });
     }
   },
+
+  changeBoardStatus: async (req, res) => {
+    const userInfo = isAuthorized(req);
+    const { id } = req.params;
+    const { status } = req.body;
+    try {
+      const existBoard = await boards.findOne({
+        attributes: ["status"],
+        where: { id },
+      });
+      if (existBoard) {
+        const updateBoardStatus = await boards.update(
+          {
+            status: existBoard.dataValues.status + status,
+          },
+          {
+            where: { id },
+          }
+        );
+        return res
+          .status(200)
+          .json({ data: updateBoardStatus, message: "상태 변경" });
+      }
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ message: "서버 에러" });
+    }
+  },
 };
