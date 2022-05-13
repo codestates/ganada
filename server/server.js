@@ -11,7 +11,13 @@ const { isAuthorized } = require("./controllers/tokenFunctions");
 const chatcontents = require("./models/chatcontents");
 const io = socketIO(server, {
   cors: {
-    origin: true,
+    origin: [
+      "http://project-ganada.s3-website-us-east-1.amazonaws.com",
+      "http://localhost:3000",
+      "http://3gamestates.com",
+      // "http://www.ganada.com",
+      // "https://www.ganada.com",
+    ],
     credentials: true,
     methods: ["GET", "POST"],
   },

@@ -239,7 +239,8 @@ module.exports = {
             }
           }
         }
-        const result = roomsList;
+        const result = roomsList.sort((a, b) => b.date - a.date);
+
         return res.status(200).json({ data: result, message: "작동" });
       }
     } catch (err) {

@@ -6,8 +6,18 @@ const http = require("http");
 const https = require("https");
 const path = require("path");
 const db = require("./models");
+const hpp = require("hpp");
+const helmet = require("helmet");
 
 // DB Connection
+// 배포 모드
+if (process.env.NODE_ENV === "production") {
+  console.log("배포 모드");
+  app.use(hpp());
+  app.use(helmet());
+} else {
+  console.log("개발 모드");
+}
 
 db.sequelize
   .sync()
@@ -21,6 +31,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:3000",
+      "http://3gamestates.com",
       // "http://www.ganada.com",
       // "https://www.ganada.com",
     ],
