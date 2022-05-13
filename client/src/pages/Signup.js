@@ -102,7 +102,7 @@ export default function Signup({ setModal }) {
       };
       try {
         await axios
-          .post(`http://localhost:4000/auth/signup`, data, {
+          .post(`${process.env.REACT_APP_API_URL}/auth/signup`, data, {
             withCredentials: true,
           })
           .then(() => {
