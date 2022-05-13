@@ -65,7 +65,14 @@ function WritingPage({ setModal }) {
   };
 
   const requestHandler = async () => {
-    if (!title || !description || !mainAddress || !detailAddress || !images) {
+    if (
+      !title ||
+      !description ||
+      !mainAddress ||
+      !detailAddress ||
+      !images ||
+      tagInfo.length === 0
+    ) {
       setModal({
         open: true,
         title: '모든 항목이 입력되어야 합니다.',

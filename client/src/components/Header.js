@@ -17,6 +17,7 @@ export default function Header({ handleLogout, cookieToken, isLogin }) {
   const [searchParams, setSearchParams] = useSearchParams();
   const type = searchParams.get('type');
   const dispatch = useDispatch();
+  const { keyword } = useSelector((state) => state.searchCondition);
   const imagesPath = `http://localhost:4000/images/`;
   const inSection = useRef();
 
@@ -38,15 +39,20 @@ export default function Header({ handleLogout, cookieToken, isLogin }) {
     setInputValue(e.target.value);
   };
 
+  const searchBtnHandler = () => {
+    dispatch(setKeyword(inputValue));
+  };
+
   useEffect(() => {
     window.addEventListener('scroll', updateScroll);
   }, []);
 
   // 헤더 숨길 경로
-  const hideHeader = ['/login', '/signup', '/test'];
+  const hideHeader = ['/login', '/signup'];
   if (hideHeader.includes(location.pathname)) {
     return null;
   }
+
   if (token && cookieToken) {
     return (
       <header className={scrollPosition ? 'header-active' : ''}>
@@ -70,7 +76,7 @@ export default function Header({ handleLogout, cookieToken, isLogin }) {
                   <AiOutlineSearch
                     className="search-button"
                     alt="Submit Form"
-                    onClick={() => dispatch(setKeyword(inputValue))}
+                    onClick={searchBtnHandler}
                   />
                 </button>
               </Link>

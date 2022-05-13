@@ -133,6 +133,7 @@ export default function Chat({ setReservationModal, setModal }) {
       textarea.style.height = `${height + 3}px`;
     }
   };
+
   const timeago = (createdat) => {
     const milliSeconds = Math.floor(new Date() - createdat);
     const seconds = milliSeconds / 1000;
