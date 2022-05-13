@@ -105,14 +105,21 @@ export default function Signup({ setModal }) {
           .post(`http://localhost:4000/auth/signup`, data, {
             withCredentials: true,
           })
-          .then(() => {
-            setModal({
-              open: true,
-              title: '회원가입이 완료 되었습니다!',
-              callback: () => {
-                navigate('/login');
-              },
-            });
+          .then((res) => {
+            if (res.data.message === '잘못된 정보입니다.') {
+              setModal({
+                open: true,
+                title: '인증번호를 확인해주세요.',
+              });
+            } else {
+              setModal({
+                open: true,
+                title: '회원가입이 완료 되었습니다!',
+                callback: () => {
+                  navigate('/login');
+                },
+              });
+            }
           });
       } catch (error) {
         console.log(error);

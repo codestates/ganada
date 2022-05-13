@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import { MdPhotoCamera } from 'react-icons/md';
 import { AiOutlinePlus } from 'react-icons/ai';
 
-function Image({ setImages }) {
+function Image({ setImages, setModal }) {
   const inputImageRef = useRef(null);
   const [imageSrc, setImageSrc] = useState('');
 
@@ -13,7 +13,11 @@ function Image({ setImages }) {
   const imageUploadHandler = (e) => {
     const nowSelectImageList = e.target.files;
     if (Object.keys(nowSelectImageList).length > 3) {
-      alert('이미지는 최대 3개까지 업로드 가능합니다.');
+      setModal({
+        open: true,
+        title: '이미지는 최대 3개까지 업로드 가능합니다.',
+      });
+      // alert('이미지는 최대 3개까지 업로드 가능합니다.');
       return;
     }
     setImages(nowSelectImageList);

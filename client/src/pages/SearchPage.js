@@ -14,7 +14,6 @@ function SearchPage({ setModal }) {
   const goToTopHandler = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
-
   const handleScroll = () => {
     const position = window.pageYOffset;
 

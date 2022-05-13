@@ -6,7 +6,7 @@ function KakaoShare() {
   const url = window.location.href;
   const { postState } = useSelector((state) => state.postInfo);
   const parsedImage = postState.image.split(',');
-  const imagesPath = `http://localhost:4000/images/`;
+  const imagesPath = `http://localhost:4000/images/${parsedImage[0]}`;
   useEffect(() => {
     initKakao();
   }, []);
@@ -27,7 +27,8 @@ function KakaoShare() {
       content: {
         title: postState.title,
         description: postState.description,
-        imageUrl: '/img/kakao.png',
+        imageUrl: 'http://localhost:4000/images/1652415624647wbb3.png',
+        // 'https://mud-kage.kakao.com/dn/NTmhS/btqfEUdFAUf/FjKzkZsnoeE4o19klTOVI1/openlink_640x640s.jpg',
         link: {
           mobileWebUrl: url,
           webUrl: url,

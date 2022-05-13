@@ -1,41 +1,33 @@
 import axios from 'axios';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
-import { setPostsList } from '../redux/myPostsSlice';
 import List from '../components/Mylist/List';
+import Header from '../components/Mylist/Header';
 
 function MyList({ setModal }) {
-  const { token } = useSelector((state) => state.auth);
   const { id } = useSelector((state) => state.userInfo);
-  const { myPosts } = useSelector((state) => state.myPosts);
   const [list, setList] = useState([]);
-  const dispatch = useDispatch();
 
   useEffect(() => {
+    const getMylist = async () => {
+      try {
+        await axios
+          .get(`http://localhost:4000/boards/user/${id}`)
+          .then((res) => {
+            setList(res.data.data);
+          });
+      } catch (err) {
+        console.log(err);
+      }
+    };
     getMylist();
   }, []);
 
-  const getMylist = async () => {
-    try {
-      await axios
-        .get(`http://localhost:4000/boards/user/${id}`, {
-          headers: { authorization: `Bearer ${token}` },
-        })
-        .then((res) => {
-          console.log(res.data.data);
-          dispatch(setPostsList(res.data.data));
-          setList(res.data.data);
-        });
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   return (
-    <div>
-      <div className="mylist-container">
-        {list.length > 0 ? (
-          list.map((post) => {
+    <div className="mylist-container">
+      <Header />
+      {list.length > 0
+        ? list.map((post) => {
             return (
               <List
                 key={post.id}
@@ -46,10 +38,7 @@ function MyList({ setModal }) {
               />
             );
           })
-        ) : (
-          <div>없음</div>
-        )}
-      </div>
+        : null}
     </div>
   );
 }
