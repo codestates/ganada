@@ -1,15 +1,16 @@
 .photoDetail-container {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
+  animation: fadeInDown 1s ease-in-out;
   .header-container {
-    padding-top: 150px;
+    padding-top: 120px;
     display: flex;
     align-items: center;
-    width: 72.5%;
+    width: 70%;
     height: 50px;
     .pg-profile-container {
-      margin-left: 20px;
       display: flex;
       align-items: center;
       flex: 3;
@@ -40,12 +41,8 @@
 
     .share-container {
       display: flex;
-      justify-content: end;
-      align-items: center;
       flex: 7;
-      position: absolute;
-      right: 275px;
-      top: 120px;
+      justify-content: end;
       .share-btn {
         width: 90px;
         height: 40px;
@@ -87,10 +84,12 @@
       overflow: hidden;
       box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
       .slider-img {
+        width: 600px;
         position: relative;
         display: flex;
         object-fit: cover;
         img {
+          aspect-ratio: 600/200;
           width: 100%;
           &:hover {
             cursor: pointer;
@@ -157,54 +156,59 @@
     .intro-description {
       font-size: 15px;
       padding: 20px 0;
+      white-space: normal;
     }
-    .intro-concept {
-      border: 1px solid gray;
-      border-radius: 30px;
-      width: 70px;
-      height: 30px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    .intro-concept-list {
-      font-size: 13px;
-    }
-    .intro-btn-container {
-      float: right;
-    }
-    .intro-delete-btn {
-      margin-right: 20px;
-      padding: 7px 20px 7px 20px;
-      font-size: 12px;
-      border-color: #ff2216;
-      background: #fff;
-      color: #ff2216;
-      border: solid 1px;
-      border-radius: 5px;
-      letter-spacing: 1pt;
-      &:hover {
-        background-color: #ff2216;
-        color: #fff;
-        transition: 0.3s;
-        cursor: pointer;
+    .concept-container {
+      display: inline-block;
+      margin-right: 10px;
+      .intro-concept {
+        border: 1px solid gray;
+        border-radius: 30px;
+        width: 70px;
+        height: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .intro-concept-list {
+        font-size: 12px;
       }
     }
-    .intro-modify-btn {
-      padding: 7px 20px 7px 20px;
-      font-size: 12px;
-      border-color: #adadad;
-      background: #fff;
-      color: #adadad;
-      border: solid 1px;
-      border-radius: 5px;
-      letter-spacing: 1pt;
-      &:hover {
-        background-color: #adadad;
-        color: #fff;
-        cursor: pointer;
-      }
-    }
+    // .intro-btn-container {
+    //   float: right;
+    // }
+    // .intro-delete-btn {
+    //   margin-right: 20px;
+    //   padding: 7px 20px 7px 20px;
+    //   font-size: 12px;
+    //   border-color: #ff2216;
+    //   background: #fff;
+    //   color: #ff2216;
+    //   border: solid 1px;
+    //   border-radius: 5px;
+    //   letter-spacing: 1pt;
+    //   &:hover {
+    //     background-color: #ff2216;
+    //     color: #fff;
+    //     transition: 0.3s;
+    //     cursor: pointer;
+    //   }
+    // }
+    // .intro-modify-btn {
+    //   padding: 7px 20px 7px 20px;
+    //   font-size: 12px;
+    //   border-color: #adadad;
+    //   background: #fff;
+    //   color: #adadad;
+    //   border: solid 1px;
+    //   border-radius: 5px;
+    //   letter-spacing: 1pt;
+    //   &:hover {
+    //     background-color: #adadad;
+    //     color: #fff;
+    //     cursor: pointer;
+    //   }
+    // }
   }
 
   .map-container {
@@ -213,6 +217,7 @@
     height: 500px;
     display: flex;
     align-items: center;
+    z-index: 0;
     .map-sub-container {
       border: 1px solid black;
       width: 100%;
@@ -250,9 +255,10 @@
   }
 
   .chat-btn {
+    z-index: 10;
     position: fixed;
     right: 50px;
-    bottom: 20px;
+    bottom: 70px;
     padding: 3px 20px;
     line-height: 42px;
     border: none;
@@ -402,6 +408,48 @@
           }
         }
       }
+    }
+  }
+  .alert-box {
+    position: absolute;
+    top: 90px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    font-size: 15px;
+    height: 50px;
+    width: 300px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    background-color: #fff;
+    animation: fadeinout 3s linear forwards;
+    @keyframes fadeinout {
+      // 0%,
+      100% {
+        opacity: 0;
+      }
+      0% {
+        opacity: 1;
+      }
+    }
+    .alert-icon {
+      position: relative;
+      left: 5px;
+      color: green;
+    }
+    .alert-sub {
+      position: relative;
+      left: 10px;
+    }
+  }
+  @keyframes fadeInDown {
+    0% {
+      opacity: 0;
+      transform: translateY(-70px);
+    }
+    100% {
+      opacity: 1;
+      transform: none;
     }
   }
 }

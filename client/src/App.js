@@ -21,8 +21,10 @@ import Chat from './pages/Chat';
 import MyList from './pages/MyList';
 import ModelDetail from './pages/ModelDetail';
 import Modal from './components/Modal';
+import KakaoLogin from './components/KakaoLogin';
 import ModifyPage from './pages/ModifyPage';
 import NotFound from './pages/NotFound';
+import ReservationModal from './components/Chats/ReservationModal';
 
 const cookies = new Cookies();
 const cookieToken = cookies.get('jwt');
@@ -38,6 +40,7 @@ function App() {
     message: '',
     callback: false,
   });
+  const [reservationModal, setReservationModal] = useState(false);
 
   const getUserInfo = () => {
     try {
@@ -94,6 +97,10 @@ function App() {
 
   return (
     <>
+      <ReservationModal
+        reservationModal={reservationModal}
+        setReservationModal={setReservationModal}
+      />
       <Modal
         open={modal.open}
         setPopup={setModal}
@@ -103,15 +110,24 @@ function App() {
       />
       <Header handleLogout={handleLogout} cookieToken={cookieToken} />
       <Routes>
-        <Route path="/chat" element={<Chat />}>
+        <Route
+          path="/chat"
+          element={
+            <Chat
+              setModal={setModal}
+              setReservationModal={setReservationModal}
+            />
+          }
+        >
           <Route path=":chatRoomId" element={<Chat />} />
         </Route>
         <Route path="/" element={<Main />} />
         <Route path="/login" element={<Login cookieToken={cookieToken} />} />
         <Route path="/signup" element={<Signup setModal={setModal} />} />
-        <Route path="/photodetail" element={<PhotoDetail />} />
-        <Route path="/modeldetail" element={<ModelDetail />} />
-        <Route path="/mylist" element={<MyList />} />
+        <Route path="/photodetail/:id" element={<PhotoDetail />} />
+        <Route path="/modeldetail/:id" element={<ModelDetail />} />
+        <Route path="/mylist" element={<MyList setModal={setModal} />} />
+        <Route path="/auth/kakao/callback" element={<KakaoLogin />} />
         <Route path="/mypage" element={<MyPage />}>
           <Route
             path="edit"
@@ -123,9 +139,9 @@ function App() {
           />
           <Route path="leave" element={<LeaveId setModal={setModal} />} />
         </Route>
-        <Route path="/search" element={<SearchPage />} />
+        <Route path="/search" element={<SearchPage setModal={setModal} />} />
         <Route path="/write/:id" element={<WritingPage />} />
-        <Route path="/modify" element={<ModifyPage />} />
+        <Route path="/modify" element={<ModifyPage setModal={setModal} />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
 

@@ -17,6 +17,12 @@ module.exports = {
         where: {
           chatroomId: chatroomId,
         },
+        include: [
+          {
+            model: users,
+            attributes: ["image", "name"],
+          },
+        ],
       });
       return res.status(200).json({ checkChatContents });
     } catch (err) {

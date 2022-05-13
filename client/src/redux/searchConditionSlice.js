@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   keyword: '',
   tags: [],
-  type: '',
+  type: 'model',
 };
 
 const searchConditionSlice = createSlice({

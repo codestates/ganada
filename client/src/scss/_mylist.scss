@@ -1,28 +1,32 @@
 .mylist-container {
-  height: 100vh;
+  height: 100%;
   padding-top: 120px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  animation: fadeInDown 1s ease-in-out;
+  padding-bottom: 500px;
   .mylist-header {
     width: 70%;
   }
   .mylist-body {
     width: 70%;
-    // height: 100%;
     display: flex;
+    padding: 20px 0px;
+    border-bottom: 1px solid #adadad;
+    &:hover {
+      cursor: pointer;
+    }
     .slider-container {
       display: flex;
       flex: 3;
       li {
-        padding: 20px 0px;
-        border-bottom: 1px solid #adadad;
-        height: 300px;
+        height: 250px;
         .slider {
           position: relative;
           display: flex;
           border-radius: 10px;
-          width: 100%;
+          width: 90%;
           height: 100%;
           padding: 0px;
           overflow: hidden;
@@ -32,6 +36,7 @@
             object-fit: cover;
             img {
               width: 100%;
+              aspect-ratio: 2;
             }
           }
           button {
@@ -67,64 +72,82 @@
         }
       }
     }
+    .empty-line {
+      border: 1px solid #e8e4e4;
+    }
     .descript-container {
-      border-bottom: 1px solid #adadad;
+      display: flex;
+      flex-direction: column;
       flex: 7;
-      .description-title {
-        font-size: 30px;
-        font-family: bold;
-        padding: 30px 0 0 30px;
+      ul {
+        padding: 35px;
+        flex: 8;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        .description-title {
+          font-size: 1.5rem;
+        }
+        .description-des {
+          font-size: 1rem;
+        }
+        .description-address {
+          font-size: 1rem;
+          color: #adadad;
+        }
       }
-      .description-des {
-        font-size: 20px;
-        font-family: bold;
-        padding: 20px 0 0 30px;
-      }
-      .description-address {
-        font-size: 20px;
-        font-family: bold;
-        padding: 20px 0 0 30px;
-        color: #adadad;
+      .btn-container {
+        padding: 10px;
+        flex: 2;
+        display: flex;
+        justify-content: end;
+        align-items: end;
+        .modi-btn {
+          margin-right: 20px;
+          padding: 7px 20px 7px 20px;
+          font-size: 12px;
+          border-color: #ff2216;
+          background: #fff;
+          color: #ff2216;
+          border: solid 1px;
+          border-radius: 5px;
+          letter-spacing: 1pt;
+          &:hover {
+            background-color: #ff2216;
+            color: #fff;
+            transition: 0.3s;
+            cursor: pointer;
+          }
+        }
+        .del-btn {
+          padding: 7px 20px 7px 20px;
+          font-size: 12px;
+          border-color: #adadad;
+          background: #fff;
+          color: #adadad;
+          border: solid 1px;
+          border-radius: 5px;
+          letter-spacing: 1pt;
+          &:hover {
+            background-color: #adadad;
+            color: #fff;
+            cursor: pointer;
+          }
+        }
       }
     }
-    .btn-container {
-      position: absolute;
-      top: 400px;
-      right: 300px;
-      .del-btn {
-        margin-right: 20px;
-        padding: 7px 20px 7px 20px;
-        font-size: 12px;
-        border-color: #ff2216;
-        background: #fff;
-        color: #ff2216;
-        border: solid 1px;
-        border-radius: 5px;
-        letter-spacing: 1pt;
-        float: right;
-        &:hover {
-          background-color: #ff2216;
-          color: #fff;
-          transition: 0.3s;
-          cursor: pointer;
-        }
-      }
-      .modi-btn {
-        padding: 7px 20px 7px 20px;
-        font-size: 12px;
-        border-color: #adadad;
-        background: #fff;
-        color: #adadad;
-        border: solid 1px;
-        border-radius: 5px;
-        letter-spacing: 1pt;
-        &:hover {
-          background-color: #adadad;
-          color: #fff;
-          cursor: pointer;
-        }
-        float: right;
-      }
+  }
+  .line {
+    border: 1px solid #adadad;
+  }
+  @keyframes fadeInDown {
+    0% {
+      opacity: 0;
+      transform: translateY(-70px);
+    }
+    100% {
+      opacity: 1;
+      transform: none;
     }
   }
 }

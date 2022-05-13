@@ -4,12 +4,13 @@ const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
 const { boards, Users, Image } = require("../models");
+const { isAuthorized } = require("../controllers/tokenFunctions");
 
 router.get("/", boardsController.getAllPosts);
 router.get("/:id", boardsController.getPosts);
-// router.post("/", boardsController.posts);
-router.patch("/:id", boardsController.patchPosts);
+router.get("/user/:id", boardsController.getMyPosts);
 router.delete("/:id", boardsController.deletePosts);
+router.put("/:id", boardsController.changeBoardStatus);
 
 // chatRoom API
 router.post("/:boardId/chatRooms", boardsController.createChat);
@@ -51,33 +52,90 @@ router.post("/images", upload.array("file"), (req, res, next) => {
 
 //  /uploads/gunslinger1651603947316.png
 router.post("/", async (req, res, next) => {
-  // console.log(req.files);
-  try {
-    const {
-      category,
-      title,
-      description,
-      tags,
-      latitude,
-      longitude,
-      mainAddress,
-      detailAddress,
-    } = req.body;
-    const createBoards = await boards.create({
-      category,
-      title,
-      description,
-      tags,
-      latitude,
-      longitude,
-      mainAddress,
-      detailAddress,
-      image: `${fileNames}`,
-    });
-    return res.status(200).json({ data: createBoards, message: "작성 완료" });
-  } catch (err) {
-    return res.status(500).json({ message: "서버 에러" });
+  const userInfo = isAuthorized(req);
+  if (userInfo) {
+    try {
+      const {
+        category,
+        title,
+        description,
+        tags,
+        latitude,
+        longitude,
+        mainAddress,
+        detailAddress,
+      } = req.body;
+      const createBoards = await boards.create({
+        category,
+        title,
+        description,
+        tags,
+        latitude,
+        longitude,
+        mainAddress,
+        detailAddress,
+        image: `${fileNames}`,
+        userId: userInfo.id,
+      });
+      // fileNames = [];
+      return res.status(200).json({ data: createBoards, message: "작성 완료" });
+    } catch (err) {
+      return res.status(500).json({ message: "서버 에러" });
+    }
+  } else {
+    return res.status(401).json({ message: "권한 없음" });
   }
+  // console.log(req.files);
 });
 
-module.exports = router;
+router.patch("/:id", async (req, res) => {
+  const userInfo = isAuthorized(req);
+
+  if (userInfo) {
+    try {
+      const { id } = req.params;
+      const searchPost = await boards.findOne({
+        where: { id },
+      });
+      if (searchPost) {
+        const {
+          title,
+          description,
+          tags,
+          latitude,
+          longitude,
+          mainAddress,
+          detailAddress,
+        } = req.body;
+        if (userInfo.id === searchPost.dataValues.userId) {
+          await boards.update(
+            {
+              category,
+              title,
+              description,
+              tags,
+              latitude,
+              longitude,
+              mainAddress,
+              detailAddress,
+              image: `${fileNames}`,
+              userId: userInfo.id,
+            },
+            {
+              where: { id },
+            }
+          );
+          fileNames = [];
+          return res
+            .status(200)
+            .json({ data: searchPost, message: "수정 완료" });
+        }
+      } else {
+        return res.status(400).json({ message: "권한이 없습니다." });
+      }
+    } catch (err) {
+      return res.status(500).json({ message: "서버 에러" });
+    }
+  }
+}),
+  (module.exports = router);

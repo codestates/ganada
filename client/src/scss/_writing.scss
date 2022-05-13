@@ -1,6 +1,7 @@
 $radius: 10px;
 
 .write-page-container {
+  // box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.1);
   width: 1320px;
   margin: 0 auto;
   span {
@@ -268,6 +269,7 @@ $radius: 10px;
           color: rgb(0, 0, 0);
           text-align: center;
           font-weight: 500;
+          background-color: #eeeeee;
         }
         .btn-save {
           margin-left: 5px;
@@ -315,6 +317,10 @@ $radius: 10px;
           margin: 0 10px 10px 0;
           background-color: rgb(255, 255, 255);
           border: 1px solid rgb(221, 221, 221);
+
+          &:hover {
+            box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
+          }
         }
         .selected {
           background: #ff2216;

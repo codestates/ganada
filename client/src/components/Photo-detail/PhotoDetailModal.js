@@ -1,14 +1,13 @@
 import { AiOutlineClose, AiOutlineCheckCircle } from 'react-icons/ai';
 import { BiCopy } from 'react-icons/bi';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import KakaoShare from './KakaoShare';
 
 function PhotoDetailModal({ handleModal }) {
   const url = window.location.href;
   const [isShow, setIsShow] = useState(false);
-
-  const handleShow = () => {
+  const showBoxHandler = () => {
     setIsShow(!isShow);
   };
 
@@ -27,7 +26,7 @@ function PhotoDetailModal({ handleModal }) {
               <button
                 type="button"
                 className="copy-link-btn"
-                onClick={handleShow}
+                onClick={showBoxHandler}
               >
                 <BiCopy className="copy-icon" />
                 링크복사

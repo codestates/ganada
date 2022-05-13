@@ -1,11 +1,12 @@
 import { useRef, useState, useEffect } from 'react';
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
 
-function PhotoDetailSlider() {
-  const images = ['/img/1.png', '/img/2.png', '/img/3.png'];
-  const TOTAL_SLIDES = images.length - 1;
+function PhotoDetailSlider({ image }) {
+  const parsedImages = image.split(',');
+  const TOTAL_SLIDES = parsedImages.length - 1;
   const slideRef = useRef(null);
   const [currentSlide, setCurrentSlide] = useState(0);
+  const imagesPath = `http://localhost:4000/images/`;
 
   const nextSlide = () => {
     if (currentSlide >= TOTAL_SLIDES) {
@@ -40,12 +41,15 @@ function PhotoDetailSlider() {
       </div>
       <div className="slider-img-container" role="button" aria-label="button">
         <div className="slider-img" ref={slideRef}>
-          <img src={images[0]} alt="nunu1" />
-          <img src={images[1]} alt="nunu2" />
-          <img src={images[2]} alt="nunu3" />
+          {parsedImages.map((img) => {
+            return <img src={imagesPath + img} alt="profile" />;
+          })}
+          {/* <img src={imagesPath + parsedImages[0]} alt="nunu3" />
+          <img src={imagesPath + parsedImages[1]} alt="nunu3" />
+          <img src={imagesPath + parsedImages[2]} alt="nunu3" /> */}
         </div>
         <div className="dots-container">
-          {Array.from({ length: 3 }).map((item, index) => (
+          {Array.from({ length: parsedImages.length }).map((item, index) => (
             <button
               type="button"
               aria-label="dot"

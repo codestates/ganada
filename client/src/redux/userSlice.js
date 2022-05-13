@@ -5,7 +5,8 @@ const initialUserInfo = {
   name: '',
   phoneNumber: '',
   image: '',
-}; // 유저 정보
+};
+// 유저 정보
 
 const userSlice = createSlice({
   name: 'user',

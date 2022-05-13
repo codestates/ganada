@@ -2,12 +2,12 @@ import { AiOutlineSearch, AiOutlineMessage } from 'react-icons/ai';
 import { RiLogoutBoxRLine } from 'react-icons/ri';
 import { FaUserCircle, FaRegEdit } from 'react-icons/fa';
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setKeyword } from '../redux/searchConditionSlice';
 
 export default function Header({ handleLogout, cookieToken, isLogin }) {
-  const userINfo = useSelector((state) => state.userInfo);
+  const userInfo = useSelector((state) => state.userInfo);
   const { token } = useSelector((state) => state.auth);
 
   const location = useLocation();
@@ -18,10 +18,18 @@ export default function Header({ handleLogout, cookieToken, isLogin }) {
   const type = searchParams.get('type');
   const dispatch = useDispatch();
   const imagesPath = `http://localhost:4000/images/`;
+  const inSection = useRef();
 
-  const onClick = () => {
-    setIsTrue(!isTrue);
-  };
+  useEffect(() => {
+    const onClick = (e) => {
+      if (inSection.current && !inSection.current.contains(e.target)) {
+        setIsTrue(false);
+      }
+    };
+
+    document.addEventListener('mousedown', onClick);
+  }, [location]);
+
   const updateScroll = () => {
     setScrollPosition(window.scrollY || document.documentElement.scrollTop);
   };
@@ -35,7 +43,7 @@ export default function Header({ handleLogout, cookieToken, isLogin }) {
   }, []);
 
   // 헤더 숨길 경로
-  const hideHeader = ['/login', '/signup'];
+  const hideHeader = ['/login', '/signup', '/test'];
   if (hideHeader.includes(location.pathname)) {
     return null;
   }
@@ -70,33 +78,37 @@ export default function Header({ handleLogout, cookieToken, isLogin }) {
             <ul className="right-header">
               <li className="left-chat">
                 <Link to="/chat">
-                  <AiOutlineMessage size="30" />
+                  <AiOutlineMessage size="30" color="grey" />
                 </Link>
               </li>
-              <div className="drop-menu " role="presentation" onClick={onClick}>
-                <div className="profile">
+              <div className="drop-menu " ref={inSection}>
+                <div
+                  className="profile"
+                  role="presentation"
+                  onClick={() => setIsTrue(!isTrue)}
+                >
                   <img
                     src={
-                      userINfo.image === null
+                      userInfo.image === null
                         ? 'https://static.nid.naver.com/images/web/user/default.png?type=s160'
-                        : imagesPath + userINfo.image
+                        : imagesPath + userInfo.image
                     }
                     alt=""
                   />
                 </div>
                 <div className={isTrue ? 'list active' : 'list'}>
                   <h3>
-                    {userINfo.name}님 <br />
+                    {userInfo.name}님 <br />
                     <span>환영합니다!</span>
                   </h3>
-                  <ul>
+                  <ul role="presentation" onClick={() => setIsTrue(false)}>
                     <li>
                       <FaUserCircle size="20" color="grey" className="icon" />
                       <Link to="/mypage/edit">마이페이지</Link>
                     </li>
                     <li>
                       <FaRegEdit size="20" color="grey" className="icon" />
-                      <Link to="/">내가쓴글</Link>
+                      <Link to="/mylist">내가쓴글</Link>
                     </li>
                     <li>
                       <RiLogoutBoxRLine

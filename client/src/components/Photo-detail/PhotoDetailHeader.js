@@ -1,31 +1,42 @@
 import { MdOutlineIosShare } from 'react-icons/md';
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import PhotoDetailModal from './PhotoDetailModal';
 
-function PhotoDetailHeader({ posts }) {
-  const images = ['/img/son.png'];
-  const url = window.location.href;
+function PhotoDetailHeader({ post }) {
+  const imagesPath = `http://localhost:4000/images/`;
   const [isOpen, setIsOpen] = useState(false);
-
   const handleModal = () => {
     setIsOpen(!isOpen);
   };
 
   const handleClickImg = () => {
-    window.open('/img/son.png');
+    if (!post.image) {
+      window.open(
+        'https://static.nid.naver.com/images/web/user/default.png?type=s160',
+      );
+    }
+    window.open(imagesPath + post.image);
   };
 
   return (
     <div className="header-container">
       <div className="pg-profile-container">
-        <div className="pg-nickname">작가 닉네임</div>
+        <div className="pg-nickname">{post.name}</div>
         <div className="pg-profile-img-container">
           <button
             type="button"
             className="pg-profile-img-btn"
             onClick={handleClickImg}
           >
-            <img src={images[0]} alt="profile" />
+            <img
+              src={
+                post.image === null
+                  ? 'https://static.nid.naver.com/images/web/user/default.png?type=s160'
+                  : imagesPath + post.image
+              }
+              alt=""
+            />
           </button>
         </div>
       </div>
