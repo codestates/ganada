@@ -1,8 +1,9 @@
 import axios from 'axios';
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { setChatBoard } from '../../redux/chatBoardSlice';
+import { DeleteInitChatBoard } from '../../redux/initChatBoardSlice';
 
 export default function Reservation({
   setReservationModal,
@@ -17,10 +18,13 @@ export default function Reservation({
   const currentUserInfo = useSelector(
     (state) => state.currentChatUserInfo,
   ).data;
+  const initChatBoard = useSelector((state) => state.initChatBoard).data;
   const userInfo = useSelector((state) => state.userInfo);
+  const location = useLocation();
+
   // 만약 serInfo.id === currentUserInfo?.hostId 일때
   // console.log(userInfo.id === currentUserInfo?.guestId);
-  console.log(chatRoom);
+  console.log(initChatBoard);
 
   const dispatch = useDispatch();
 
@@ -42,7 +46,7 @@ export default function Reservation({
 
   // chatBoard는 undefined 초기값
   // chatBoard는 값이 없을때, aiivalmessage일때, chatRoomId가 변경 되었을때, 다시 불러와야한다.
-
+  console.log(initChatBoard);
   useEffect(() => {
     const getPostDetail = async () => {
       try {
@@ -51,19 +55,22 @@ export default function Reservation({
             withCredentials: true,
           })
           .then((res) => {
-            if (!chatBoard || arrivalMessage || currentUserInfo) {
+            if (!initChatBoard) {
               dispatch(
                 setChatBoard({ ...res.data.data, id: findBoardId.boardId }),
               );
+            } else {
+              dispatch(setChatBoard(initChatBoard));
             }
-          });
+          })
+          .then(dispatch(DeleteInitChatBoard()));
       } catch (err) {
         console.log(err);
       }
     };
     getPostDetail();
-  }, [token, arrivalMessage, findBoardId?.boardId]);
-  console.log(findBoardId);
+  }, [token, arrivalMessage, location, findBoardId?.boardId]);
+  console.log(chatBoard);
 
   const imageSplit = ((chatBoard && chatBoard.image) || '').split(',')[0];
 
