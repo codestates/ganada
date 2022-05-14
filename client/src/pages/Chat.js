@@ -27,6 +27,7 @@ export default function Chat({ setReservationModal, setModal }) {
   const userInfo = useSelector((state) => state.userInfo);
   const message = useSelector((state) => state.chatMessage).data;
   const chatRooms = useSelector((state) => state.chatRoom).data;
+  const chatBoard = useSelector((state) => state.chatBoard).data;
 
   useEffect(() => {
     socket.current = io('ws://localhost:4000');
@@ -34,16 +35,16 @@ export default function Chat({ setReservationModal, setModal }) {
 
   useEffect(() => {
     socket.current.on('receiveMessage', (data) => {
-      const { chats, userId, chatroomId, updatedAt } = data;
+      const { chats, userId, chatroomId, updatedAt, boardId } = data;
       setArrivalMessage({
         userId,
         chats,
         chatroomId,
         updatedAt,
+        boardId,
       });
-      console.log(data);
     });
-  }, [token]);
+  }, [token, socket]);
 
   useEffect(() => {
     socket.current.emit('join', { chatroomId: chatRoomId });
@@ -69,7 +70,7 @@ export default function Chat({ setReservationModal, setModal }) {
       }
     };
     getMessage();
-  }, [chatRoomId, token, chatUserInfo, dispatch]);
+  }, [chatRoomId, token, chatUserInfo, dispatch, socket]);
 
   useEffect(() => {
     const getChatRooms = async () => {
@@ -98,11 +99,13 @@ export default function Chat({ setReservationModal, setModal }) {
         userId: userInfo.id,
         chatroomId: chatRoomId,
         updatedAt: new Date(Date.now()),
+        boardId: chatBoard.id,
       };
       socket.current.emit('sendMessage', data);
       setNewMessage('');
     }
   };
+  console.log('chatBoad', chatBoard);
 
   useEffect(() => {
     const onClick = (e) => {
@@ -124,6 +127,13 @@ export default function Chat({ setReservationModal, setModal }) {
     setNewMessage(msg);
   };
 
+  useEffect(() => {
+    socket.current.emit('sendNotification', {
+      chatroomId: chatRoomId,
+      arrivalMessage,
+    });
+  }, [token, arrivalMessage, chatRoomId]);
+
   // 자동 textaarea높이 지정
   const autoResizeTextarea = () => {
     const textarea = document.querySelector('.autoTextarea');
@@ -133,7 +143,6 @@ export default function Chat({ setReservationModal, setModal }) {
       textarea.style.height = `${height + 3}px`;
     }
   };
-
   const timeago = (createdat) => {
     const milliSeconds = Math.floor(new Date() - createdat);
     const seconds = milliSeconds / 1000;
@@ -180,6 +189,7 @@ export default function Chat({ setReservationModal, setModal }) {
                   <Reservation
                     setReservationModal={setReservationModal}
                     chatRoomId={chatRoomId}
+                    arrivalMessage={arrivalMessage}
                   />
                 </>
               ) : null}

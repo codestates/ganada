@@ -53,6 +53,7 @@ function SearchPage({ setModal }) {
         setPosts(res.data.data);
       });
   };
+  console.log(posts);
 
   return (
     <div className="searchPage-container">

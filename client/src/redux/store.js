@@ -8,6 +8,8 @@ import myPosts from './myPostsSlice';
 import chatMessage from './chatSlice';
 import chatRoom from './chatRoomSlice';
 import chatBoard from './chatBoardSlice';
+import currentChatUserInfo from './currentChatUserInfoSlice';
+import initChatBoard from './initChatBoardSlice';
 
 export const store = configureStore({
   reducer: {
@@ -20,5 +22,7 @@ export const store = configureStore({
     myPosts,
     chatRoom,
     chatBoard,
+    currentChatUserInfo,
+    initChatBoard,
   },
 });
