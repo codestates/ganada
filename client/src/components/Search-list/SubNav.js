@@ -6,21 +6,19 @@ import { useOutsideClick } from '../../hooks/useOutsideClick';
 import { setType } from '../../redux/searchConditionSlice';
 
 function SubNav({ setModal }) {
-  const [selected, setSelected] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const dropdownRef = useRef(null);
   const [isActive, setIsActive] = useOutsideClick(dropdownRef, false);
-  const type = searchParams.get('type');
-  const keyword = searchParams.get('keyword');
+  const type = searchParams.get('type'); // redux로 처리하면 삭제 가능?
+  const keyword = searchParams.get('keyword'); // redux로 처리하면 삭제 가능?
   const { token } = useSelector((state) => state.auth);
-  const { tags } = useSelector((state) => state.searchCondition);
   const dispatch = useDispatch();
 
+  // redux로 처리하면 삭제 가능?
   useEffect(() => {
     if (searchParams.get('type') === 'model') {
       setIsClicked(!isClicked);
-      setSelected(!selected);
     }
   }, []);
 
@@ -35,16 +33,22 @@ function SubNav({ setModal }) {
     setIsActive(!isActive);
   };
 
-  const btnModelPhotograhper = () => {
-    setIsClicked(!isClicked);
-    setSelected(!selected);
-    if (isClicked) {
-      dispatch(setType('photographer'));
-    } else {
-      dispatch(setType('model'));
-    }
-    if (keyword) {
-      setSearchParams({ type, keyword });
+  const btnModelPhotograhper = (e) => {
+    if (
+      !(
+        (e.target.value === 'model' && isClicked) ||
+        (e.target.value === 'photographer' && !isClicked)
+      )
+    ) {
+      setIsClicked(!isClicked);
+      if (isClicked) {
+        dispatch(setType('photographer'));
+      } else {
+        dispatch(setType('model'));
+      }
+      if (keyword) {
+        setSearchParams({ type, keyword });
+      }
     }
   };
 
@@ -55,6 +59,7 @@ function SubNav({ setModal }) {
           <Link to={`/search?type=model&keyword=${keyword}`}>
             <button
               type="button"
+              value="model"
               className={
                 isClicked
                   ? 'btn-search-photographer clicked'
@@ -68,6 +73,7 @@ function SubNav({ setModal }) {
           <Link to={`/search?type=photographer&keyword=${keyword}`}>
             <button
               type="button"
+              value="photographer"
               className={
                 isClicked ? 'btn-search-model' : 'btn-search-model clicked'
               }

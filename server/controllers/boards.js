@@ -4,16 +4,19 @@ const { isAuthorized } = require("./tokenFunctions");
 
 module.exports = {
   getAllPosts: async (req, res) => {
-    let { category, keyword, tags } = req.query;
+    let { category, keyword, tags, status } = req.query;
+
     if (category === "model") {
       category = 1;
     } else {
       category = 0;
     }
+
     try {
       const searchPosts = await boards.findAll({
         where: {
           category,
+          status,
         },
         attributes: [
           "id",
@@ -26,6 +29,7 @@ module.exports = {
           "mainAddress",
           "detailAddress",
           "image",
+          "status",
         ],
         order: [["createdAt", "DESC"]],
         include: [
@@ -81,6 +85,7 @@ module.exports = {
           "longitude",
           "mainAddress",
           "detailAddress",
+          "status",
         ],
         where: { id },
         include: [
@@ -157,7 +162,7 @@ module.exports = {
       if (existBoard) {
         const updateBoardStatus = await boards.update(
           {
-            status: existBoard.dataValues.status + status,
+            status,
           },
           {
             where: { id },
@@ -165,7 +170,7 @@ module.exports = {
         );
         return res
           .status(200)
-          .json({ data: updateBoardStatus, message: "상태 변경" });
+          .json({ data: updateBoardStatus, message: "상태 변경 완료" });
       }
     } catch (err) {
       console.log(err);

@@ -11,6 +11,7 @@ import DeleteModal from './DeleteModal';
 
 function List({ list, setList, post }) {
   const { token } = useSelector((state) => state.auth);
+  const [reservationStatus, setReservationStatus] = useState(post.status);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [modal, setModal] = useState({
@@ -33,24 +34,31 @@ function List({ list, setList, post }) {
   };
 
   const reservationHandler = async () => {
-    setModal({
-      open: true,
-      title: '예약을 종료하시겠습니까?',
-      callback: async () => {
-        await axios
-          .put(
-            `http://localhost:4000/boards/${post.id}`,
-            { status: 1 },
-            { headers: { authorization: `Bearer ${token}` } },
-            {
-              withCredentials: true,
-            },
-          )
-          .then((res) => {
-            console.log(res);
-          });
-      },
-    });
+    try {
+      setModal({
+        open: true,
+        title: '예약을 종료하시겠습니까?',
+        callback: async () => {
+          await axios
+            .put(
+              `http://localhost:4000/boards/${post.id}`,
+              { status: 1 },
+              { headers: { authorization: `Bearer ${token}` } },
+              {
+                withCredentials: true,
+              },
+            )
+            .then((res) => {
+              if (res.status === 200) {
+                setReservationStatus(1);
+                console.log('success');
+              }
+            });
+        },
+      });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const deletePost = async (e) => {
@@ -107,12 +115,16 @@ function List({ list, setList, post }) {
               <MdPlace className="icon-style" />
               {post.detailAddress}
             </li>
-            {post.status && (
-              <li className={post.status && 'reservation-status'}>
-                <FaCheck className="icon-style" />
-                종료된 게시글입니다
-              </li>
-            )}
+            <li
+              className={
+                reservationStatus === 1
+                  ? 'reservation-status'
+                  : 'hidden-reservation-status'
+              }
+            >
+              <FaCheck className="icon-style" />
+              예약이 종료된 게시글입니다
+            </li>
           </ul>
           <div className="half-container">
             <div
@@ -120,13 +132,17 @@ function List({ list, setList, post }) {
               aria-hidden="true"
               onClick={stopPropagate}
             >
-              {/* <button
+              <button
                 type="button"
-                className="btn-reservation"
+                className={
+                  reservationStatus === 1
+                    ? 'hidden-btn-reservation'
+                    : 'btn-reservation'
+                }
                 onClick={reservationHandler}
               >
                 예약 종료
-              </button> */}
+              </button>
               <button
                 type="button"
                 className="modi-btn"

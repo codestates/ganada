@@ -31,7 +31,13 @@ function Post({ post }) {
           <div className="address">{parsedPost.mainAddress}</div>
         </div>
         <div className="status-container">
-          <div className="reservation-status">예약 종료</div>
+          <span
+            className={
+              post.status ? 'reservation-status' : 'hidden-reservation-status'
+            }
+          >
+            예약 종료
+          </span>
         </div>
       </div>
     </div>

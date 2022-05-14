@@ -39,12 +39,14 @@ function SearchPage({ setModal }) {
 
   useEffect(() => {
     getPosts();
-  }, [tags, type, keyword, bookingStatus]);
+  }, [type, tags, keyword, bookingStatus]);
 
   const getPosts = async () => {
     await axios
       .get(
-        `http://localhost:4000/boards?category=${type}&keyword=${keyword}&tags=${tags}`,
+        `http://localhost:4000/boards?category=${type}&keyword=${keyword}&tags=${tags}&status=${Number(
+          !bookingStatus,
+        )}`,
         { withCredentials: true },
       )
       .then((res) => {

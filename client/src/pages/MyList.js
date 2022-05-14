@@ -15,6 +15,7 @@ function MyList() {
         await axios
           .get(`http://localhost:4000/boards/user/${id}`)
           .then((res) => {
+            console.log(res.data.data);
             setList(res.data.data);
           });
       } catch (err) {

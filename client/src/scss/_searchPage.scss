@@ -131,8 +131,8 @@ $box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
         border-radius: 8px;
         position: absolute;
         top: 90px;
-        right: 8px;
-        width: 20%;
+        right: 4px;
+        width: 30%;
         text-align: center;
         box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
         opacity: 0;
@@ -148,12 +148,10 @@ $box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
         z-index: 1;
       }
 
-      .menu li {
+      .menu li:nth-of-type(1) {
         border-bottom: 1px solid #dddddd;
       }
-
       .menu li a {
-        text-decoration: none;
         color: #333333;
         padding: 15px 20px;
         display: block;
@@ -183,9 +181,8 @@ $box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
     .post-wrapper {
       margin: 50px 20px 0 20px;
       width: 29%;
-      // animation: fadein 2s;
       animation: fadeInDown 1s ease-in-out;
-      height: 500px;
+      height: 520px;
       display: flex;
       box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.1);
       border-radius: 10px;
@@ -216,6 +213,11 @@ $box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
             width: 100%;
           }
         }
+
+        .hide-btn {
+          display: none;
+        }
+
         button {
           position: absolute;
           width: 100%;
@@ -250,22 +252,28 @@ $box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
       }
       .post-content {
         width: 80%;
+        height: 205px;
         display: flex;
         flex-direction: column;
         position: relative;
         margin-top: 30px;
         color: #918f8f;
+
         .title {
           font-weight: bold;
           font-size: 20px;
           color: black;
           margin-top: 10px;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 1;
         }
 
         .nickname {
           text-align: start;
           font-size: 15px;
-          // color: #0c52d6;
           color: #58a0ff;
         }
 
@@ -283,6 +291,11 @@ $box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
           .description {
             position: relative;
             left: 10px;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
           }
 
           .description-icon {
@@ -294,6 +307,11 @@ $box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
           .address {
             position: relative;
             left: 10px;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 1;
           }
           .position-icon {
             align-items: center;
@@ -301,38 +319,28 @@ $box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
         }
 
         .position {
+          position: absolute;
+          bottom: 40px;
           margin-top: 10px;
-        }
-
-        .btnDetailView {
-          cursor: pointer;
-          width: 180px;
-          height: 32px;
-          background-color: #444;
-          border-radius: 16px;
-          border: none;
-          font-weight: bold;
-          font-size: 16px;
-          color: #fff;
-          margin-top: 30px;
-          background: linear-gradient(45deg, #d1d1d1, #dbdada);
-          box-shadow: 5px 10px 10px rgba(214, 211, 211, 0.1);
-        }
-        .detailLink {
-          margin: 0 auto;
         }
 
         .status-container {
           display: flex;
-          justify-content: end;
-          padding-top: 10px;
+          position: absolute;
+          bottom: 10px;
+          text-align: center;
+          right: 0px;
           .reservation-status {
-            border: 2px solid red;
+            padding: 2px 0;
             font-weight: bold;
-            color: #adadad;
-            border-radius: 10px;
+            color: #fff;
+            background: #000;
+            border-radius: 7px;
             width: 100px;
-            text-align: center;
+          }
+
+          .hidden-reservation-status {
+            display: none;
           }
         }
       }

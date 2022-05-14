@@ -61,9 +61,7 @@ router.post("/", async (req, res, next) => {
         longitude,
         mainAddress,
         detailAddress,
-        image,
       } = req.body;
-      console.log(image);
       const createBoards = await boards.create({
         category,
         title,
@@ -103,7 +101,7 @@ router.patch("/:id", async (req, res) => {
           longitude,
           mainAddress,
           detailAddress,
-          status,
+          // status,
         } = req.body;
         if (userInfo.id === searchPost.dataValues.userId) {
           await boards.update(
@@ -115,7 +113,7 @@ router.patch("/:id", async (req, res) => {
               longitude,
               mainAddress,
               detailAddress,
-              status,
+              // status,
               image: `${fileNames}`,
               userId: userInfo.id,
             },

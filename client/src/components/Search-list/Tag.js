@@ -1,22 +1,21 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setTags, setBookingStatus } from '../../redux/searchConditionSlice';
 
 function Tag({ type, setTagInfo }) {
   const modelTags = ['청순', '섹시', '귀염', '도도', '지적', '날씬', '순수'];
   const photographerTags = ['실내촬영', '실외촬영', '노출촬영', '부분노출'];
   const [selectedTags, setSelectedTags] = useState([]);
-  const [isChecked, setIsChecked] = useState(false);
-  const { bookingStatus } = useSelector((state) => state.searchCondition);
+  const [isChecked, setIsChecked] = useState(true);
   const location = useLocation();
   const dispatch = useDispatch();
 
   useEffect(() => {
     setSelectedTags([]);
     dispatch(setTags([]));
-    setIsChecked(false);
-    dispatch(setBookingStatus(false));
+    setIsChecked(true);
+    dispatch(setBookingStatus(true));
   }, [type]);
 
   const tagHandler = (e) => {

@@ -4,7 +4,7 @@ const initialState = {
   keyword: '',
   tags: [],
   type: 'model',
-  bookingStatus: false,
+  bookingStatus: true,
 };
 
 const searchConditionSlice = createSlice({
