@@ -9,8 +9,6 @@ const db = require("./models");
 const hpp = require("hpp");
 const helmet = require("helmet");
 
-// DB Connection
-// 배포 모드
 if (process.env.NODE_ENV === "production") {
   console.log("배포 모드");
   app.use(hpp());
@@ -26,17 +24,15 @@ db.sequelize
   })
   .catch(console.error);
 
-// app setting
 app.use(
   cors({
     origin: [
       "http://localhost:3000",
       "http://3gamestates.com",
-      // "http://www.ganada.com",
-      // "https://www.ganada.com",
+      "https://3gamestates.com",
     ],
     credentials: true,
-    methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS", "PUT"],
+    methods: "*",
   })
 );
 app.use(express.json());
@@ -46,15 +42,11 @@ app.get("/", function (req, res) {
   res.send("PROJECT GANADA");
 });
 
-// Router Collection
-
 const authRouter = require("./routes/auth");
 const boardsRouter = require("./routes/boards");
 const usersRouter = require("./routes/users");
 const chatRoomsRouter = require("./routes/chatRooms");
 const chatContentsRouter = require("./routes/chatContents");
-
-// express use Routers
 
 app.use("/auth", authRouter);
 app.use("/users", usersRouter);
@@ -62,7 +54,5 @@ app.use("/boards", boardsRouter);
 app.use("/chatRooms", chatRoomsRouter);
 app.use("/chatcontents", chatContentsRouter);
 app.use("/images", express.static(path.join(__dirname, "uploads")));
-
-// Image AWS PORT 별도 설정 필요
 
 module.exports = app;

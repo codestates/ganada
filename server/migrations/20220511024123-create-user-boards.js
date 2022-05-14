@@ -15,10 +15,7 @@ module.exports = {
           key: "id",
         },
         onDelete: "cascade",
-<<<<<<< HEAD
-=======
         onUpdate: "cascade",
->>>>>>> remotes/origin/dev41
       },
       chatroomId: {
         type: Sequelize.INTEGER,
@@ -27,10 +24,7 @@ module.exports = {
           key: "id",
         },
         onDelete: "cascade",
-<<<<<<< HEAD
-=======
         onUpdate: "cascade",
->>>>>>> remotes/origin/dev41
       },
       createdAt: {
         allowNull: false,

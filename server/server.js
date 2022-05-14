@@ -1,39 +1,30 @@
-// http server
 const http = require("http");
 const app = require("./app");
 const server = http.createServer(app);
 const HTTP_PORT = 4000; // ec2 사용 시 80으로 변경하기
 const db = require("./models/index");
 
-// socket.io server 구현하기
 const socketIO = require("socket.io");
-const { isAuthorized } = require("./controllers/tokenFunctions");
-const chatcontents = require("./models/chatcontents");
 const io = socketIO(server, {
   cors: {
     origin: [
-      "http://project-ganada.s3-website-us-east-1.amazonaws.com",
       "http://localhost:3000",
       "http://3gamestates.com",
-      // "http://www.ganada.com",
-      // "https://www.ganada.com",
+      "https://3gamestates.com",
     ],
     credentials: true,
-    methods: ["GET", "POST"],
+    methods: "*",
   },
 });
 
 io.on("connection", (socket) => {
   console.log(`socket.io running on port ${HTTP_PORT}`);
 
-  // 채팅방 참여
   socket.on("join", async (data) => {
     const { chatroomId } = data;
     socket.join(chatroomId);
-    console.log(chatroomId);
   });
 
-  // 채팅 시작을 누른 사람에게 기본적인 방에 대한 정보를 전달해준다.
   socket.on("sendBoardData", async (data) => {
     const { chatroomId, id, image, title, updatedAt } = data;
     const payload = {
