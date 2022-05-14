@@ -172,6 +172,7 @@ export default function Signup({ setModal }) {
                 />
                 <button
                   type="submit"
+                  formMethod="POST"
                   className={
                     inputValue.email === '' ? 'email-btn' : 'email-btn active'
                   }

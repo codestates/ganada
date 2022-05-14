@@ -6,7 +6,7 @@ function KakaoShare() {
   const url = window.location.href;
   const { postState } = useSelector((state) => state.postInfo);
   const parsedImage = postState.image.split(',');
-  const imagesPath = `${process.env.REACT_APP_API_URL}images/${parsedImage[0]}`;
+  const imagesPath = `http://localhost:4000/images/${parsedImage[0]}`;
   useEffect(() => {
     initKakao();
   }, []);

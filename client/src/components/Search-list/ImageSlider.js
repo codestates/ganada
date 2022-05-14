@@ -37,12 +37,14 @@ function ImageSlider({ image }) {
 
   return (
     <div className="slider">
-      <button type="button" onClick={nextSlide}>
-        <IoIosArrowDropright className="prevBtn" />
-      </button>
-      <button type="button" onClick={prevSlide}>
-        <IoIosArrowDropleft className="nextBtn" />
-      </button>
+      <div className={parsedImages.length < 2 && 'hide-btn'}>
+        <button type="button" onClick={nextSlide}>
+          <IoIosArrowDropright className="prevBtn" />
+        </button>
+        <button type="button" onClick={prevSlide}>
+          <IoIosArrowDropleft className="nextBtn" />
+        </button>
+      </div>
       <div className="sliderContainer" ref={slideRef}>
         {parsedImages.map((img) => {
           return <img src={imagesPath + img} alt="profile" />;

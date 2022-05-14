@@ -181,7 +181,6 @@
     }
     .intro-description {
       position: relative;
-      line-height: 24px;
       left: 20px;
       bottom: 10px;
       font-size: 15px;
@@ -192,6 +191,9 @@
     .concept-container {
       display: inline-block;
       margin-right: 10px;
+      // .intro-concept:first-child {
+      //   margin-left: 10px;
+      // }
       .intro-concept {
         border: 1px solid gray;
         border-radius: 30px;

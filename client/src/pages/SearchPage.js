@@ -11,7 +11,9 @@ function SearchPage({ setModal }) {
   const [topBtn, setTopBtn] = useState(false);
   const outterRef = useRef();
   const dispatch = useDispatch();
-  const { keyword, tags, type } = useSelector((state) => state.searchCondition);
+  const { keyword, tags, type, bookingStatus } = useSelector(
+    (state) => state.searchCondition,
+  );
   const [posts, setPosts] = useState([]);
 
   const goToTopHandler = () => {
@@ -31,16 +33,13 @@ function SearchPage({ setModal }) {
     window.addEventListener('scroll', handleScroll);
     return () => {
       window.removeEventListener('scroll', handleScroll);
+      dispatch(setKeyword(''));
     };
   }, []);
 
   useEffect(() => {
-    // console.log(tags);
-    // console.log(type);
-    // console.log(keyword);
-    // console.log(posts);
     getPosts();
-  }, [tags, type, keyword]);
+  }, [type, tags, keyword, bookingStatus]);
 
   useEffect(() => {
     return () => {
@@ -51,7 +50,9 @@ function SearchPage({ setModal }) {
   const getPosts = async () => {
     await axios
       .get(
-        `${process.env.REACT_APP_API_URL}boards?category=${type}&keyword=${keyword}&tags=${tags}`,
+        `http://localhost:4000/boards?category=${type}&keyword=${keyword}&tags=${tags}&status=${Number(
+          !bookingStatus,
+        )}`,
         { withCredentials: true },
       )
       .then((res) => {

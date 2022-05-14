@@ -1,11 +1,16 @@
 import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
+import MainContentsBox from './MainContentsBox';
 
 export default function MainContents() {
   const [isTrue, setIsTrue] = useState(false);
   const [isTrue2, setIsTrue2] = useState(false);
+  const [photographerPosts, setPhotographerPosts] = useState(false);
+  const [modelPosts, setModelPosts] = useState(false);
   const handleScroll = () => {
     const position = window.pageYOffset;
-    if (position >= 70) {
+    if (position >= 50) {
       setIsTrue(true);
     } else {
       setIsTrue(false);
@@ -22,37 +27,63 @@ export default function MainContents() {
     window.addEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    const getPost = async () => {
+      try {
+        const res = await axios.get(
+          `http://localhost:4000/boards?category=&keyword=&tags=&status=`,
+        );
+        setPhotographerPosts(res.data.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getPost();
+  }, []);
+
+  useEffect(() => {
+    const getPost = async () => {
+      try {
+        const res = await axios.get(
+          `http://localhost:4000/boards?category=model&keyword=&tags=&status=`,
+        );
+        setModelPosts(res.data.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getPost();
+  }, []);
+
   return (
     <div className="main-contents">
       <div className="inner">
         <div className="title">오늘의 모델</div>
+
         <div
           className={isTrue ? 'main-box-wrraper active' : 'main-box-wrraper'}
         >
           <div className="box-wrraper">
-            <div className="main-box">box1</div>
-            <div className="main-box">box1</div>
-            <div className="main-box">box1</div>
-          </div>
-          <div className="box-wrraper">
-            <div className="main-box">box1</div>
-            <div className="main-box">box1</div>
-            <div className="main-box">box1</div>
+            {modelPosts &&
+              modelPosts.slice(0, 6).map((post) => (
+                <Link to={`photodetail/${post.id}`}>
+                  <MainContentsBox post={post} />
+                </Link>
+              ))}
           </div>
         </div>
+
         <div className="title">오늘의 작가</div>
         <div
           className={isTrue2 ? 'main-box-wrraper active' : 'main-box-wrraper'}
         >
           <div className="box-wrraper">
-            <div className="main-box">box1</div>
-            <div className="main-box">box1</div>
-            <div className="main-box">box1</div>
-          </div>
-          <div className="box-wrraper">
-            <div className="main-box">box1</div>
-            <div className="main-box">box1</div>
-            <div className="main-box">box1</div>
+            {photographerPosts &&
+              photographerPosts.slice(0, 6).map((post) => (
+                <Link to={`photodetail/${post.id}`}>
+                  <MainContentsBox post={post} />
+                </Link>
+              ))}
           </div>
         </div>
       </div>

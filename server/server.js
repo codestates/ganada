@@ -1,7 +1,7 @@
 const http = require("http");
 const app = require("./app");
 const server = http.createServer(app);
-const HTTP_PORT = 4000; // ec2 사용 시 80으로 변경하기
+const HTTP_PORT = 80;
 const db = require("./models/index");
 
 const socketIO = require("socket.io");

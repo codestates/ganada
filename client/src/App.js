@@ -127,7 +127,8 @@ function App() {
           path="/photodetail/:id"
           element={<PhotoDetail setModal={setModal} />}
         />
-        <Route path="/mylist" element={<MyList setModal={setModal} />} />
+        <Route path="/modeldetail/:id" element={<ModelDetail />} />
+        <Route path="/mylist" element={<MyList />} />
         <Route path="/auth/kakao/callback" element={<KakaoLogin />} />
         <Route path="/mypage" element={<MyPage />}>
           <Route

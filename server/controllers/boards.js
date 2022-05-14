@@ -4,16 +4,19 @@ const { isAuthorized } = require("./tokenFunctions");
 
 module.exports = {
   getAllPosts: async (req, res) => {
-    let { category, keyword, tags } = req.query;
+    let { category, keyword, tags, status } = req.query;
+
     if (category === "model") {
       category = 1;
     } else {
       category = 0;
     }
+
     try {
       const searchPosts = await boards.findAll({
         where: {
           category,
+          status,
         },
         attributes: [
           "id",
@@ -26,6 +29,7 @@ module.exports = {
           "mainAddress",
           "detailAddress",
           "image",
+          "status",
         ],
         order: [["createdAt", "DESC"]],
         include: [
@@ -81,6 +85,7 @@ module.exports = {
           "longitude",
           "mainAddress",
           "detailAddress",
+          "status",
         ],
         where: { id },
         include: [
@@ -166,7 +171,7 @@ module.exports = {
         // 게시글 상태 예약하기(0)이고, 게시글 작성자가 아닐경우 예약을 할 수 있습니다.
         const updateBoardStatus = await boards.update(
           {
-            status: existBoard.dataValues.status + status,
+            status,
           },
           {
             where: { id },
@@ -174,62 +179,7 @@ module.exports = {
         );
         return res
           .status(200)
-          .json({ data: updateBoardStatus, message: "예약 신청했습니다." });
-      } else if (existBoard.userId === userInfo.id && existBoard.status === 1) {
-        // 예약 수락(1)은 게시글 작성자만 누를 수 있습니다.
-        const updateBoardStatus = await boards.update(
-          {
-            status: existBoard.dataValues.status + status,
-          },
-          {
-            where: { id },
-          }
-        );
-        return res
-          .status(200)
-          .json({ data: updateBoardStatus, message: "예약을 수락했습니다." });
-      } else if (existBoard.userId !== userInfo.id && existBoard.status === 1) {
-        // 예약 수락(1)상태는 게시글 작성자가 아니면 누를 수 없습니다.
-        const updateBoardStatus = await boards.update(
-          {
-            status: existBoard.dataValues.status + status,
-          },
-          {
-            where: { id },
-          }
-        );
-        return res.status(200).json({
-          data: updateBoardStatus,
-          message: "예약 수락은 게시글 작성자만 할 수 있습니다.",
-        });
-      } else if (existBoard.status === 2) {
-        // 촬영 종료는 둘다 할 수 있습니다. (둘 다 누른 경우)
-        const updateBoardStatus = await boards.update(
-          {
-            status: existBoard.dataValues.status + status,
-          },
-          {
-            where: { id },
-          }
-        );
-        return res.status(200).json({
-          data: updateBoardStatus,
-          message: "촬영이 종료 됐습니다.",
-        });
-      } else {
-        const updateBoardStatus = await boards.update(
-          {
-            // 취소의 경우 status가 - 입니다. 주의해주세요.
-            status: existBoard.dataValues.status - status,
-          },
-          {
-            where: { id },
-          }
-        );
-        return res.status(200).json({
-          data: updateBoardStatus,
-          message: "촬영이 취소 됐습니다.",
-        });
+          .json({ data: updateBoardStatus, message: "상태 변경 완료" });
       }
     } catch (err) {
       console.log(err);

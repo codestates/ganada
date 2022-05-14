@@ -145,6 +145,7 @@ function WritingPage({ setModal }) {
             type="text"
             ref={inputTitleRef}
             placeholder="제목을 입력하세요"
+            maxLength={70}
             onChange={titleHandler}
             value={title}
           />
@@ -165,7 +166,8 @@ function WritingPage({ setModal }) {
         <div className="introduction-area">
           <textarea
             className="input-introduction"
-            placeholder="촬영 내용을 소개해 주세요"
+            maxLength={500}
+            placeholder="촬영 내용을 소개해 주세요 (최대 500자)"
             onChange={descriptionHandler}
           />
         </div>
@@ -192,6 +194,7 @@ function WritingPage({ setModal }) {
             className="input-detail-address"
             type="text"
             placeholder="상세주소 입력"
+            maxLength={50}
             value={detailAddress}
             onChange={detailAddressHandler}
           />
