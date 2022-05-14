@@ -23,7 +23,7 @@ export default function Login({ setIsLogin, getUserInfo }) {
       try {
         await axios
           .post(
-            `${process.env.REACT_APP_API_URL}auth/login`,
+            `${process.env.REACT_APP_API_URL}/auth/login`,
             { email, password },
             { withCredentials: true },
           )
