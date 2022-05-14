@@ -58,7 +58,7 @@ export default function Chat({ setReservationModal, setModal }) {
     const getMessage = async () => {
       try {
         const res = await axios.get(
-          `${process.env.REACT_APP_API_URL}chatContents/${chatRoomId}}`,
+          `http://localhost:4000/chatContents/${chatRoomId}}`,
           {
             headers: { authorization: `Bearer ${token}` },
           },
@@ -76,7 +76,7 @@ export default function Chat({ setReservationModal, setModal }) {
     const getChatRooms = async () => {
       try {
         const res = await axios.get(
-          `${process.env.REACT_APP_API_URL}chatRooms/`,
+          'http://localhost:4000/chatRooms/',
           {
             headers: { authorization: `Bearer ${token}` },
           },
@@ -117,16 +117,6 @@ export default function Chat({ setReservationModal, setModal }) {
     document.addEventListener('mousedown', onClick);
   }, [chatRoomId]);
 
-  useEffect(() => {
-    const onClick = (e) => {
-      if (inSection.current && !inSection.current.contains(e.target)) {
-        setShowEmojij(false);
-      }
-    };
-
-    document.addEventListener('mousedown', onClick);
-  }, [chatRoomId]);
-
   const emojiShowHide = () => {
     setShowEmojij(!showEmoji);
   };
@@ -153,7 +143,6 @@ export default function Chat({ setReservationModal, setModal }) {
       textarea.style.height = `${height + 3}px`;
     }
   };
-
   const timeago = (createdat) => {
     const milliSeconds = Math.floor(new Date() - createdat);
     const seconds = milliSeconds / 1000;
