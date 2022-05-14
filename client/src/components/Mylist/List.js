@@ -62,7 +62,6 @@ function List({ list, setList, post }) {
   };
 
   const deletePost = async (e) => {
-    // e.stopPropagation();
     setModal({
       open: true,
       title: '삭제 하시겠습니까?',
@@ -134,12 +133,12 @@ function List({ list, setList, post }) {
             >
               <button
                 type="button"
+                onClick={reservationHandler}
                 className={
                   reservationStatus === 1
                     ? 'hidden-btn-reservation'
                     : 'btn-reservation'
                 }
-                onClick={reservationHandler}
               >
                 예약 종료
               </button>
