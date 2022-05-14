@@ -13,11 +13,11 @@ const chatBoardSlice = createSlice({
   name: 'chatBoard',
   initialState: chatBoardState,
   reducers: {
-    setChatRoom: (state, action) => {
+    setChatBoard: (state, action) => {
       state.data = action.payload;
     },
   },
 });
 
-export const { setChatRoom } = chatBoardSlice.actions;
+export const { setChatBoard } = chatBoardSlice.actions;
 export default chatBoardSlice.reducer;

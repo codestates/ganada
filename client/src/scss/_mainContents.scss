@@ -36,84 +36,96 @@
       }
 
       .box-wrraper {
-        display: flex;
-        justify-content: space-between;
-        width: 100%;
-        height: 25vh;
-        border-radius: 20px;
-        margin-bottom: 1.2rem;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+        grid-auto-columns: minmax(316px, 316px);
+        gap: 30px 40px;
 
         .main-box {
-          border-radius: 13px;
-          width: 32%;
-          padding: 20px;
+          border-radius: 15px;
           background-color: rgba(128, 128, 128, 0.034);
-          border: 1px solid rgba(128, 128, 128, 0.233);
-        }
-      }
-    }
-  }
-}
-@media screen and (max-width: $xs) {
-  .main-contents {
-    position: relative;
-    display: flex;
-    width: 100%;
-    .inner {
-      width: 1320px;
-      margin: 0 auto;
-      padding: 20px 0;
-      align-items: center;
-      .title {
-        font-size: 25px;
-        margin-bottom: 30px;
-        margin-top: 20px;
-      }
-      .main-box-wrraper {
-        width: 100vw;
-        display: flex;
-        visibility: visible;
-        flex-direction: column;
-        justify-content: space-between;
-        overflow: hidden;
-        align-items: center;
-        &.active {
-          display: flex;
-          visibility: visible;
-          animation: none 1s ease-in-out;
-          @keyframes none {
-            0% {
-              opacity: 0;
-              transform: none;
-            }
-            100% {
-              opacity: 1;
-              transform: none;
-            }
-          }
-        }
-
-        .box-wrraper {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          width: 100vw;
-          height: 100%;
-          border-radius: 20px;
-          margin-bottom: 10px;
-          flex-direction: column;
-
-          .main-box {
-            border-radius: 13px;
-            width: 80%;
-            height: 150px;
-            padding: 20px;
-            background-color: rgba(128, 128, 128, 0.034);
+          border: none;
+          height: 260px;
+          background-color: transparent;
+          cursor: pointer;
+          img {
+            width: 100%;
+            height: 86%;
+            object-fit: cover;
+            border-radius: 15px;
             border: 1px solid rgba(128, 128, 128, 0.233);
-            margin-bottom: 10px;
+          }
+          .postTitle {
+            font-size: 20px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
           }
         }
       }
     }
   }
 }
+// @media screen and (max-width: $xs) {
+//   .main-contents {
+//     position: relative;
+//     display: flex;
+//     width: 100%;
+//     .inner {
+//       width: 1320px;
+//       margin: 0 auto;
+//       padding: 20px 0;
+//       align-items: center;
+//       .title {
+//         font-size: 25px;
+//         margin-bottom: 30px;
+//         margin-top: 20px;
+//       }
+//       .main-box-wrraper {
+//         width: 100vw;
+//         display: flex;
+//         visibility: visible;
+//         flex-direction: column;
+//         justify-content: space-between;
+//         overflow: hidden;
+//         align-items: center;
+//         &.active {
+//           display: flex;
+//           visibility: visible;
+//           animation: none 1s ease-in-out;
+//           @keyframes none {
+//             0% {
+//               opacity: 0;
+//               transform: none;
+//             }
+//             100% {
+//               opacity: 1;
+//               transform: none;
+//             }
+//           }
+//         }
+
+//         .box-wrraper {
+//           display: flex;
+//           justify-content: space-between;
+//           align-items: center;
+//           width: 100vw;
+//           height: 100%;
+//           border-radius: 20px;
+//           margin-bottom: 10px;
+//           flex-direction: column;
+
+//           .main-box {
+//             border-radius: 13px;
+//             width: 80%;
+//             height: 150px;
+//             padding: 20px;
+//             background-color: rgba(128, 128, 128, 0.034);
+//             border: 1px solid rgba(128, 128, 128, 0.233);
+//             margin-bottom: 10px;
+//           }
+//         }
+//       }
+//     }
+//   }
+// }

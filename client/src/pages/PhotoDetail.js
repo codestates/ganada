@@ -3,7 +3,8 @@ import { useLocation, useParams, useNavigate, Link } from 'react-router-dom';
 import { BsFillChatFill } from 'react-icons/bs';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-import { setPostInfo, setChatBoard } from '../redux/postInfoSlice';
+import { setPostInfo } from '../redux/postInfoSlice';
+import { setInitChatBoard } from '../redux/initChatBoardSlice';
 import PhotoDetailSlider from '../components/Photo-detail/PhotoDetailSlider';
 import PhotoDetailIntro from '../components/Photo-detail/PhotoDetailIntro';
 import PhotoDetailMap from '../components/Photo-detail/PhotoDetailMap';
@@ -20,7 +21,6 @@ function PhotoDetail({ setModal }) {
   const dispatch = useDispatch();
   const { token } = useSelector((state) => state.auth);
   const { postState } = useSelector((state) => state.postInfo);
-  console.log(postState);
 
   useEffect(() => {
     if (location.state) {
@@ -28,50 +28,6 @@ function PhotoDetail({ setModal }) {
     }
   }, []);
 
-  const chatRoomsPost = async () => {
-    try {
-      await axios
-        .post(
-          `http://localhost:4000/chatRooms/`,
-          { id },
-          {
-            headers: { authorization: `Bearer ${token}` },
-          },
-          { withCredentials: true },
-        )
-        .then((res) => {
-          dispatch(
-            setChatBoard({
-              ...postState,
-              chatRoomId: res.data.data.createGuestRoom.chatRoomId,
-            }),
-          );
-          navigate('/chat');
-        });
-    } catch (err) {
-      if (err.response.data.message === '이미 채팅방이 존재합니다.') {
-        dispatch(setChatBoard(err.response.data.data));
-        navigate(`/chat/${err.response.data.data}`);
-      } else if (
-        err.response.data.message === '본인에게는 메시지를 보낼 수 없습니다.'
-      ) {
-        // navigate(`/chat`);
-        setModal({
-          open: true,
-          title: '본인과의 채팅은 불가능합니다',
-        });
-      } else {
-        console.log(err);
-      }
-    }
-  };
-
-  // 현재 채팅은 보드의 상태를 가지고 있어야한다.
-  // 내가 가지고있는 정보
-  // 보드의 정보
-  // 채팅 룸의 정보
-  // 채팅을 클릭시 ..내가 누른 보드의 상태를 저장해야한다?
-  //
   useEffect(() => {
     const getPostDetail = async () => {
       try {
@@ -89,6 +45,49 @@ function PhotoDetail({ setModal }) {
     };
     getPostDetail();
   }, []);
+
+  const chatRoomsPost = async () => {
+    try {
+      await axios
+        .post(
+          `http://localhost:4000/chatRooms/`,
+          { id },
+          {
+            headers: { authorization: `Bearer ${token}` },
+          },
+          { withCredentials: true },
+        )
+        .then((res) => {
+          dispatch(
+            setInitChatBoard({
+              ...postState,
+              chatRoomId: res.data.data.createGuestRoom.chatRoomId,
+            }),
+          );
+          navigate(`/chat/${res.data.data.createGuestRoom.chatRoomId}`);
+        });
+    } catch (err) {
+      if (err.response.data.message === '이미 채팅방이 존재합니다.') {
+        dispatch(
+          setInitChatBoard({
+            ...postState,
+            chatRoomId: err.response.data.data,
+          }),
+        );
+        navigate(`/chat/${err.response.data.data}`);
+      } else if (
+        err.response.data.message === '본인에게는 메시지를 보낼 수 없습니다.'
+      ) {
+        // navigate(`/chat`);
+        setModal({
+          open: true,
+          title: '본인과의 채팅은 불가능합니다',
+        });
+      } else {
+        console.log(err);
+      }
+    }
+  };
 
   return (
     <div>
