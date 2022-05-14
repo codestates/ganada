@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { setChatBoard } from '../../redux/chatBoardSlice';
 
 export default function Reservation({
@@ -66,18 +66,6 @@ export default function Reservation({
   console.log(findBoardId);
 
   const imageSplit = ((chatBoard && chatBoard.image) || '').split(',')[0];
-
-  console.log(chatRoomId === String(postState.chatRoomId));
-  console.log(array);
-  console.log(typeof postState.chatRoomId);
-  useEffect(() => {
-    if (chatRoomId === String(postState.chatRoomId)) {
-      setArray(postState);
-    } else {
-      setArray('');
-    }
-  }, [token, postState, chatRoomId]);
-  const imageSplit = ((array && array.image) || '').split(',')[0];
 
   return (
     <Link to={`/photodetail/${findBoardId?.boardId}`}>

@@ -44,7 +44,7 @@ function App() {
   const getUserInfo = () => {
     try {
       axios
-        .get(`${process.env.REACT_APP_API_URL}users`, {
+        .get(`http://localhost:4000/users`, {
           headers: { authorization: `Bearer ${token}` },
           withCredentials: true,
         })
@@ -76,7 +76,7 @@ function App() {
   const handleLogout = () => {
     axios
       .post(
-        `${process.env.REACT_APP_API_URL}auth/logout`,
+        `http://localhost:4000/auth/logout`,
         null,
         {
           headers: { authorization: `Bearer ${token}` },
@@ -127,7 +127,6 @@ function App() {
           path="/photodetail/:id"
           element={<PhotoDetail setModal={setModal} />}
         />
-        <Route path="/modeldetail/:id" element={<ModelDetail />} />
         <Route path="/mylist" element={<MyList />} />
         <Route path="/auth/kakao/callback" element={<KakaoLogin />} />
         <Route path="/mypage" element={<MyPage />}>
