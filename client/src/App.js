@@ -44,7 +44,7 @@ function App() {
   const getUserInfo = () => {
     try {
       axios
-        .get(`http://localhost:4000/users`, {
+        .get(`${process.env.REACT_APP_API_URL}/users`, {
           headers: { authorization: `Bearer ${token}` },
           withCredentials: true,
         })
@@ -76,7 +76,7 @@ function App() {
   const handleLogout = () => {
     axios
       .post(
-        `http://localhost:4000/auth/logout`,
+        `${process.env.REACT_APP_API_URL}/auth/logout`,
         null,
         {
           headers: { authorization: `Bearer ${token}` },

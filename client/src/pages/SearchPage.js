@@ -50,7 +50,9 @@ function SearchPage({ setModal }) {
   const getPosts = async () => {
     await axios
       .get(
-        `http://localhost:4000/boards?category=${type}&keyword=${keyword}&tags=${tags}&status=${Number(
+        `${
+          process.env.REACT_APP_API_URL
+        }/boards?category=${type}&keyword=${keyword}&tags=${tags}&status=${Number(
           !bookingStatus,
         )}`,
         { withCredentials: true },

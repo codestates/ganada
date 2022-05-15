@@ -18,7 +18,7 @@ export default function Header({ handleLogout, cookieToken, isLogin }) {
   const type = searchParams.get('type');
   const dispatch = useDispatch();
   const { keyword } = useSelector((state) => state.searchCondition);
-  const imagesPath = `http://localhost:4000/images/`;
+  const imagesPath = `${process.env.REACT_APP_API_URL}/images/`;
   const inSection = useRef();
 
   useEffect(() => {

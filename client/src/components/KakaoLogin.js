@@ -16,7 +16,7 @@ const KakaoLogin = () => {
   // 서버에 인가코드 전달
   const kakao = async (code) => {
     await axios
-      .post(`${process.env.REACT_APP_API_URL}auth/kakao/callback`, null, {
+      .post(`${process.env.REACT_APP_API_URL}/auth/kakao/callback`, null, {
         headers: {
           authorization: code,
         },

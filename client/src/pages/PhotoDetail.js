@@ -32,7 +32,7 @@ function PhotoDetail({ setModal }) {
     const getPostDetail = async () => {
       try {
         await axios
-          .get(`http://localhost:4000/boards/${id}`, {
+          .get(`${process.env.REACT_APP_API_URL}/boards/${id}`, {
             withCredentials: true,
           })
           .then((res) => {
@@ -50,7 +50,7 @@ function PhotoDetail({ setModal }) {
     try {
       await axios
         .post(
-          `${process.env.REACT_APP_API_URL}chatRooms/`,
+          `${process.env.REACT_APP_API_URL}/chatRooms/`,
           { id },
           {
             headers: { authorization: `Bearer ${token}` },

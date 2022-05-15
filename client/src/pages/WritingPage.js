@@ -87,7 +87,7 @@ function WritingPage({ setModal }) {
           }
         }
         const result = await axios.post(
-          `${process.env.REACT_APP_API_URL}boards/images`,
+          `${process.env.REACT_APP_API_URL}/boards/images`,
           data,
           {
             // headers:'content-type':'multipart/form-data',
@@ -97,7 +97,7 @@ function WritingPage({ setModal }) {
         if (result.status === 200) {
           await axios
             .post(
-              `${process.env.REACT_APP_API_URL}boards`,
+              `${process.env.REACT_APP_API_URL}/boards`,
               reqData,
               {
                 headers: { authorization: `Bearer ${token}` },

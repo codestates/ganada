@@ -30,7 +30,7 @@ export default function Chat({ setReservationModal, setModal }) {
   const chatBoard = useSelector((state) => state.chatBoard).data;
 
   useEffect(() => {
-    socket.current = io('ws://localhost:4000');
+    socket.current = io('ws://ec2-52-1-244-58.compute-1.amazonaws.com');
   }, [token]);
 
   useEffect(() => {
@@ -58,7 +58,7 @@ export default function Chat({ setReservationModal, setModal }) {
     const getMessage = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:4000/chatContents/${chatRoomId}}`,
+          `${process.env.REACT_APP_API_URL}/chatContents/${chatRoomId}}`,
           {
             headers: { authorization: `Bearer ${token}` },
           },
@@ -76,7 +76,7 @@ export default function Chat({ setReservationModal, setModal }) {
     const getChatRooms = async () => {
       try {
         const res = await axios.get(
-          'http://localhost:4000/chatRooms/',
+          `${process.env.REACT_APP_API_URL}/chatRooms/`,
           {
             headers: { authorization: `Bearer ${token}` },
           },

@@ -9,7 +9,7 @@ export default function Reservation({
   chatRoomId,
   arrivalMessage,
 }) {
-  const imagesPath = `http://localhost:4000/images/`;
+  const imagesPath = `${process.env.REACT_APP_API_URL}/images/`;
   const { token } = useSelector((state) => state.auth);
   const message = useSelector((state) => state.chatMessage).data;
   const chatBoard = useSelector((state) => state.chatBoard).data;
@@ -47,9 +47,12 @@ export default function Reservation({
     const getPostDetail = async () => {
       try {
         await axios
-          .get(`http://localhost:4000/boards/${findBoardId.boardId}`, {
-            withCredentials: true,
-          })
+          .get(
+            `${process.env.REACT_APP_API_URL}/boards/${findBoardId.boardId}`,
+            {
+              withCredentials: true,
+            },
+          )
           .then((res) => {
             if (!chatBoard || arrivalMessage || currentUserInfo) {
               dispatch(

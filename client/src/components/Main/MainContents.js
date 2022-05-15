@@ -31,7 +31,7 @@ export default function MainContents() {
     const getPost = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:4000/boards?category=&keyword=&tags=&status=`,
+          `${process.env.REACT_APP_API_URL}/boards?category=&keyword=&tags=&status=`,
         );
         setPhotographerPosts(res.data.data);
       } catch (err) {
@@ -45,7 +45,7 @@ export default function MainContents() {
     const getPost = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:4000/boards?category=model&keyword=&tags=&status=`,
+          `${process.env.REACT_APP_API_URL}/boards?category=model&keyword=&tags=&status=`,
         );
         setModelPosts(res.data.data);
       } catch (err) {

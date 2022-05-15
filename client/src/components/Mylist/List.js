@@ -41,7 +41,7 @@ function List({ list, setList, post }) {
         callback: async () => {
           await axios
             .put(
-              `http://localhost:4000/boards/${post.id}`,
+              `${process.env.REACT_APP_API_URL}/boards/${post.id}`,
               { status: 1 },
               { headers: { authorization: `Bearer ${token}` } },
               {
@@ -68,7 +68,7 @@ function List({ list, setList, post }) {
       title: '삭제 하시겠습니까?',
       callback: async () => {
         await axios
-          .delete(`http://localhost:4000/boards/${post.id}`, {
+          .delete(`${process.env.REACT_APP_API_URL}/boards/${post.id}`, {
             headers: { authorization: `Bearer ${token}` },
           })
           .then((res) => {

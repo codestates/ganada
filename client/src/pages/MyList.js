@@ -13,7 +13,7 @@ function MyList() {
     const getMylist = async () => {
       try {
         await axios
-          .get(`http://localhost:4000/boards/user/${id}`)
+          .get(`${process.env.REACT_APP_API_URL}/boards/user/${id}`)
           .then((res) => {
             console.log(res.data.data);
             setList(res.data.data);

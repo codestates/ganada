@@ -2,7 +2,7 @@ import React from 'react';
 // import { useLocation } from 'react-router-dom';
 
 export default function ChatRooms({ chatRoom, timeago }) {
-  const imagesPath = `http://localhost:4000/images/`;
+  const imagesPath = `${process.env.REACT_APP_API_URL}/images/`;
   const defaultImage =
     'https://static.nid.naver.com/images/web/user/default.png?type=s160';
   const { name, image, chats } = chatRoom;
