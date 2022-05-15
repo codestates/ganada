@@ -9,7 +9,7 @@ import Tag from '../components/Search-list/Tag';
 function WritingPage({ setModal }) {
   const inputTitleRef = useRef(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [title, setTitle] = useState(''); // 15글자 + ...
+  const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [tagInfo, setTagInfo] = useState([]);
   const [mainAddress, setMainAddress] = useState('');
@@ -77,7 +77,6 @@ function WritingPage({ setModal }) {
         open: true,
         title: '모든 항목이 입력되어야 합니다.',
       });
-      // alert('모든 항목이 입력되어야 합니다.');
     } else {
       try {
         const data = new FormData();
@@ -117,7 +116,6 @@ function WritingPage({ setModal }) {
                   open: true,
                   title: '등록 실패',
                 });
-                // alert('등록 실패');
               }
             });
         }

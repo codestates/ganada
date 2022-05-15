@@ -9,12 +9,12 @@ import Post from '../components/Search-list/Post';
 
 function SearchPage({ setModal }) {
   const [topBtn, setTopBtn] = useState(false);
+  const [posts, setPosts] = useState([]);
   const outterRef = useRef();
   const dispatch = useDispatch();
   const { keyword, tags, type, bookingStatus } = useSelector(
     (state) => state.searchCondition,
   );
-  const [posts, setPosts] = useState([]);
 
   const goToTopHandler = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -53,7 +53,6 @@ function SearchPage({ setModal }) {
         setPosts(res.data.data);
       });
   };
-  console.log(posts);
 
   return (
     <div className="searchPage-container">

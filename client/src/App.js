@@ -19,7 +19,6 @@ import PhotoDetail from './pages/PhotoDetail';
 import MediaFooterNav from './components/MediaFooterNav';
 import Chat from './pages/Chat';
 import MyList from './pages/MyList';
-import ModelDetail from './pages/ModelDetail';
 import Modal from './components/Modal';
 import KakaoLogin from './components/KakaoLogin';
 import ModifyPage from './pages/ModifyPage';
@@ -128,7 +127,6 @@ function App() {
           path="/photodetail/:id"
           element={<PhotoDetail setModal={setModal} />}
         />
-        <Route path="/modeldetail/:id" element={<ModelDetail />} />
         <Route path="/mylist" element={<MyList />} />
         <Route path="/auth/kakao/callback" element={<KakaoLogin />} />
         <Route path="/mypage" element={<MyPage />}>

@@ -14,10 +14,9 @@ export default function Header({ handleLogout, cookieToken, isLogin }) {
   const [scrollPosition, setScrollPosition] = useState(0);
   const [isTrue, setIsTrue] = useState(false);
   const [inputValue, setInputValue] = useState('');
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const type = searchParams.get('type');
   const dispatch = useDispatch();
-  const { keyword } = useSelector((state) => state.searchCondition);
   const imagesPath = `http://localhost:4000/images/`;
   const inSection = useRef();
 
