@@ -24,7 +24,6 @@ io.on("connection", (socket) => {
   socket.on("join", async (data) => {
     const { chatroomId } = data;
     socket.join(chatroomId);
-    console.log(chatroomId);
   });
 
   // 채팅 시작을 누른 사람에게 기본적인 방에 대한 정보를 전달해준다.
@@ -47,8 +46,9 @@ io.on("connection", (socket) => {
   });
 
   socket.on("sendMessage", async (data) => {
-    const { chats, userId, chatroomId, updatedAt } = data;
+    const { chats, userId, chatroomId, updatedAt, boardId } = data;
     await io.to(chatroomId).emit("receiveMessage", {
+      boardId,
       userId,
       chats,
       chatroomId,
@@ -58,9 +58,17 @@ io.on("connection", (socket) => {
       .create({
         userId,
         chatroomId: chatroomId,
+        boardId,
         chats: chats,
       })
       .catch((err) => console.log(err));
+  });
+
+  socket.on("sendReservation", async (data) => {
+    console.log("데이터", data);
+    const { chatroomId, status, hostTitle, userTitle, reservationStatus } =
+      data;
+    await io.to(chatroomId).emit("receiveReservation", data);
   });
 });
 

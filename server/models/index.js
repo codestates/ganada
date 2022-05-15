@@ -70,6 +70,9 @@ user_boards.belongsTo(users, { foreignKey: "userId" });
 boards.hasMany(user_boards, { foreignKey: "boardId" });
 user_boards.belongsTo(users, { foreignKey: "boardId" });
 
+boards.hasMany(chatcontents, { foreignKey: "boardId" });
+chatcontents.belongsTo(boards, { foreignKey: "boardId" });
+
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 

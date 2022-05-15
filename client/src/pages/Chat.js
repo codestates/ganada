@@ -28,7 +28,9 @@ export default function Chat({ setReservationModal, setModal }) {
   const message = useSelector((state) => state.chatMessage).data;
   const chatRooms = useSelector((state) => state.chatRoom).data;
   const chatBoard = useSelector((state) => state.chatBoard).data;
-
+  const currentUserInfo = useSelector(
+    (state) => state.currentChatUserInfo,
+  ).data;
   useEffect(() => {
     socket.current = io('ws://localhost:4000');
   }, [token]);
@@ -44,7 +46,7 @@ export default function Chat({ setReservationModal, setModal }) {
         boardId,
       });
     });
-  }, [token, socket]);
+  }, [token]);
 
   useEffect(() => {
     socket.current.emit('join', { chatroomId: chatRoomId });
@@ -105,7 +107,6 @@ export default function Chat({ setReservationModal, setModal }) {
       setNewMessage('');
     }
   };
-  console.log('chatBoad', chatBoard);
 
   useEffect(() => {
     const onClick = (e) => {
@@ -187,6 +188,7 @@ export default function Chat({ setReservationModal, setModal }) {
                 <>
                   <RecieverName message={message} chatUserInfo={chatUserInfo} />
                   <Reservation
+                    socket={socket}
                     setReservationModal={setReservationModal}
                     chatRoomId={chatRoomId}
                     arrivalMessage={arrivalMessage}

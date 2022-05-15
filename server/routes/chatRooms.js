@@ -5,5 +5,6 @@ const chatRoomsController = require("../controllers/chatRooms");
 router.post("/", chatRoomsController.createRoom);
 router.delete("/:chatroomId", chatRoomsController.deleteRoom);
 router.get("/", chatRoomsController.getAllChatRoom);
+router.put("/:chatRoomId", chatRoomsController.changeStatusChatRoom);
 
 module.exports = router;

@@ -235,12 +235,98 @@ module.exports = {
               ) {
                 roomsList[i].chats = chattings[j].chats;
                 roomsList[i].date = chattings[j].updatedAt;
+                roomsList[i].boardId = chattings[j].boardId;
               }
             }
           }
         }
-        const result = roomsList;
+        const result = roomsList.sort((a, b) => b.date - a.date);
+
         return res.status(200).json({ data: result, message: "작동" });
+      }
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ message: "서버 에러" });
+    }
+  },
+
+  changeStatusChatRoom: async (req, res) => {
+    console.log("req", req.body);
+    const userInfo = isAuthorized(req);
+    const { chatRoomId } = req.params;
+    const { status } = req.body;
+    try {
+      const existChatRoom = await chatrooms.findOne({
+        attributes: ["hostId", "guestId", "status"],
+        where: {
+          id: chatRoomId,
+        },
+      });
+      if (existChatRoom.hostId === userInfo.id && existChatRoom.status === 0) {
+        return res
+          .status(401)
+          .json({ message: "본인 게시글은 예약이 불가능 합니다." });
+      } else if (
+        existChatRoom.guestId === userInfo.id &&
+        existChatRoom.status === 0
+      ) {
+        const updateChatRoomStatus = await chatrooms.update(
+          {
+            status: existChatRoom.dataValues.status + status,
+          },
+          {
+            where: {
+              id: chatRoomId,
+            },
+          }
+        );
+        return res.status(200).json({
+          data: existChatRoom.status,
+          message: "예약을 신청했습니다.",
+        });
+      } else if (
+        existChatRoom.hostId === userInfo.id &&
+        existChatRoom.status === 1
+      ) {
+        const updateChatRoomStatus = await chatrooms.update(
+          {
+            status: existChatRoom.dataValues.status + status,
+          },
+          {
+            where: {
+              id: chatRoomId,
+            },
+          }
+        );
+        return res.status(200).json({
+          data: existChatRoom.status,
+          message: "예약을 수락하였습니다.",
+        });
+      } else if (
+        existChatRoom.guestId === userInfo.id &&
+        existChatRoom.status === 1
+      ) {
+        return res
+          .status(401)
+          .json({ message: "게시글 작성자만 수락 할 수 있습니다." });
+      } else if (
+        existChatRoom.guestId === userInfo.id &&
+        existChatRoom.status === 2
+      ) {
+        const updateChatRoomStatus = await chatrooms.update(
+          {
+            status: 0,
+          },
+          {
+            where: {
+              id: chatRoomId,
+            },
+          }
+        );
+        return res.status(200).json({
+          data: existChatRoom.status,
+          message: "촬영이 종료 되었습니다.",
+        });
       }
     } catch (err) {
       console.log(err);

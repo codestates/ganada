@@ -15,6 +15,10 @@ module.exports = (sequelize, DataTypes) => {
     {
       hostId: DataTypes.INTEGER,
       guestId: DataTypes.INTEGER,
+      status: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0,
+      },
     },
     {
       sequelize,

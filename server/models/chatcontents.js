@@ -32,6 +32,16 @@ module.exports = (sequelize, DataTypes) => {
           key: "id",
         },
         onDelete: "cascade",
+        onUpdate: "cascade",
+      },
+      boardId: {
+        type: DataTypes.INTEGER,
+        references: {
+          model: "boards",
+          key: "id",
+        },
+        onDelete: "cascade",
+        onUpdate: "cascade",
       },
     },
     {
