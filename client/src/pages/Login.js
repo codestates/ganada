@@ -21,6 +21,7 @@ export default function Login({ setIsLogin, getUserInfo }) {
       setErrorMessage('이메일과 비밀번호를 입력하세요');
     } else {
       try {
+        console.log(process.env.REACT_APP_API_URL);
         await axios
           .post(
             `${process.env.REACT_APP_API_URL}/auth/login`,
