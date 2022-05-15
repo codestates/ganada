@@ -1,10 +1,11 @@
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
-import List from '../components/Mylist/List';
+import NoContents from '../components/NoContents';
 import Header from '../components/Mylist/Header';
+import List from '../components/Mylist/List';
 
-function MyList({ setModal }) {
+function MyList() {
   const { id } = useSelector((state) => state.userInfo);
   const [list, setList] = useState([]);
 
@@ -12,8 +13,11 @@ function MyList({ setModal }) {
     const getMylist = async () => {
       try {
         await axios
-          .get(`http://localhost:4000/boards/user/${id}`)
+          .get(`${process.env.REACT_APP_API_URL}/boards/user/${id}`, {
+            withCredentials: true,
+          })
           .then((res) => {
+            console.log(res.data.data);
             setList(res.data.data);
           });
       } catch (err) {
@@ -21,24 +25,20 @@ function MyList({ setModal }) {
       }
     };
     getMylist();
-  }, []);
+  }, [id]);
 
   return (
     <div className="mylist-container">
       <Header />
-      {list.length > 0
-        ? list.map((post) => {
-            return (
-              <List
-                key={post.id}
-                post={post}
-                list={list}
-                setList={setList}
-                setModal={setModal}
-              />
-            );
-          })
-        : null}
+      {list.length > 0 ? (
+        list.map((post) => {
+          return (
+            <List key={post.id} post={post} list={list} setList={setList} />
+          );
+        })
+      ) : (
+        <NoContents message={"We're Sorry! :("} />
+      )}
     </div>
   );
 }

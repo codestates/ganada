@@ -14,7 +14,7 @@ export default function Reservation({
 }) {
   const socket = useRef();
   const [arrivalstatus, setArrivalStatus] = useState(null);
-  const imagesPath = `http://localhost:4000/images/`;
+  const imagesPath = `${process.env.REACT_APP_API_URL}/images/`;
   const dispatch = useDispatch();
   const { token } = useSelector((state) => state.auth);
   const message = useSelector((state) => state.chatMessage).data;
@@ -32,7 +32,7 @@ export default function Reservation({
   });
 
   useEffect(() => {
-    socket.current = io('ws://localhost:4000');
+    socket.current = io(`${process.env.REACT_APP_API_URL}`);
   }, [token]);
 
   useEffect(() => {
@@ -97,7 +97,7 @@ export default function Reservation({
     try {
       await axios
         .put(
-          `http://localhost:4000/chatRooms/${chatRoomId}`,
+          `${process.env.REACT_APP_API_URL}/chatRooms/${chatRoomId}`,
           { status: 1 },
           {
             headers: { authorization: `Bearer ${token}` },
@@ -145,9 +145,12 @@ export default function Reservation({
     const getPostDetail = async () => {
       try {
         await axios
-          .get(`http://localhost:4000/boards/${findBoardId?.boardId}`, {
-            withCredentials: true,
-          })
+          .get(
+            `${process.env.REACT_APP_API_URL}/boards/${findBoardId?.boardId}`,
+            {
+              withCredentials: true,
+            },
+          )
           .then((res) => {
             if (!initChatBoard) {
               dispatch(

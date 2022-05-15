@@ -149,17 +149,15 @@
     .intro-sub-container {
       flex: 1;
       display: flex;
-      .half-container {
+      .left-container {
         flex: 4;
         .title-container {
           display: flex;
-          // border: 1px solid red;
           .title-icon {
             font-size: 25px;
           }
         }
         .desc-container {
-          // border: 1px solid blue;
           display: flex;
           .desc-icon {
             font-size: 25px;
@@ -168,8 +166,23 @@
           }
         }
       }
-      .half-container-two {
+      .right-container {
         flex: 6;
+        display: flex;
+        justify-content: end;
+        align-items: end;
+        .reservation-sub {
+          width: 100px;
+          height: 30px;
+          font-size: 13px;
+          font-weight: bold;
+          background-color: red;
+          color: #fff;
+          border-radius: 7px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
       }
     }
     .intro-sub-title {
@@ -181,6 +194,7 @@
     }
     .intro-description {
       position: relative;
+      line-height: 24px;
       left: 20px;
       bottom: 10px;
       font-size: 15px;
@@ -191,9 +205,6 @@
     .concept-container {
       display: inline-block;
       margin-right: 10px;
-      // .intro-concept:first-child {
-      //   margin-left: 10px;
-      // }
       .intro-concept {
         border: 1px solid gray;
         border-radius: 30px;

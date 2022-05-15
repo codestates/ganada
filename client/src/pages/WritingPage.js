@@ -9,7 +9,7 @@ import Tag from '../components/Search-list/Tag';
 function WritingPage({ setModal }) {
   const inputTitleRef = useRef(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [title, setTitle] = useState(''); // 15글자 + ...
+  const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [tagInfo, setTagInfo] = useState([]);
   const [mainAddress, setMainAddress] = useState('');
@@ -77,7 +77,6 @@ function WritingPage({ setModal }) {
         open: true,
         title: '모든 항목이 입력되어야 합니다.',
       });
-      // alert('모든 항목이 입력되어야 합니다.');
     } else {
       try {
         const data = new FormData();
@@ -87,7 +86,7 @@ function WritingPage({ setModal }) {
           }
         }
         const result = await axios.post(
-          'http://localhost:4000/boards/images',
+          `${process.env.REACT_APP_API_URL}/boards/images`,
           data,
           {
             // headers:'content-type':'multipart/form-data',
@@ -97,7 +96,7 @@ function WritingPage({ setModal }) {
         if (result.status === 200) {
           await axios
             .post(
-              `http://localhost:4000/boards`,
+              `${process.env.REACT_APP_API_URL}/boards`,
               reqData,
               {
                 headers: { authorization: `Bearer ${token}` },
@@ -117,7 +116,6 @@ function WritingPage({ setModal }) {
                   open: true,
                   title: '등록 실패',
                 });
-                // alert('등록 실패');
               }
             });
         }
@@ -145,6 +143,7 @@ function WritingPage({ setModal }) {
             type="text"
             ref={inputTitleRef}
             placeholder="제목을 입력하세요"
+            maxLength={70}
             onChange={titleHandler}
             value={title}
           />
@@ -165,7 +164,8 @@ function WritingPage({ setModal }) {
         <div className="introduction-area">
           <textarea
             className="input-introduction"
-            placeholder="촬영 내용을 소개해 주세요"
+            maxLength={500}
+            placeholder="촬영 내용을 소개해 주세요 (최대 500자)"
             onChange={descriptionHandler}
           />
         </div>
@@ -192,6 +192,7 @@ function WritingPage({ setModal }) {
             className="input-detail-address"
             type="text"
             placeholder="상세주소 입력"
+            maxLength={50}
             value={detailAddress}
             onChange={detailAddressHandler}
           />

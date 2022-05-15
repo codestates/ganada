@@ -32,7 +32,7 @@ function PhotoDetail({ setModal }) {
     const getPostDetail = async () => {
       try {
         await axios
-          .get(`http://localhost:4000/boards/${id}`, {
+          .get(`${process.env.REACT_APP_API_URL}/boards/${id}`, {
             withCredentials: true,
           })
           .then((res) => {
@@ -50,7 +50,7 @@ function PhotoDetail({ setModal }) {
     try {
       await axios
         .post(
-          `http://localhost:4000/chatRooms/`,
+          `${process.env.REACT_APP_API_URL}/chatRooms/`,
           { id },
           {
             headers: { authorization: `Bearer ${token}` },
@@ -88,6 +88,24 @@ function PhotoDetail({ setModal }) {
       }
     }
   };
+
+  useEffect(() => {
+    const getPostDetail = async () => {
+      try {
+        await axios
+          .get(`${process.env.REACT_APP_API_URL}/boards/${id}`, {
+            withCredentials: true,
+          })
+          .then((res) => {
+            setPosts(res.data.data);
+            dispatch(setPostInfo({ ...res.data.data, id }));
+          });
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getPostDetail();
+  }, []);
 
   return (
     <div>

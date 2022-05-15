@@ -1,28 +1,23 @@
 import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { setTags } from '../../redux/searchConditionSlice';
+import { setTags, setBookingStatus } from '../../redux/searchConditionSlice';
 
 function Tag({ type, setTagInfo }) {
   const modelTags = ['청순', '섹시', '귀염', '도도', '지적', '날씬', '순수'];
   const photographerTags = ['실내촬영', '실외촬영', '노출촬영', '부분노출'];
   const [selectedTags, setSelectedTags] = useState([]);
+  const [isChecked, setIsChecked] = useState(true);
+  const location = useLocation();
   const dispatch = useDispatch();
 
-  // const tagHandler = (e) => {
-  //   let tags = selectedTags.slice();
-  //   if (e.target.getAttribute('class') === 'tag selected') {
-  //     e.target.classList.remove('selected');
-  //     tags = tags.filter((tag) => tag !== e.target.textContent);
-  //   } else {
-  //     e.target.classList.add('selected');
-  //     tags.push(e.target.textContent);
-  //   }
-  //   setSelectedTags(tags);
-  // dispatch(setTags(tags));
-  // if (setTagInfo) {
-  //   setTagInfo(tags);
-  // }
-  // };
+  useEffect(() => {
+    setSelectedTags([]);
+    dispatch(setTags([]));
+    setIsChecked(true);
+    dispatch(setBookingStatus(true));
+  }, [type]);
+
   const tagHandler = (e) => {
     let newTags = selectedTags.slice();
     if (newTags.indexOf(e.target.textContent) !== -1) {
@@ -37,11 +32,10 @@ function Tag({ type, setTagInfo }) {
     }
   };
 
-  useEffect(() => {
-    setSelectedTags([]);
-    dispatch(setTags([]));
-  }, [type]);
-  // console.log(selectedTags);
+  const clickHandler = (e) => {
+    setIsChecked(!isChecked);
+    dispatch(setBookingStatus(!isChecked));
+  };
 
   return (
     <ul id="tags">
@@ -70,6 +64,17 @@ function Tag({ type, setTagInfo }) {
               {tag}
             </li>
           ))}
+      {location.pathname === '/search' && (
+        <li className="checkBox-container" onClick={clickHandler} aria-hidden>
+          예약 가능
+          <input
+            type="checkbox"
+            className="checkbox"
+            checked={isChecked}
+            onChange={() => {}}
+          />
+        </li>
+      )}
     </ul>
   );
 }

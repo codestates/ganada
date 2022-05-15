@@ -70,7 +70,7 @@ function ModifyPage({ setModal }) {
       }
     }
     await axios
-      .post('http://localhost:4000/boards/images', data, {
+      .post(`${process.env.REACT_APP_API_URL}/boards/images`, data, {
         withCredentials: true,
       })
       .then((result) => {
@@ -80,7 +80,7 @@ function ModifyPage({ setModal }) {
     setPostInfo({ ...postInfo, tags: tagInfo.toString() });
     await axios
       .patch(
-        `http://localhost:4000/boards/${postState.id}`,
+        `${process.env.REACT_APP_API_URL}/boards/${postState.id}`,
         { ...postInfo, tags: tagInfo.toString() },
         { headers: { authorization: `Bearer ${token}` } },
         {

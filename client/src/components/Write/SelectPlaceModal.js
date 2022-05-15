@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react';
 import { ImCross } from 'react-icons/im';
 import Map from './Map';
-import { useOutsideClick } from '../../hooks/useOutsideClick';
+import Modal from '../Modal';
 
 function SelectPlaceModal({ modalHandler }) {
   const [inputText, setInputText] = useState('');
@@ -12,7 +12,6 @@ function SelectPlaceModal({ modalHandler }) {
   function handleSubmit(e) {
     e.preventDefault();
     if (!inputText) {
-      alert('검색어를 입력하세요');
       return;
     }
     setSearchValue(inputText);
@@ -24,36 +23,39 @@ function SelectPlaceModal({ modalHandler }) {
   }
 
   return (
-    <div className="map-modal-background">
-      <div className="map-modal-container">
-        <form className="input-area" onSubmit={handleSubmit}>
-          <input
-            placeholder="지역명, 지하철역, 동이름으로 검색"
-            onChange={inputHandler}
-            value={inputText}
+    <>
+      <Modal />
+      <div className="map-modal-background">
+        <div className="map-modal-container">
+          <form className="input-area" onSubmit={handleSubmit}>
+            <input
+              placeholder="지역명, 지하철역, 동이름으로 검색"
+              onChange={inputHandler}
+              value={inputText}
+            />
+            <button className="btn-search" type="button" onClick={handleSubmit}>
+              검색
+            </button>
+            <ImCross size="20" className="btn-cancle" onClick={modalHandler} />
+          </form>
+          <Map
+            searchValue={searchValue}
+            setAddress={setAddress}
+            setLatLng={setLatLng}
           />
-          <button className="btn-search" type="button" onClick={handleSubmit}>
-            검색
-          </button>
-          <ImCross size="20" className="btn-cancle" onClick={modalHandler} />
-        </form>
-        <Map
-          searchValue={searchValue}
-          setAddress={setAddress}
-          setLatLng={setLatLng}
-        />
-        <div className="save-area">
-          <input type="text" value={address} disabled />
-          <button
-            className="btn-save"
-            type="button"
-            onClick={() => modalHandler(address, latlng)}
-          >
-            저장하기
-          </button>
+          <div className="save-area">
+            <input type="text" value={address} disabled />
+            <button
+              className="btn-save"
+              type="button"
+              onClick={() => modalHandler(address, latlng)}
+            >
+              저장하기
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

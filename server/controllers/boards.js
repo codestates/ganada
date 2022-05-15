@@ -4,18 +4,19 @@ const { isAuthorized } = require("./tokenFunctions");
 
 module.exports = {
   getAllPosts: async (req, res) => {
-    let { category, keyword, tags } = req.query;
-    if (category) {
-    }
+    let { category, keyword, tags, status } = req.query;
+
     if (category === "model") {
       category = 1;
     } else {
       category = 0;
     }
+
     try {
       const searchPosts = await boards.findAll({
         where: {
           category,
+          status,
         },
         attributes: [
           "id",
@@ -28,6 +29,7 @@ module.exports = {
           "mainAddress",
           "detailAddress",
           "image",
+          "status",
         ],
         order: [["createdAt", "DESC"]],
         include: [
@@ -63,7 +65,7 @@ module.exports = {
           post.detailAddress.includes(keyword)
         );
       });
-      return res.json({ data: finalData, message: "조회 완료" });
+      return res.status(200).json({ data: finalData, message: "조회 완료" });
     } catch (err) {
       return res.status(500).json({ message: "서버 에러입니다." });
     }
@@ -102,6 +104,7 @@ module.exports = {
   getMyPosts: async (req, res) => {
     try {
       const { id } = req.params;
+      console.log(id);
       const searchPost = await boards.findAll({
         where: { userId: id },
       });
@@ -169,7 +172,7 @@ module.exports = {
         // 게시글 상태 예약하기(0)이고, 게시글 작성자가 아닐경우 예약을 할 수 있습니다.
         const updateBoardStatus = await boards.update(
           {
-            status: existBoard.dataValues.status + status,
+            status,
           },
           {
             where: { id },

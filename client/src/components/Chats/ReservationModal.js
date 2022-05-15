@@ -29,7 +29,7 @@ export default function Modal({ reservationModal, setReservationModal }) {
     try {
       axios
         .put(
-          `http://localhost:4000/users/${currentUserInfo.name}`,
+          `${process.env.REACT_APP_API_URL}/users/${currentUserInfo.name}`,
           evaluate,
           {
             headers: { authorization: `Bearer ${token}` },

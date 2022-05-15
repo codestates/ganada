@@ -19,7 +19,6 @@ import PhotoDetail from './pages/PhotoDetail';
 import MediaFooterNav from './components/MediaFooterNav';
 import Chat from './pages/Chat';
 import MyList from './pages/MyList';
-import ModelDetail from './pages/ModelDetail';
 import Modal from './components/Modal';
 import KakaoLogin from './components/KakaoLogin';
 import ModifyPage from './pages/ModifyPage';
@@ -30,10 +29,11 @@ const cookies = new Cookies();
 const cookieToken = cookies.get('jwt');
 
 function App() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const userInfo = useSelector((state) => state.userInfo);
   const { token } = useSelector((state) => state.auth);
-  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
   const [modal, setModal] = useState({
     open: false,
     title: '',
@@ -41,11 +41,10 @@ function App() {
     callback: false,
   });
   const [reservationModal, setReservationModal] = useState(false);
-
   const getUserInfo = () => {
     try {
       axios
-        .get(`http://localhost:4000/users`, {
+        .get(`${process.env.REACT_APP_API_URL}/users`, {
           headers: { authorization: `Bearer ${token}` },
           withCredentials: true,
         })
@@ -69,7 +68,9 @@ function App() {
 
   useEffect(() => {
     if (token) {
+      setIsLoading(true);
       getUserInfo();
+      setIsLoading(false);
     }
   }, [token]);
 
@@ -77,7 +78,7 @@ function App() {
   const handleLogout = () => {
     axios
       .post(
-        `http://localhost:4000/auth/logout`,
+        `${process.env.REACT_APP_API_URL}/auth/logout`,
         null,
         {
           headers: { authorization: `Bearer ${token}` },
@@ -128,8 +129,7 @@ function App() {
           path="/photodetail/:id"
           element={<PhotoDetail setModal={setModal} />}
         />
-        <Route path="/modeldetail/:id" element={<ModelDetail />} />
-        <Route path="/mylist" element={<MyList setModal={setModal} />} />
+        <Route path="/mylist" element={<MyList />} />
         <Route path="/auth/kakao/callback" element={<KakaoLogin />} />
         <Route path="/mypage" element={<MyPage />}>
           <Route

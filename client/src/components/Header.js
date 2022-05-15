@@ -1,7 +1,12 @@
 import { AiOutlineSearch, AiOutlineMessage } from 'react-icons/ai';
 import { RiLogoutBoxRLine } from 'react-icons/ri';
 import { FaUserCircle, FaRegEdit } from 'react-icons/fa';
-import { Link, useLocation, useSearchParams } from 'react-router-dom';
+import {
+  Link,
+  useLocation,
+  useSearchParams,
+  useNavigate,
+} from 'react-router-dom';
 import { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setKeyword } from '../redux/searchConditionSlice';
@@ -14,12 +19,12 @@ export default function Header({ handleLogout, cookieToken, isLogin }) {
   const [scrollPosition, setScrollPosition] = useState(0);
   const [isTrue, setIsTrue] = useState(false);
   const [inputValue, setInputValue] = useState('');
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const type = searchParams.get('type');
   const dispatch = useDispatch();
-  const { keyword } = useSelector((state) => state.searchCondition);
-  const imagesPath = `http://localhost:4000/images/`;
+  const imagesPath = `${process.env.REACT_APP_API_URL}/images/`;
   const inSection = useRef();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const onClick = (e) => {
@@ -58,7 +63,7 @@ export default function Header({ handleLogout, cookieToken, isLogin }) {
       <header className={scrollPosition ? 'header-active' : ''}>
         <div className="inner">
           <div className="nav">
-            <div className="logo">
+            <div className="logo" aria-hidden="true">
               <Link to="/">GANADA</Link>
             </div>
             <form className="search-input">

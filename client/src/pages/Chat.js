@@ -32,7 +32,7 @@ export default function Chat({ setReservationModal, setModal }) {
     (state) => state.currentChatUserInfo,
   ).data;
   useEffect(() => {
-    socket.current = io('ws://localhost:4000');
+    socket.current = io(`${process.env.REACT_APP_API_URL}`);
   }, [token]);
 
   useEffect(() => {
@@ -46,7 +46,7 @@ export default function Chat({ setReservationModal, setModal }) {
         boardId,
       });
     });
-  }, [token]);
+  }, [token, socket]);
 
   useEffect(() => {
     socket.current.emit('join', { chatroomId: chatRoomId });
@@ -60,7 +60,7 @@ export default function Chat({ setReservationModal, setModal }) {
     const getMessage = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:4000/chatContents/${chatRoomId}}`,
+          `${process.env.REACT_APP_API_URL}/chatContents/${chatRoomId}}`,
           {
             headers: { authorization: `Bearer ${token}` },
           },
@@ -78,7 +78,7 @@ export default function Chat({ setReservationModal, setModal }) {
     const getChatRooms = async () => {
       try {
         const res = await axios.get(
-          'http://localhost:4000/chatRooms/',
+          `${process.env.REACT_APP_API_URL}/chatRooms/`,
           {
             headers: { authorization: `Bearer ${token}` },
           },
@@ -107,6 +107,7 @@ export default function Chat({ setReservationModal, setModal }) {
       setNewMessage('');
     }
   };
+  console.log('chatBoad', chatBoard);
 
   useEffect(() => {
     const onClick = (e) => {
