@@ -71,10 +71,10 @@ function PhotoDetail({ setModal }) {
           dispatch(
             setInitChatBoard({
               ...postState,
-              chatRoomId: res.data.data.createGuestRoom.chatRoomId,
+              chatRoomId: res.data.data.createGuestRoom.chatroomId,
             }),
           );
-          navigate(`/chat/${res.data.data.createGuestRoom.chatRoomId}`);
+          navigate(`/chat/${res.data.data.createGuestRoom.chatroomId}`);
         });
     } catch (err) {
       if (err.response.data.message === '이미 채팅방이 존재합니다.') {
