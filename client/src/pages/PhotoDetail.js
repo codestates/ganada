@@ -33,6 +33,10 @@ function PhotoDetail({ setModal }) {
       try {
         await axios
           .get(`${process.env.REACT_APP_API_URL}/boards/${id}`, {
+            headers: {
+              'Content-type': 'application/x-www-form-urlencoded',
+              'Content-type': 'multipart/form-data',
+            },
             withCredentials: true,
           })
           .then((res) => {
@@ -55,7 +59,13 @@ function PhotoDetail({ setModal }) {
           {
             headers: { authorization: `Bearer ${token}` },
           },
-          { withCredentials: true },
+          {
+            headers: {
+              'Content-type': 'application/x-www-form-urlencoded',
+              'Content-type': 'multipart/form-data',
+            },
+            withCredentials: true,
+          },
         )
         .then((res) => {
           dispatch(
@@ -94,6 +104,10 @@ function PhotoDetail({ setModal }) {
       try {
         await axios
           .get(`${process.env.REACT_APP_API_URL}/boards/${id}`, {
+            headers: {
+              'Content-type': 'application/x-www-form-urlencoded',
+              'Content-type': 'multipart/form-data',
+            },
             withCredentials: true,
           })
           .then((res) => {

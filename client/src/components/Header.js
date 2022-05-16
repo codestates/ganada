@@ -58,7 +58,7 @@ export default function Header({ handleLogout, cookieToken, isLogin }) {
     return null;
   }
 
-  if (token && cookieToken) {
+  if (token) {
     return (
       <header className={scrollPosition ? 'header-active' : ''}>
         <div className="inner">

@@ -25,8 +25,8 @@ import ModifyPage from './pages/ModifyPage';
 import NotFound from './pages/NotFound';
 import ReservationModal from './components/Chats/ReservationModal';
 
-const cookies = new Cookies();
-const cookieToken = cookies.get('jwt');
+// const cookies = new Cookies();
+// const cookieToken = cookies.get('jwt');
 
 function App() {
   const navigate = useNavigate();
@@ -45,7 +45,11 @@ function App() {
     try {
       axios
         .get(`${process.env.REACT_APP_API_URL}/users`, {
-          headers: { authorization: `Bearer ${token}` },
+          headers: {
+            'Content-type': 'application/x-www-form-urlencoded',
+            'Content-type': 'multipart/form-data',
+            authorization: `Bearer ${token}`,
+          },
           withCredentials: true,
         })
         .then((res) => {
@@ -109,7 +113,7 @@ function App() {
         title={modal.title}
         callback={modal.callback}
       />
-      <Header handleLogout={handleLogout} cookieToken={cookieToken} />
+      <Header handleLogout={handleLogout} />
       <Routes>
         <Route
           path="/chat"
@@ -123,7 +127,7 @@ function App() {
           <Route path=":chatRoomId" element={<Chat />} />
         </Route>
         <Route path="/" element={<Main />} />
-        <Route path="/login" element={<Login cookieToken={cookieToken} />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup setModal={setModal} />} />
         <Route
           path="/photodetail/:id"

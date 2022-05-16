@@ -33,6 +33,15 @@ export default function MainContents() {
       try {
         const res = await axios.get(
           `${process.env.REACT_APP_API_URL}/boards?category=&keyword=&tags=&status=`,
+          {
+            headers: {
+              'Content-type': [
+                'application/x-www-form-urlencoded',
+                'multipart/form-data',
+              ],
+            },
+            withCredentials: true,
+          },
         );
         setPhotographerPosts(res.data.data);
       } catch (err) {
@@ -47,6 +56,13 @@ export default function MainContents() {
       try {
         const res = await axios.get(
           `${process.env.REACT_APP_API_URL}/boards?category=model&keyword=&tags=&status=`,
+          {
+            headers: {
+              // 'Content-type': 'application/x-www-form-urlencoded',
+              'Content-type': 'multipart/form-data',
+            },
+            withCredentials: true,
+          },
         );
         setModelPosts(res.data.data);
       } catch (err) {
