@@ -202,7 +202,7 @@ export default function Chat({ setReservationModal, setModal }) {
                   message &&
                   message.map((chat) => (
                     <Message
-                      chatUserInfo={chatUserInfo}
+                      chatRoomId={chatRoomId}
                       chat={chat}
                       reverse={chat.userId !== userInfo.id}
                       chatRooms={chatRooms}
@@ -228,13 +228,12 @@ export default function Chat({ setReservationModal, setModal }) {
                       rows="1"
                       className="autoTextarea"
                       onKeyDown={autoResizeTextarea}
-                      onKeyUp={autoResizeTextarea}
                       onChange={(e) => setNewMessage(e.target.value)}
                       value={newMessage}
                       // eslint-disable-next-line react/jsx-no-duplicate-props
                       onKeyUp={(e) =>
-                        e.key === 'Enter'
-                          ? sendMessage(e) && newMessage === ''
+                        e.key === 'Enter' && newMessage !== ''
+                          ? sendMessage(e)
                           : null
                       }
                     />

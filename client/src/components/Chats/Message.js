@@ -5,7 +5,7 @@ import { useLocation } from 'react-router-dom';
 import { format } from 'timeago.js';
 import { setCurrentChatUserInfo } from '../../redux/currentChatUserInfoSlice';
 
-export default function Message({ reverse, chat, timeago }) {
+export default function Message({ reverse, chat, chatRoomId }) {
   const imagesPath = `${process.env.REACT_APP_API_URL}/images/`;
   const defaultImage =
     'https://static.nid.naver.com/images/web/user/default.png?type=s160';
@@ -16,9 +16,7 @@ export default function Message({ reverse, chat, timeago }) {
   ).data;
   const location = useLocation();
   const dispatch = useDispatch();
-  const currentRoom = chatRooms?.find(
-    (el) => String(el.id) === location.pathname.slice(-1),
-  );
+  const currentRoom = chatRooms?.find((el) => String(el.id) === chatRoomId);
   useEffect(() => {
     dispatch(setCurrentChatUserInfo(currentRoom));
   }, [location, dispatch, currentRoom]);
