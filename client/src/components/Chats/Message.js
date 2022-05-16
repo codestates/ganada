@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { format } from 'timeago.js';
 import { setCurrentChatUserInfo } from '../../redux/currentChatUserInfoSlice';
 
 export default function Message({ reverse, chat, timeago }) {
@@ -35,9 +37,7 @@ export default function Message({ reverse, chat, timeago }) {
         />
         <p className="message-txt">{chats}</p>
       </div>
-      <span className="message-time">
-        {/* {timeago(Number(updatedAt.slice(0, -5)))} */}
-      </span>
+      <span className="message-time">{format(updatedAt, 'ko')}</span>
     </div>
   );
 }

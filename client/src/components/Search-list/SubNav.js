@@ -83,9 +83,9 @@ function SubNav({ setModal }) {
             </button>
           </Link>
         </div>
-        <Tag type={type === 'model' ? 1 : 0} />
       </div>
       <div className="header-right">
+        <Tag type={type === 'model' ? 1 : 0} />
         <button
           type="button"
           onClick={dropDownHandler}

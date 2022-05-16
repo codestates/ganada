@@ -80,7 +80,6 @@ export default function Edit({ setModal, getUserInfo }) {
     if (file) {
       const data = new FormData();
       const fileName = Date.now() + file.name;
-      console.log(fileName);
       data.append('name', fileName);
       data.append('file', file);
       patchData.image = fileName;
@@ -121,11 +120,7 @@ export default function Edit({ setModal, getUserInfo }) {
     }
     getUserInfo();
   };
-  console.log(userInfo.image);
-  // 사진 삭제 누르면 이미지가 기본으로 바뀌어야함.
-  // 이미지를 누르면 파일로 바뀌어야함
-  // 파일을 누르면 내가지금 누른 이미지의 이미지가 바뀌어야함
-  // 만약 이미지가 null 일경우 naver
+
   return (
     <div className="mypage-content">
       <div className="inner">

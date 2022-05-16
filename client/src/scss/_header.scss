@@ -73,8 +73,7 @@ header {
         }
 
         .left-chat {
-          width: 100%;
-          margin-left: 70%;
+          padding-right: 40px;
         }
         .drop-menu {
           position: fixed;
@@ -83,6 +82,7 @@ header {
             width: 30px;
             height: 30px;
             border-radius: 50%;
+            border: 1px solid rgba(128, 128, 128, 0.521);
             overflow: hidden;
             cursor: pointer;
             img {

@@ -11,6 +11,7 @@ export default function Reservation({
   setReservationModal,
   chatRoomId,
   arrivalMessage,
+  setModal,
 }) {
   const socket = useRef();
   const [arrivalstatus, setArrivalStatus] = useState(null);
@@ -30,7 +31,6 @@ export default function Reservation({
     userTitle: '',
     reservationStatus: '',
   });
-
   useEffect(() => {
     socket.current = io(`${process.env.REACT_APP_API_URL}`);
   }, [token]);
@@ -51,11 +51,11 @@ export default function Reservation({
       setReservation({
         hostTitle: '촬영종료',
         guestTitle: '촬영 종료',
-        reservationStatus: '예약 대기',
+        reservationStatus: '촬영 중',
       });
     } else {
       setReservation({
-        hostTitle: '게스트의 예약을 기다리는 중입니다.',
+        hostTitle: '예약을 기다리는 중입니다.',
         guestTitle: '예약하기',
         reservationStatus: '예약 대기',
       });
@@ -63,14 +63,13 @@ export default function Reservation({
     socket.current.on('receiveReservation', (data) => {
       const { chatroomId, status, hostTitle, guestTitle, reservationStatus } =
         data;
-      setArrivalStatus({
+      setReservation({
         chatroomId,
         status,
         hostTitle,
         guestTitle,
         reservationStatus,
       });
-      dispatch(setStatus(status));
     });
   }, [
     socket,
@@ -81,12 +80,6 @@ export default function Reservation({
     arrivalstatus?.status,
     arrivalstatus,
   ]);
-
-  // 커런트 유저인포는 그냥 먹는다.
-  // 실시간으로 커런트 유저인포의 정보를 변경해줬다.
-  // 다른 방으로 가면 커런트 유저인포는 어떻게 되는가?
-  console.log('커런트', currentUserInfo);
-  console.log('어라이벌', !arrivalstatus?.status);
 
   const SliceMessage = message && [...message];
   const findBoardId = SliceMessage?.sort((a, b) => b.id - a.id).find(
@@ -119,7 +112,7 @@ export default function Reservation({
             guestTitle = '촬영종료';
             reservationStatus = '촬영 중';
           } else {
-            hostTitle = '게스트의 예약을 기다리는 중입니다.';
+            hostTitle = '예약을 기다리는 중입니다.';
             guestTitle = '예약하기';
             reservationStatus = '예약 대기';
           }
@@ -137,7 +130,13 @@ export default function Reservation({
           }
         });
     } catch (err) {
-      console.log(err);
+      if (
+        err.response.data.message === '게시글 작성자만 수락 할 수 있습니다.'
+      ) {
+        setModal({ open: true, title: '게시글 작성자만 수락 할 수 있습니다.' });
+      } else {
+        console.log(err);
+      }
     }
   };
 
@@ -175,11 +174,7 @@ export default function Reservation({
         <img src={imagesPath + imageSplit} alt="" />
         <div className="reservation">
           <div className="board-wrrapper">
-            <div className="status">
-              {arrivalstatus
-                ? arrivalstatus?.reservationStatus
-                : reservation?.reservationStatus}
-            </div>
+            <div className="status">{reservation?.reservationStatus}</div>
             <div className="board-title">{chatBoard?.title}</div>
           </div>
 
@@ -190,9 +185,7 @@ export default function Reservation({
                 className="reservation-btn"
                 onClick={putReservationStatus}
               >
-                {arrivalstatus
-                  ? arrivalstatus.guestTitle
-                  : reservation.guestTitle}
+                {reservation.guestTitle}
               </button>
             </Link>
           ) : (
@@ -202,8 +195,7 @@ export default function Reservation({
                 className="reservation-btn"
                 onClick={putReservationStatus}
               >
-                {(arrivalstatus && arrivalstatus.hostTitle) ||
-                  reservation.hostTitle}
+                {reservation.hostTitle}
               </button>
             </Link>
           )}

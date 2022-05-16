@@ -1,5 +1,5 @@
 import { FcOldTimeCamera, FcOvertime, FcConferenceCall } from 'react-icons/fc';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 
@@ -24,7 +24,6 @@ export default function Modal({ reservationModal, setReservationModal }) {
       again: false,
     });
   };
-  console.log(evaluate);
   const evaluateUser = () => {
     try {
       axios

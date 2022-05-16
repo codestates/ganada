@@ -17,7 +17,6 @@ function MyList() {
             withCredentials: true,
           })
           .then((res) => {
-            console.log(res.data.data);
             setList(res.data.data);
           });
       } catch (err) {

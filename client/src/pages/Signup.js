@@ -128,27 +128,23 @@ export default function Signup({ setModal }) {
   };
 
   const emailValidRequest = async () => {
-    if (err.email === '올바르지 않은 이메일 형식입니다.') {
-      console.log('돌아가');
-    } else {
-      try {
-        await axios
-          .post(`${process.env.REACT_APP_API_URL}auth/mailVerification`, {
-            email: inputValue.email,
-          })
-          .then((res) => {
-            if (res.data.message === '위 메일로 인증번호가 전송되었습니다.') {
-              setModal({
-                open: true,
-                title: '인증 메일이 발송 되었습니다.',
-              });
-            } else {
-              setErr({ ...err, email: res.data.message });
-            }
-          });
-      } catch (error) {
-        console.log(error);
-      }
+    try {
+      await axios
+        .post(`${process.env.REACT_APP_API_URL}/auth/mailVerification`, {
+          email: inputValue.email,
+        })
+        .then((res) => {
+          if (res.data.message === '위 메일로 인증번호가 전송되었습니다.') {
+            setModal({
+              open: true,
+              title: '인증 메일이 발송 되었습니다.',
+            });
+          } else {
+            setErr({ ...err, email: res.data.message });
+          }
+        });
+    } catch (error) {
+      console.log(error);
     }
   };
   return (

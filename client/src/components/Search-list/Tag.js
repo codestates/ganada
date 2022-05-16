@@ -38,7 +38,7 @@ function Tag({ type, setTagInfo }) {
   };
 
   return (
-    <ul id="tags">
+    <ul className="tags" id="tags">
       {type
         ? modelTags.map((tag) => (
             <li

@@ -51,7 +51,6 @@ function List({ list, post, setList }) {
             .then((res) => {
               if (res.status === 200) {
                 setReservationStatus(1);
-                console.log('success');
               }
             });
         },

@@ -55,26 +55,27 @@ function SearchPage({ setModal }) {
         setPosts(res.data.data);
       });
   };
-  console.log(posts);
 
   return (
-    <div className="searchPage-container">
-      <div>
-        <SubNav dropdownRef={outterRef} setModal={setModal} />
-        <div className="searchPage-body">
-          {posts.length > 0 ? (
-            posts.map((post) => {
-              return <Post key={post.id} post={post} />;
-            })
-          ) : (
-            <NoContents message={"We're Sorry! :("} />
-          )}
+    <div className="serachPage">
+      <div className="searchPage-container">
+        <div>
+          <SubNav dropdownRef={outterRef} setModal={setModal} />
+          <div className="searchPage-body">
+            {posts.length > 0 ? (
+              posts.map((post) => {
+                return <Post key={post.id} post={post} />;
+              })
+            ) : (
+              <NoContents message={"We're Sorry! :("} />
+            )}
+          </div>
+          <BsFillArrowUpCircleFill
+            className={topBtn ? 'top-icon' : 'top-icon hidden'}
+            size="50"
+            onClick={goToTopHandler}
+          />
         </div>
-        <BsFillArrowUpCircleFill
-          className={topBtn ? 'top-icon' : 'top-icon hidden'}
-          size="50"
-          onClick={goToTopHandler}
-        />
       </div>
     </div>
   );
