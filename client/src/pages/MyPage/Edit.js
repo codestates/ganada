@@ -28,7 +28,6 @@ export default function Edit({ setModal, getUserInfo }) {
     });
   };
 
-  // error test
   const errCheck = (value) => {
     const errors = {};
     const { name, phoneNumber } = value;
@@ -48,12 +47,10 @@ export default function Edit({ setModal, getUserInfo }) {
     return errors;
   };
 
-  // 포커스를 빠져나왔을 경우 유효성 검사!
   const focusBlur = (e) => {
     setErr(errCheck(inputValue));
   };
 
-  // 이미지 미리보기
   const encodeFile = (e) => {
     const reader = new FileReader();
     reader.readAsDataURL(e);
@@ -64,13 +61,11 @@ export default function Edit({ setModal, getUserInfo }) {
     });
   };
 
-  // 이미지 삭제
   const deleteImg = () => {
     setImageSrc(defaultImage);
     setFile(defaultImage);
   };
 
-  // 개인정보 수정
   const modifyUsersInfo = async (e) => {
     e.preventDefault();
     const patchData = {

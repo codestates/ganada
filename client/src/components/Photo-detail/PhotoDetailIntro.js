@@ -1,6 +1,5 @@
 import { MdOutlineDescription } from 'react-icons/md';
 import { TiUser } from 'react-icons/ti';
-import { useState } from 'react';
 
 function PhotoDetailIntro({ post }) {
   const tagList = post.tags.split(',');

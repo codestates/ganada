@@ -2,7 +2,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useRef, useEffect, useState } from 'react';
 import axios from 'axios';
 
-export default function Login({ setIsLogin, getUserInfo }) {
+export default function Login() {
   const inputRef = useRef(null);
   const navigate = useNavigate();
 
@@ -25,7 +25,12 @@ export default function Login({ setIsLogin, getUserInfo }) {
           .post(
             `${process.env.REACT_APP_API_URL}/auth/login`,
             { email, password },
-            { withCredentials: true },
+            {
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              withCredentials: true,
+            },
           )
           .then((res) => {
             if (res.data.message === '잘못된 정보를 입력') {

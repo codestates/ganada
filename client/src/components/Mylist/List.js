@@ -43,7 +43,12 @@ function List({ list, post, setList }) {
             .put(
               `${process.env.REACT_APP_API_URL}/boards/${post.id}`,
               { status: 1 },
-              { headers: { authorization: `Bearer ${token}` } },
+              {
+                headers: {
+                  'content-type': 'application/json',
+                  authorization: `Bearer ${token}`,
+                },
+              },
               {
                 withCredentials: true,
               },

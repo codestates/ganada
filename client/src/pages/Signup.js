@@ -1,10 +1,8 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useRef, useEffect, useState } from 'react';
 import axios from 'axios';
-// import Modal from '../components/Modal';
 
 export default function Signup({ setModal }) {
-  // input value change
   const [inputValue, setInputValue] = useState({
     email: '',
     emailValidate: '',
@@ -102,7 +100,10 @@ export default function Signup({ setModal }) {
       };
       try {
         await axios
-          .post(`${process.env.REACT_APP_API_URL}auth/signup`, data, {
+          .post(`${process.env.REACT_APP_API_URL}/auth/signup`, data, {
+            headers: {
+              'content-type': 'application/json',
+            },
             withCredentials: true,
           })
           .then((res) => {
@@ -130,9 +131,18 @@ export default function Signup({ setModal }) {
   const emailValidRequest = async () => {
     try {
       await axios
-        .post(`${process.env.REACT_APP_API_URL}/auth/mailVerification`, {
-          email: inputValue.email,
-        })
+        .post(
+          `${process.env.REACT_APP_API_URL}/auth/mailVerification`,
+          {
+            email: inputValue.email,
+          },
+          {
+            headers: {
+              'content-type': 'application/json',
+            },
+            withCredentials: true,
+          },
+        )
         .then((res) => {
           if (res.data.message === '위 메일로 인증번호가 전송되었습니다.') {
             setModal({
@@ -161,13 +171,14 @@ export default function Signup({ setModal }) {
               <div className="email-wrap">
                 <input
                   className="email"
+                  type="text"
                   name="email"
                   ref={inputRef}
                   onChange={handleInput}
                   onBlur={focusBlur}
                 />
                 <button
-                  type="submit"
+                  type="button"
                   className={
                     inputValue.email === '' ? 'email-btn' : 'email-btn active'
                   }
