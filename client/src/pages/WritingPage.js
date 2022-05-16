@@ -34,11 +34,6 @@ function WritingPage({ setModal }) {
     if (inputTitleRef.current !== null) inputTitleRef.current.focus();
   }, []);
 
-  useEffect(() => {
-    console.log(images);
-    // console.log(tagInfo);
-  }, [tagInfo]);
-
   const titleHandler = (e) => {
     setTitle(e.target.value);
   };

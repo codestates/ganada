@@ -18,9 +18,9 @@ db.sequelize
 
 app.use(
   cors({
-    origin: ["http://localhost:3000"],
+    origin: true,
     credentials: true,
-    methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS", "PUT"],
+    methods: ["GET", "POST", "PATCH", "DELETE", "PUT"],
   })
 );
 app.use(express.json());

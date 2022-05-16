@@ -34,12 +34,9 @@ export default function MainContents() {
         const res = await axios.get(
           `${process.env.REACT_APP_API_URL}/boards?category=&keyword=&tags=&status=`,
           {
-            headers: {
-              'Content-type': [
-                'application/x-www-form-urlencoded',
-                'multipart/form-data',
-              ],
-            },
+            // headers: {
+            //   'Content-type': 'multipart/form-data',
+            // },
             withCredentials: true,
           },
         );
@@ -58,7 +55,6 @@ export default function MainContents() {
           `${process.env.REACT_APP_API_URL}/boards?category=model&keyword=&tags=&status=`,
           {
             headers: {
-              // 'Content-type': 'application/x-www-form-urlencoded',
               'Content-type': 'multipart/form-data',
             },
             withCredentials: true,

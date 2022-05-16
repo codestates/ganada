@@ -2,7 +2,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useRef, useEffect, useState } from 'react';
 import axios from 'axios';
 
-export default function Login({ setIsLogin, getUserInfo }) {
+export default function Login() {
   const inputRef = useRef(null);
   const navigate = useNavigate();
 
@@ -31,7 +31,6 @@ export default function Login({ setIsLogin, getUserInfo }) {
               },
               withCredentials: true,
             },
-            // { withCredentials: true },
           )
           .then((res) => {
             if (res.data.message === '잘못된 정보를 입력') {

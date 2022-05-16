@@ -1,6 +1,4 @@
 export default function MainContentsBox({ post }) {
-  console.log(post);
-  console.log();
   const imagesPath = `${process.env.REACT_APP_API_URL}/images/`;
   return (
     <div className="main-box">

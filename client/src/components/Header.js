@@ -1,17 +1,12 @@
 import { AiOutlineSearch, AiOutlineMessage } from 'react-icons/ai';
 import { RiLogoutBoxRLine } from 'react-icons/ri';
 import { FaUserCircle, FaRegEdit } from 'react-icons/fa';
-import {
-  Link,
-  useLocation,
-  useSearchParams,
-  useNavigate,
-} from 'react-router-dom';
+import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setKeyword } from '../redux/searchConditionSlice';
 
-export default function Header({ handleLogout, cookieToken, isLogin }) {
+export default function Header({ handleLogout }) {
   const userInfo = useSelector((state) => state.userInfo);
   const { token } = useSelector((state) => state.auth);
 
@@ -24,7 +19,6 @@ export default function Header({ handleLogout, cookieToken, isLogin }) {
   const dispatch = useDispatch();
   const imagesPath = `${process.env.REACT_APP_API_URL}/images/`;
   const inSection = useRef();
-  const navigate = useNavigate();
 
   useEffect(() => {
     const onClick = (e) => {
@@ -73,6 +67,11 @@ export default function Header({ handleLogout, cookieToken, isLogin }) {
                 placeholder="어디로 촬영 가시나요?"
                 value={inputValue}
                 onChange={inputHandler}
+                onKeyUp={(e) =>
+                  e.key === 'Enter' && inputValue !== ''
+                    ? searchBtnHandler(e)
+                    : null
+                }
               />
               <Link
                 to={`/search?type=${type || 'model'}&keyword=${inputValue}`}

@@ -1,7 +1,7 @@
 const http = require("http");
 const app = require("./app");
 const server = http.createServer(app);
-const HTTP_PORT = 80;
+const HTTP_PORT = 4000;
 const db = require("./models/index");
 
 const socketIO = require("socket.io");
@@ -9,9 +9,9 @@ const { isAuthorized } = require("./controllers/tokenFunctions");
 const chatcontents = require("./models/chatcontents");
 const io = socketIO(server, {
   cors: {
-    origin: ["http://3gamestates.com.s3-website-us-east-1.amazonaws.com"],
+    origin: true,
     credentials: true,
-    methods: "*",
+    methods: ["GET", "POST", "PATCH", "DELETE", "PUT"],
   },
 });
 

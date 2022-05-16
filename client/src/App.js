@@ -2,7 +2,6 @@ import './scss/style.scss';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Cookies } from 'react-cookie';
 import { useSelector, useDispatch } from 'react-redux';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -25,15 +24,10 @@ import ModifyPage from './pages/ModifyPage';
 import NotFound from './pages/NotFound';
 import ReservationModal from './components/Chats/ReservationModal';
 
-// const cookies = new Cookies();
-// const cookieToken = cookies.get('jwt');
-
 function App() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const userInfo = useSelector((state) => state.userInfo);
   const { token } = useSelector((state) => state.auth);
-  const [isLoading, setIsLoading] = useState(false);
   const [modal, setModal] = useState({
     open: false,
     title: '',
@@ -45,11 +39,7 @@ function App() {
     try {
       axios
         .get(`${process.env.REACT_APP_API_URL}/users`, {
-          headers: {
-            'Content-type': 'application/x-www-form-urlencoded',
-            'Content-type': 'multipart/form-data',
-            authorization: `Bearer ${token}`,
-          },
+          headers: { authorization: `Bearer ${token}` },
           withCredentials: true,
         })
         .then((res) => {
@@ -72,9 +62,7 @@ function App() {
 
   useEffect(() => {
     if (token) {
-      setIsLoading(true);
       getUserInfo();
-      setIsLoading(false);
     }
   }, [token]);
 
