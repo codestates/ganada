@@ -26,7 +26,7 @@ module.exports = {
             }
           );
           return res
-            .status(200)
+            .status(200, { "Access-Control-Allow-Origin": "*" })
             .json({ data: getUser, message: "개인정보 수정 완료" });
         } else {
           return res.status(401).json({ message: "권한이 없습니다." });

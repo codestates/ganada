@@ -1,19 +1,17 @@
-// http server
 const http = require("http");
 const app = require("./app");
 const server = http.createServer(app);
-const HTTP_PORT = 4000; // ec2 사용 시 80으로 변경하기
+const HTTP_PORT = 80;
 const db = require("./models/index");
 
-// socket.io server 구현하기
 const socketIO = require("socket.io");
 const { isAuthorized } = require("./controllers/tokenFunctions");
 const chatcontents = require("./models/chatcontents");
 const io = socketIO(server, {
   cors: {
-    origin: true,
+    origin: ["http://3gamestates.com.s3-website-us-east-1.amazonaws.com"],
     credentials: true,
-    methods: ["GET", "POST"],
+    methods: "*",
   },
 });
 

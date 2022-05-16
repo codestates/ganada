@@ -25,7 +25,13 @@ export default function Login({ setIsLogin, getUserInfo }) {
           .post(
             `${process.env.REACT_APP_API_URL}/auth/login`,
             { email, password },
-            { withCredentials: true },
+            {
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              withCredentials: true,
+            },
+            // { withCredentials: true },
           )
           .then((res) => {
             if (res.data.message === '잘못된 정보를 입력') {

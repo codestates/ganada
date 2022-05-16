@@ -152,88 +152,34 @@ module.exports = {
   },
 
   changeBoardStatus: async (req, res) => {
-    // 게시글 작성자는 예약하기를 누를 수 없습니다.
     const userInfo = isAuthorized(req);
     const { id } = req.params;
     const { status } = req.body;
-    // status가 0인 경우 게시글 작성자는 예약하기를 누를 수 없습니다.
-    // 게시글 작성자가 아닌 경우 예약하기를 누를 수 있습니다.
-    try {
-      const existBoard = await boards.findOne({
-        attributes: ["userId", "status"],
-        where: { id },
-      });
-      // 게시글 상태가 예약하기(0)이고, 게시글 작성자가 예약하기를 누르려고 할 때
-      if (existBoard.userId === userInfo.id && existBoard.status === 0) {
-        return res
-          .status(401)
-          .json({ message: "예약하기는 상대방만 누를 수 있습니다." });
-      } else if (existBoard.userId !== userInfo.id && existBoard.status === 0) {
-        // 게시글 상태 예약하기(0)이고, 게시글 작성자가 아닐경우 예약을 할 수 있습니다.
-        const updateBoardStatus = await boards.update(
-          {
-            status,
-          },
-          {
-            where: { id },
-          }
-        );
-        return res
-          .status(200)
-          .json({ data: updateBoardStatus, message: "예약 신청했습니다." });
-      } else if (existBoard.userId === userInfo.id && existBoard.status === 1) {
-        // 예약 수락(1)은 게시글 작성자만 누를 수 있습니다.
-        const updateBoardStatus = await boards.update(
-          {
-            status: existBoard.dataValues.status + status,
-          },
-          {
-            where: { id },
-          }
-        );
-        return res
-          .status(200)
-          .json({ data: updateBoardStatus, message: "예약을 수락했습니다." });
-      } else if (existBoard.userId !== userInfo.id && existBoard.status === 1) {
-        // 예약 수락(1)상태는 게시글 작성자가 아니면 누를 수 없습니다.
-        return res.status(401).json({
-          message: "예약 수락은 게시글 작성자만 할 수 있습니다.",
+    if (userInfo) {
+      try {
+        const existBoard = await boards.findOne({
+          attributes: ["status"],
+          where: { id },
         });
-      } else if (
-        existBoard.userId !== userInfo.id ||
-        (existBoard.userId === userInfo.id && existBoard.status === 2)
-      ) {
-        // 촬영 종료는 둘다 할 수 있습니다. (둘 다 누른 경우)
-        const updateBoardStatus = await boards.update(
-          {
-            status: existBoard.dataValues.status + status,
-          },
-          {
-            where: { id },
-          }
-        );
-        return res.status(200).json({
-          data: updateBoardStatus,
-          message: "촬영이 종료 됐습니다.",
-        });
-      } else {
-        const updateBoardStatus = await boards.update(
-          {
-            // 취소의 경우 status가 - 입니다. 주의해주세요.
-            status: existBoard.dataValues.status - status,
-          },
-          {
-            where: { id },
-          }
-        );
-        return res.status(200).json({
-          data: updateBoardStatus,
-          message: "촬영이 취소 됐습니다.",
-        });
+        if (existBoard) {
+          const updateBoardStatus = await boards.update(
+            {
+              status,
+            },
+            {
+              where: { id },
+            }
+          );
+          return res
+            .status(200)
+            .json({ data: updateBoardStatus, message: "상태 변경 완료" });
+        }
+      } catch (err) {
+        console.log(err);
+        return res.status(500).json({ message: "서버 에러" });
       }
-    } catch (err) {
-      console.log(err);
-      return res.status(500).json({ message: "서버 에러" });
+    } else {
+      return res.status(401).json({ message: "변경 권한이 없습니다." });
     }
   },
 };
