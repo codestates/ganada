@@ -171,7 +171,7 @@ export default function Signup({ setModal }) {
                   onBlur={focusBlur}
                 />
                 <button
-                  type="submit"
+                  type="button"
                   className={
                     inputValue.email === '' ? 'email-btn' : 'email-btn active'
                   }

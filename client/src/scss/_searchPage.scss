@@ -191,10 +191,12 @@ $box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
       object-fit: cover;
       cursor: pointer;
       border: 1px solid #dddddd;
+
       &:hover {
         transform: translateY(-10px);
         transition: 0.5s;
       }
+
       .slider {
         position: relative;
         display: flex;
@@ -203,6 +205,7 @@ $box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
         overflow: hidden;
         border-radius: 5px;
         margin-top: 10px;
+
         .sliderContainer {
           width: 350px;
           display: flex;
@@ -302,6 +305,7 @@ $box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
             padding-top: 3px;
           }
         }
+
         .position {
           display: flex;
           .address {
@@ -313,6 +317,7 @@ $box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
             -webkit-box-orient: vertical;
             -webkit-line-clamp: 1;
           }
+
           .position-icon {
             align-items: center;
           }
@@ -330,6 +335,7 @@ $box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
           bottom: 10px;
           text-align: center;
           right: 0px;
+
           .reservation-status {
             padding: 2px 0;
             font-weight: bold;
@@ -345,6 +351,7 @@ $box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
         }
       }
     }
+
     @keyframes fadeInDown {
       0% {
         opacity: 0;
@@ -356,6 +363,7 @@ $box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
       }
     }
   }
+
   .no-contents-container {
     margin: 10% auto;
     height: 420px;
