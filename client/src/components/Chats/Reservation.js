@@ -1,70 +1,170 @@
 import axios from 'axios';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+import { io } from 'socket.io-client';
 import { setChatBoard } from '../../redux/chatBoardSlice';
+import { DeleteInitChatBoard } from '../../redux/initChatBoardSlice';
 
 export default function Reservation({
   setReservationModal,
   chatRoomId,
   arrivalMessage,
+  setModal,
 }) {
-  const imagesPath = `http://localhost:4000/images/`;
+  const socket = useRef();
+  const [arrivalstatus, setArrivalStatus] = useState(null);
+  const imagesPath = `${process.env.REACT_APP_API_URL}/images/`;
+  const dispatch = useDispatch();
   const { token } = useSelector((state) => state.auth);
   const message = useSelector((state) => state.chatMessage).data;
   const chatBoard = useSelector((state) => state.chatBoard).data;
-  const chatRoom = useSelector((state) => state.chatRoom).data;
   const currentUserInfo = useSelector(
     (state) => state.currentChatUserInfo,
   ).data;
+  const initChatBoard = useSelector((state) => state.initChatBoard).data;
   const userInfo = useSelector((state) => state.userInfo);
-  // 만약 serInfo.id === currentUserInfo?.hostId 일때
-  // console.log(userInfo.id === currentUserInfo?.guestId);
-  console.log(chatRoom);
+  const location = useLocation();
+  const [reservation, setReservation] = useState({
+    hostTitle: '',
+    userTitle: '',
+    reservationStatus: '',
+  });
+  useEffect(() => {
+    socket.current = io(`${process.env.REACT_APP_API_URL}`);
+  }, [token]);
 
-  const dispatch = useDispatch();
+  useEffect(() => {
+    socket.current.emit('join', { chatroomId: chatRoomId });
+    setArrivalStatus(null);
+  }, [chatRoomId, token]);
 
-  const handleOpen = () => {
-    setReservationModal(true);
-  };
+  useEffect(() => {
+    if (currentUserInfo?.status === 1) {
+      setReservation({
+        hostTitle: '예약 수락',
+        guestTitle: '예약 수락 대기중',
+        reservationStatus: '예약 대기',
+      });
+    } else if (currentUserInfo?.status === 2) {
+      setReservation({
+        hostTitle: '촬영종료',
+        guestTitle: '촬영 종료',
+        reservationStatus: '촬영 중',
+      });
+    } else {
+      setReservation({
+        hostTitle: '예약을 기다리는 중입니다.',
+        guestTitle: '예약하기',
+        reservationStatus: '예약 대기',
+      });
+    }
+    socket.current.on('receiveReservation', (data) => {
+      const { chatroomId, status, hostTitle, guestTitle, reservationStatus } =
+        data;
+      setReservation({
+        chatroomId,
+        status,
+        hostTitle,
+        guestTitle,
+        reservationStatus,
+      });
+    });
+  }, [
+    socket,
+    chatRoomId,
+    token,
+    currentUserInfo?.status,
+    dispatch,
+    arrivalstatus?.status,
+    arrivalstatus,
+  ]);
+
   const SliceMessage = message && [...message];
   const findBoardId = SliceMessage?.sort((a, b) => b.id - a.id).find(
     (el) => el.chatroomId,
   );
-  // 호스트 아이디의 경우 => status가 0일 경우 아무것도 안뜸.
-  // 게스트 아이디의 경우 => status가 0일 경우 예약하기 버튼 버튼 클릭시 status는 1로 변경
 
-  // 호스트 아이디의 경우 => status가 1일 경우 예약 수락, 예약 거절 버튼으로 변경
-  // 게스트 아이디의 경우 => status가 1일 경우 예약 취소,
+  const putReservationStatus = async () => {
+    try {
+      await axios
+        .put(
+          `${process.env.REACT_APP_API_URL}/chatRooms/${chatRoomId}`,
+          { status: 1 },
+          {
+            headers: { authorization: `Bearer ${token}` },
+          },
+          {
+            withCredentials: true,
+          },
+        )
+        .then((res) => {
+          let hostTitle;
+          let guestTitle;
+          let reservationStatus;
+          if (res.data.data + 1 === 1) {
+            hostTitle = '예약 수락';
+            guestTitle = '예약 수락 대기중';
+            reservationStatus = '예약 대기';
+          } else if (res.data.data + 1 === 2) {
+            hostTitle = '촬영종료';
+            guestTitle = '촬영종료';
+            reservationStatus = '촬영 중';
+          } else {
+            hostTitle = '예약을 기다리는 중입니다.';
+            guestTitle = '예약하기';
+            reservationStatus = '예약 대기';
+          }
+          const data = {
+            chatroomId: chatRoomId,
+            status: res.data.data + 1,
+            reservationStatus,
+            hostTitle,
+            guestTitle,
+          };
 
-  // console.log(currentUserInfo?.guestId);
-  // console.log(chatBoard);
-
-  // chatBoard는 undefined 초기값
-  // chatBoard는 값이 없을때, aiivalmessage일때, chatRoomId가 변경 되었을때, 다시 불러와야한다.
+          socket.current.emit('sendReservation', data);
+          if (res.data.message === '촬영이 종료 되었습니다.') {
+            setReservationModal(true);
+          }
+        });
+    } catch (err) {
+      if (
+        err.response.data.message === '게시글 작성자만 수락 할 수 있습니다.'
+      ) {
+        setModal({ open: true, title: '게시글 작성자만 수락 할 수 있습니다.' });
+      } else {
+        console.log(err);
+      }
+    }
+  };
 
   useEffect(() => {
     const getPostDetail = async () => {
       try {
         await axios
-          .get(`http://localhost:4000/boards/${findBoardId.boardId}`, {
-            withCredentials: true,
-          })
+          .get(
+            `${process.env.REACT_APP_API_URL}/boards/${findBoardId?.boardId}`,
+            {
+              withCredentials: true,
+            },
+          )
           .then((res) => {
-            if (!chatBoard || arrivalMessage || currentUserInfo) {
+            if (!initChatBoard) {
               dispatch(
                 setChatBoard({ ...res.data.data, id: findBoardId.boardId }),
               );
+            } else {
+              dispatch(setChatBoard(initChatBoard));
             }
-          });
+          })
+          .then(dispatch(DeleteInitChatBoard()));
       } catch (err) {
         console.log(err);
       }
     };
     getPostDetail();
-  }, [token, arrivalMessage, findBoardId?.boardId]);
-  console.log(findBoardId);
-
+  }, [token, arrivalMessage, location, findBoardId?.boardId]);
   const imageSplit = ((chatBoard && chatBoard.image) || '').split(',')[0];
 
   return (
@@ -73,22 +173,30 @@ export default function Reservation({
         <img src={imagesPath + imageSplit} alt="" />
         <div className="reservation">
           <div className="board-wrrapper">
-            <div className="status">예약 수락 대기중</div>
+            <div className="status">{reservation?.reservationStatus}</div>
             <div className="board-title">{chatBoard?.title}</div>
           </div>
-          {userInfo.id === currentUserInfo?.guestId &&
-          currentUserInfo?.status === 0 ? (
+
+          {userInfo.id === currentUserInfo?.guestId ? (
             <Link to={chatRoomId}>
               <button
                 type="button"
                 className="reservation-btn"
-                onClick={handleOpen}
+                onClick={putReservationStatus}
               >
-                예약 하기
+                {reservation.guestTitle}
               </button>
             </Link>
           ) : (
-            <div className="reservation-btn">예약 </div>
+            <Link to={chatRoomId}>
+              <button
+                type="button"
+                className="reservation-btn"
+                onClick={putReservationStatus}
+              >
+                {reservation.hostTitle}
+              </button>
+            </Link>
           )}
         </div>
       </div>

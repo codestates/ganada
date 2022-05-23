@@ -9,7 +9,7 @@ import { setPostInfo } from '../../redux/postInfoSlice';
 import ImageSlider from '../Search-list/ImageSlider';
 import DeleteModal from './DeleteModal';
 
-function List({ list, setList, post }) {
+function List({ list, post, setList }) {
   const { token } = useSelector((state) => state.auth);
   const [reservationStatus, setReservationStatus] = useState(post.status);
   const dispatch = useDispatch();
@@ -41,9 +41,14 @@ function List({ list, setList, post }) {
         callback: async () => {
           await axios
             .put(
-              `http://localhost:4000/boards/${post.id}`,
+              `${process.env.REACT_APP_API_URL}/boards/${post.id}`,
               { status: 1 },
-              { headers: { authorization: `Bearer ${token}` } },
+              {
+                headers: {
+                  'content-type': 'application/json',
+                  authorization: `Bearer ${token}`,
+                },
+              },
               {
                 withCredentials: true,
               },
@@ -51,7 +56,6 @@ function List({ list, setList, post }) {
             .then((res) => {
               if (res.status === 200) {
                 setReservationStatus(1);
-                console.log('success');
               }
             });
         },
@@ -67,7 +71,7 @@ function List({ list, setList, post }) {
       title: '삭제 하시겠습니까?',
       callback: async () => {
         await axios
-          .delete(`http://localhost:4000/boards/${post.id}`, {
+          .delete(`${process.env.REACT_APP_API_URL}/boards/${post.id}`, {
             headers: { authorization: `Bearer ${token}` },
           })
           .then((res) => {

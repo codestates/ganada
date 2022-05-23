@@ -65,7 +65,7 @@ module.exports = {
           post.detailAddress.includes(keyword)
         );
       });
-      return res.json({ data: finalData, message: "조회 완료" });
+      return res.status(200).json({ data: finalData, message: "조회 완료" });
     } catch (err) {
       return res.status(500).json({ message: "서버 에러입니다." });
     }
@@ -104,6 +104,7 @@ module.exports = {
   getMyPosts: async (req, res) => {
     try {
       const { id } = req.params;
+      console.log(id);
       const searchPost = await boards.findAll({
         where: { userId: id },
       });
@@ -154,27 +155,31 @@ module.exports = {
     const userInfo = isAuthorized(req);
     const { id } = req.params;
     const { status } = req.body;
-    try {
-      const existBoard = await boards.findOne({
-        attributes: ["status"],
-        where: { id },
-      });
-      if (existBoard) {
-        const updateBoardStatus = await boards.update(
-          {
-            status,
-          },
-          {
-            where: { id },
-          }
-        );
-        return res
-          .status(200)
-          .json({ data: updateBoardStatus, message: "상태 변경 완료" });
+    if (userInfo) {
+      try {
+        const existBoard = await boards.findOne({
+          attributes: ["status"],
+          where: { id },
+        });
+        if (existBoard) {
+          const updateBoardStatus = await boards.update(
+            {
+              status,
+            },
+            {
+              where: { id },
+            }
+          );
+          return res
+            .status(200)
+            .json({ data: updateBoardStatus, message: "상태 변경 완료" });
+        }
+      } catch (err) {
+        console.log(err);
+        return res.status(500).json({ message: "서버 에러" });
       }
-    } catch (err) {
-      console.log(err);
-      return res.status(500).json({ message: "서버 에러" });
+    } else {
+      return res.status(401).json({ message: "변경 권한이 없습니다." });
     }
   },
 };

@@ -12,7 +12,7 @@ export default function LeaveId({ setModal }) {
   const deleteUser = () => {
     axios
       .delete(
-        `http://localhost:4000/users/${userInfo.id}`,
+        `${process.env.REACT_APP_API_URL}/users/${userInfo.id}`,
         {
           headers: { authorization: `Bearer ${token}` },
         },

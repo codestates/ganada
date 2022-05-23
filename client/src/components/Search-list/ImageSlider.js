@@ -10,12 +10,11 @@ function ImageSlider({ image }) {
   const TOTAL_SLIDES = parsedImages.length - 1;
   const [currentSlide, setCurrentSlide] = useState(0);
   const slideRef = useRef(null);
-  const imagesPath = `http://localhost:4000/images/`;
+  const imagesPath = `${process.env.REACT_APP_API_URL}/images/`;
 
   const nextSlide = (e) => {
     e.stopPropagation();
     if (currentSlide >= TOTAL_SLIDES) {
-      // 더이상 넘어갈 수 없으면 슬라이드 초기화
       setCurrentSlide(0);
     } else {
       setCurrentSlide(currentSlide + 1);

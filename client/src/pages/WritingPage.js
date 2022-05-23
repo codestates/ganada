@@ -34,11 +34,6 @@ function WritingPage({ setModal }) {
     if (inputTitleRef.current !== null) inputTitleRef.current.focus();
   }, []);
 
-  useEffect(() => {
-    console.log(images);
-    // console.log(tagInfo);
-  }, [tagInfo]);
-
   const titleHandler = (e) => {
     setTitle(e.target.value);
   };
@@ -86,7 +81,7 @@ function WritingPage({ setModal }) {
           }
         }
         const result = await axios.post(
-          'http://localhost:4000/boards/images',
+          `${process.env.REACT_APP_API_URL}/boards/images`,
           data,
           {
             // headers:'content-type':'multipart/form-data',
@@ -96,7 +91,7 @@ function WritingPage({ setModal }) {
         if (result.status === 200) {
           await axios
             .post(
-              `http://localhost:4000/boards`,
+              `${process.env.REACT_APP_API_URL}/boards`,
               reqData,
               {
                 headers: { authorization: `Bearer ${token}` },

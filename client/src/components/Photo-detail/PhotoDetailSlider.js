@@ -6,7 +6,7 @@ function PhotoDetailSlider({ image }) {
   const TOTAL_SLIDES = parsedImages.length - 1;
   const slideRef = useRef(null);
   const [currentSlide, setCurrentSlide] = useState(0);
-  const imagesPath = `http://localhost:4000/images/`;
+  const imagesPath = `${process.env.REACT_APP_API_URL}/images/`;
 
   const nextSlide = () => {
     if (currentSlide >= TOTAL_SLIDES) {
@@ -44,9 +44,6 @@ function PhotoDetailSlider({ image }) {
           {parsedImages.map((img) => {
             return <img src={imagesPath + img} alt="profile" />;
           })}
-          {/* <img src={imagesPath + parsedImages[0]} alt="nunu3" />
-          <img src={imagesPath + parsedImages[1]} alt="nunu3" />
-          <img src={imagesPath + parsedImages[2]} alt="nunu3" /> */}
         </div>
         <div className="dots-container">
           {Array.from({ length: parsedImages.length }).map((item, index) => (

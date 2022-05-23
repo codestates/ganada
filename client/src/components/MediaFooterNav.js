@@ -1,9 +1,11 @@
 import { useLocation, Link } from 'react-router-dom';
 import { AiOutlineHome, AiOutlineMessage } from 'react-icons/ai';
 import { FaUserCircle } from 'react-icons/fa';
+import { useSelector } from 'react-redux';
 
 export default function MediaFooterNav() {
   const location = useLocation();
+  const { token } = useSelector((state) => state.auth);
 
   return (
     <div className="media-nav">
@@ -16,20 +18,24 @@ export default function MediaFooterNav() {
             <span> 홈 </span>
           </div>
         </Link>
-        <Link to="/chat">
+        <Link to={token ? '/chat' : '/login'}>
           <div
             className={
-              location.pathname === '/chat' ? 'navIcon active' : 'navIcon'
+              location.pathname.includes('/chat' || '/login')
+                ? 'navIcon active'
+                : 'navIcon'
             }
           >
             <AiOutlineMessage size="25" />
             <span> 메시지 </span>
           </div>
         </Link>
-        <Link to="/login">
+        <Link to={token ? '/mypage/edit' : '/login'}>
           <div
             className={
-              location.pathname === '/login' ? 'navIcon active' : 'navIcon'
+              location.pathname.includes('/mypage/edit' || '/login')
+                ? 'navIcon active'
+                : 'navIcon'
             }
           >
             <FaUserCircle size="25" />

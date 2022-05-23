@@ -9,8 +9,12 @@ const currentChatUserInfoSlice = createSlice({
     setCurrentChatUserInfo: (state, action) => {
       state.data = action.payload;
     },
+    setStatus: (state, action) => {
+      state.data.status = action.payload;
+    },
   },
 });
 
-export const { setCurrentChatUserInfo } = currentChatUserInfoSlice.actions;
+export const { setCurrentChatUserInfo, setStatus } =
+  currentChatUserInfoSlice.actions;
 export default currentChatUserInfoSlice.reducer;

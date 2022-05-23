@@ -1,4 +1,4 @@
-import { MdPlace, MdOutlineDescription } from 'react-icons/md';
+import { MdOutlineDescription } from 'react-icons/md';
 import { TiUser } from 'react-icons/ti';
 
 function PhotoDetailIntro({ post }) {
@@ -7,7 +7,7 @@ function PhotoDetailIntro({ post }) {
   return (
     <div className="intro-container">
       <div className="intro-sub-container">
-        <div className="half-container">
+        <div className="left-container">
           <div className="title-container">
             <div className="title-icon">
               <TiUser />
@@ -30,7 +30,11 @@ function PhotoDetailIntro({ post }) {
             );
           })}
         </div>
-        <div className="half-container-two" />
+        <div className="right-container">
+          {post.status === 1 ? (
+            <div className="reservation-sub">예약종료</div>
+          ) : null}
+        </div>
       </div>
     </div>
   );

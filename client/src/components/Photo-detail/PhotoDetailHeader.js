@@ -1,10 +1,9 @@
 import { MdOutlineIosShare } from 'react-icons/md';
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
 import PhotoDetailModal from './PhotoDetailModal';
 
 function PhotoDetailHeader({ post }) {
-  const imagesPath = `http://localhost:4000/images/`;
+  const imagesPath = `${process.env.REACT_APP_API_URL}/images/`;
   const [isOpen, setIsOpen] = useState(false);
   const handleModal = () => {
     setIsOpen(!isOpen);

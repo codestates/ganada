@@ -27,7 +27,7 @@ module.exports = {
         },
       });
 
-      const redirectURL = "http://localhost:4000";
+      const redirectURL = `${process.env.REACT_APP_API_URL}`;
       await transporter.sendMail({
         from: `"no-reply@ganada Admin" <${process.env.NODEMAILER_USER}>`,
         to: email,

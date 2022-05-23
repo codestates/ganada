@@ -6,6 +6,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import Picker from 'emoji-picker-react';
 import { MdInsertEmoticon } from 'react-icons/md';
 import { io } from 'socket.io-client';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { register } from 'timeago.js';
 import ChatRooms from '../components/Chats/ChatRooms';
 import Message from '../components/Chats/Message';
 import Reservation from '../components/Chats/Reservation';
@@ -30,7 +32,7 @@ export default function Chat({ setReservationModal, setModal }) {
   const chatBoard = useSelector((state) => state.chatBoard).data;
 
   useEffect(() => {
-    socket.current = io('ws://localhost:4000');
+    socket.current = io(`${process.env.REACT_APP_API_URL}`);
   }, [token]);
 
   useEffect(() => {
@@ -58,7 +60,7 @@ export default function Chat({ setReservationModal, setModal }) {
     const getMessage = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:4000/chatContents/${chatRoomId}}`,
+          `${process.env.REACT_APP_API_URL}/chatContents/${chatRoomId}}`,
           {
             headers: { authorization: `Bearer ${token}` },
           },
@@ -76,7 +78,7 @@ export default function Chat({ setReservationModal, setModal }) {
     const getChatRooms = async () => {
       try {
         const res = await axios.get(
-          'http://localhost:4000/chatRooms/',
+          `${process.env.REACT_APP_API_URL}/chatRooms/`,
           {
             headers: { authorization: `Bearer ${token}` },
           },
@@ -88,7 +90,7 @@ export default function Chat({ setReservationModal, setModal }) {
       }
     };
     getChatRooms();
-  }, [token, arrivalMessage]);
+  }, [token, arrivalMessage, chatRoomId]);
 
   const sendMessage = (e) => {
     if (newMessage === '' || newMessage === '\n') {
@@ -105,7 +107,6 @@ export default function Chat({ setReservationModal, setModal }) {
       setNewMessage('');
     }
   };
-  console.log('chatBoad', chatBoard);
 
   useEffect(() => {
     const onClick = (e) => {
@@ -143,23 +144,25 @@ export default function Chat({ setReservationModal, setModal }) {
       textarea.style.height = `${height + 3}px`;
     }
   };
-  const timeago = (createdat) => {
-    const milliSeconds = Math.floor(new Date() - createdat);
-    const seconds = milliSeconds / 1000;
-    if (seconds < 60) return `방금 전`;
-    const minutes = seconds / 60;
-    if (minutes < 60) return `${Math.floor(minutes)}분 전`;
-    const hours = minutes / 60;
-    if (hours < 24) return `${Math.floor(hours)}시간 전`;
-    const days = hours / 24;
-    if (days < 7) return `${Math.floor(days)}일 전`;
-    const weeks = days / 7;
-    if (weeks < 5) return `${Math.floor(weeks)}주 전`;
-    const months = days / 30;
-    if (months < 12) return `${Math.floor(months)}개월 전`;
-    const years = days / 365;
-    return `${Math.floor(years)}년 전`;
+
+  const localeFunc = (number, index, totalSec) => {
+    return [
+      ['방금 전', 'right now'],
+      ['1분전', 'in 1 minute'],
+      ['%s분전', 'in %s minutes'],
+      ['1시간전', 'in 1 hour'],
+      ['%s시간전', 'in %s hours'],
+      ['1일전', 'in 1 day'],
+      ['%s일전', 'in %s days'],
+      ['1주전', 'in 1 week'],
+      ['%s주전', 'in %s weeks'],
+      ['1달전', 'in 1 month'],
+      ['%s달전', 'in %s months'],
+      ['1년전', 'in 1 year'],
+      ['%s년전', 'in %s years'],
+    ][index];
   };
+  register('ko', localeFunc);
 
   return (
     <div className="chat">
@@ -175,7 +178,7 @@ export default function Chat({ setReservationModal, setModal }) {
                       to={`${chatRoom.id}`}
                       onClick={(e) => setChatUserInfo(chatRoom)}
                     >
-                      <ChatRooms chatRoom={chatRoom} timeago={timeago} />
+                      <ChatRooms chatRoom={chatRoom} />
                     </Link>
                   ))}
               </div>
@@ -188,6 +191,7 @@ export default function Chat({ setReservationModal, setModal }) {
                   <RecieverName message={message} chatUserInfo={chatUserInfo} />
                   <Reservation
                     setReservationModal={setReservationModal}
+                    setModal={setModal}
                     chatRoomId={chatRoomId}
                     arrivalMessage={arrivalMessage}
                   />
@@ -198,10 +202,9 @@ export default function Chat({ setReservationModal, setModal }) {
                   message &&
                   message.map((chat) => (
                     <Message
-                      chatUserInfo={chatUserInfo}
+                      chatRoomId={chatRoomId}
                       chat={chat}
                       reverse={chat.userId !== userInfo.id}
-                      timeago={timeago}
                       chatRooms={chatRooms}
                     />
                   ))
@@ -225,13 +228,12 @@ export default function Chat({ setReservationModal, setModal }) {
                       rows="1"
                       className="autoTextarea"
                       onKeyDown={autoResizeTextarea}
-                      onKeyUp={autoResizeTextarea}
                       onChange={(e) => setNewMessage(e.target.value)}
                       value={newMessage}
                       // eslint-disable-next-line react/jsx-no-duplicate-props
                       onKeyUp={(e) =>
-                        e.key === 'Enter'
-                          ? sendMessage(e) && newMessage === ''
+                        e.key === 'Enter' && newMessage !== ''
+                          ? sendMessage(e)
                           : null
                       }
                     />

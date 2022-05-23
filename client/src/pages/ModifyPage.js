@@ -21,7 +21,6 @@ function ModifyPage({ setModal }) {
   }, []);
 
   const titleHandler = (e) => {
-    console.log(images);
     setPostInfo({ ...postInfo, title: e.target.value });
   };
 
@@ -69,25 +68,21 @@ function ModifyPage({ setModal }) {
         data.append('file', images[key]);
       }
     }
-    await axios
-      .post('http://localhost:4000/boards/images', data, {
-        withCredentials: true,
-      })
-      .then((result) => {
-        console.log(result);
-      });
+    await axios.post(`${process.env.REACT_APP_API_URL}/boards/images`, data, {
+      withCredentials: true,
+    });
 
     setPostInfo({ ...postInfo, tags: tagInfo.toString() });
     await axios
       .patch(
-        `http://localhost:4000/boards/${postState.id}`,
+        `${process.env.REACT_APP_API_URL}/boards/${postState.id}`,
         { ...postInfo, tags: tagInfo.toString() },
         { headers: { authorization: `Bearer ${token}` } },
         {
           withCredentials: true,
         },
       )
-      .then((res) => {
+      .then(() => {
         setModal({
           open: true,
           title: '수정 되었습니다.',
@@ -95,7 +90,6 @@ function ModifyPage({ setModal }) {
             navigate(`/photodetail/${postState.id}`);
           },
         });
-        console.log(res.data);
       });
   };
 

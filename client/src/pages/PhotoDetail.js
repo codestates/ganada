@@ -32,7 +32,11 @@ function PhotoDetail({ setModal }) {
     const getPostDetail = async () => {
       try {
         await axios
-          .get(`http://localhost:4000/boards/${id}`, {
+          .get(`${process.env.REACT_APP_API_URL}/boards/${id}`, {
+            headers: {
+              'Content-type': 'application/x-www-form-urlencoded',
+              'Content-type': 'multipart/form-data',
+            },
             withCredentials: true,
           })
           .then((res) => {
@@ -50,21 +54,27 @@ function PhotoDetail({ setModal }) {
     try {
       await axios
         .post(
-          `http://localhost:4000/chatRooms/`,
+          `${process.env.REACT_APP_API_URL}/chatRooms/`,
           { id },
           {
             headers: { authorization: `Bearer ${token}` },
           },
-          { withCredentials: true },
+          {
+            headers: {
+              'Content-type': 'application/x-www-form-urlencoded',
+              'Content-type': 'multipart/form-data',
+            },
+            withCredentials: true,
+          },
         )
         .then((res) => {
           dispatch(
             setInitChatBoard({
               ...postState,
-              chatRoomId: res.data.data.createGuestRoom.chatRoomId,
+              chatRoomId: res.data.data.createGuestRoom.chatroomId,
             }),
           );
-          navigate(`/chat/${res.data.data.createGuestRoom.chatRoomId}`);
+          navigate(`/chat/${res.data.data.createGuestRoom.chatroomId}`);
         });
     } catch (err) {
       if (err.response.data.message === '이미 채팅방이 존재합니다.') {
@@ -88,6 +98,28 @@ function PhotoDetail({ setModal }) {
       }
     }
   };
+
+  useEffect(() => {
+    const getPostDetail = async () => {
+      try {
+        await axios
+          .get(`${process.env.REACT_APP_API_URL}/boards/${id}`, {
+            headers: {
+              'Content-type': 'application/x-www-form-urlencoded',
+              'Content-type': 'multipart/form-data',
+            },
+            withCredentials: true,
+          })
+          .then((res) => {
+            setPosts(res.data.data);
+            dispatch(setPostInfo({ ...res.data.data, id }));
+          });
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getPostDetail();
+  }, []);
 
   return (
     <div>

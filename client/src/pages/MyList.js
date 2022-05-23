@@ -2,8 +2,8 @@ import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import NoContents from '../components/NoContents';
-import List from '../components/Mylist/List';
 import Header from '../components/Mylist/Header';
+import List from '../components/Mylist/List';
 
 function MyList() {
   const { id } = useSelector((state) => state.userInfo);
@@ -13,9 +13,10 @@ function MyList() {
     const getMylist = async () => {
       try {
         await axios
-          .get(`http://localhost:4000/boards/user/${id}`)
+          .get(`${process.env.REACT_APP_API_URL}/boards/user/${id}`, {
+            withCredentials: true,
+          })
           .then((res) => {
-            console.log(res.data.data);
             setList(res.data.data);
           });
       } catch (err) {
@@ -23,7 +24,7 @@ function MyList() {
       }
     };
     getMylist();
-  }, []);
+  }, [id]);
 
   return (
     <div className="mylist-container">

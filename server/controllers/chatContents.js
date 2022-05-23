@@ -13,7 +13,7 @@ module.exports = {
     }
     try {
       const checkChatContents = await chatcontents.findAll({
-        order: [["createdAt", "DESC"]],
+        order: [["updatedAt", "DESC"]],
         where: {
           chatroomId: chatroomId,
         },

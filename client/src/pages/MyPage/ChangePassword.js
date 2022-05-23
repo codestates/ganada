@@ -56,7 +56,7 @@ export default function ChangePassword({ setModal }) {
       try {
         await axios
           .patch(
-            `http://localhost:4000/users/${userInfo.id}/changePassword`,
+            `${process.env.REACT_APP_API_URL}/users/${userInfo.id}/changePassword`,
             {
               currentPassword: inputPassword.currentPassword,
               password: inputPassword.password,

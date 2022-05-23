@@ -6,7 +6,7 @@ import { useEffect, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setKeyword } from '../redux/searchConditionSlice';
 
-export default function Header({ handleLogout, cookieToken, isLogin }) {
+export default function Header({ handleLogout }) {
   const userInfo = useSelector((state) => state.userInfo);
   const { token } = useSelector((state) => state.auth);
 
@@ -17,7 +17,7 @@ export default function Header({ handleLogout, cookieToken, isLogin }) {
   const [searchParams] = useSearchParams();
   const type = searchParams.get('type');
   const dispatch = useDispatch();
-  const imagesPath = `http://localhost:4000/images/`;
+  const imagesPath = `${process.env.REACT_APP_API_URL}/images/`;
   const inSection = useRef();
 
   useEffect(() => {
@@ -52,12 +52,12 @@ export default function Header({ handleLogout, cookieToken, isLogin }) {
     return null;
   }
 
-  if (token && cookieToken) {
+  if (token) {
     return (
       <header className={scrollPosition ? 'header-active' : ''}>
         <div className="inner">
           <div className="nav">
-            <div className="logo">
+            <div className="logo" aria-hidden="true">
               <Link to="/">GANADA</Link>
             </div>
             <form className="search-input">
@@ -67,6 +67,11 @@ export default function Header({ handleLogout, cookieToken, isLogin }) {
                 placeholder="어디로 촬영 가시나요?"
                 value={inputValue}
                 onChange={inputHandler}
+                onKeyUp={(e) =>
+                  e.key === 'Enter' && inputValue !== ''
+                    ? searchBtnHandler(e)
+                    : null
+                }
               />
               <Link
                 to={`/search?type=${type || 'model'}&keyword=${inputValue}`}
