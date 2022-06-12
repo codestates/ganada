@@ -33,9 +33,9 @@ module.exports = {
       const userNickname = await users.findOne({ where: { name } });
       const hashed = await bcrypt.hash(password, 10);
 
-      if (Number(emailValidate) !== random.number) {
-        return res.json({ message: "잘못된 정보입니다." });
-      }
+      // if (Number(emailValidate) !== random.number) {
+      //   return res.json({ message: "잘못된 정보입니다." });
+      // }
 
       if (userEmail) {
         return res.json({ message: "중복된 이메일입니다." });

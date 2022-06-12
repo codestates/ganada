@@ -130,6 +130,22 @@
         .hidden-reservation-status {
           display: none;
         }
+
+        .reservation-status {
+          font-size: 1rem;
+          font-weight: bold;
+          .icon-style {
+            position: relative;
+            top: 6px;
+            right: 4px;
+            font-size: 20px;
+          }
+          padding-top: 10px;
+        }
+
+        .hidden-reservation-status {
+          display: none;
+        }
         .devide-container {
           display: flex;
           li {

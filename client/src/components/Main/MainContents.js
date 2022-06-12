@@ -72,7 +72,6 @@ export default function MainContents() {
     <div className="main-contents">
       <div className="inner">
         <div className="title">오늘의 모델</div>
-
         <div
           className={isTrue ? 'main-box-wrraper active' : 'main-box-wrraper'}
         >
@@ -85,7 +84,6 @@ export default function MainContents() {
               ))}
           </div>
         </div>
-
         <div className="title">오늘의 작가</div>
         <div
           className={isTrue2 ? 'main-box-wrraper active' : 'main-box-wrraper'}

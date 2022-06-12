@@ -7,7 +7,7 @@ const code = Math.floor(Math.random() * 1000000);
 module.exports = {
   mailVerification: async (req, res) => {
     const { email } = req.body;
-    console.log(typeof users);
+    console.log(users);
 
     if (!email) {
       return res.json({ message: "필수 항목을 입력하세요." });

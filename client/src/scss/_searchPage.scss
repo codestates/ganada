@@ -35,6 +35,29 @@ $box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
             opacity: 1;
           }
         }
+        .checkBox-container {
+          height: 2rem;
+          display: flex;
+          justify-content: center;
+          width: 100px;
+          align-items: center;
+          color: black;
+          padding: 0 10px;
+          font-size: 13px;
+          list-style: none;
+          border-radius: 30px;
+          margin: 0 10px 10px 0;
+          background-color: rgb(255, 255, 255);
+          border: 1px solid rgb(221, 221, 221);
+          cursor: pointer;
+          &:hover {
+            box-shadow: $box-shadow;
+          }
+        }
+        .checkbox {
+          margin: 3px 0 0 5px;
+          width: 20px;
+        }
       }
     }
 

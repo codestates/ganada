@@ -5,7 +5,6 @@ import { Link, useLocation } from 'react-router-dom';
 import { io } from 'socket.io-client';
 import { setChatBoard } from '../../redux/chatBoardSlice';
 import { DeleteInitChatBoard } from '../../redux/initChatBoardSlice';
-import { setStatus } from '../../redux/currentChatUserInfoSlice';
 
 export default function Reservation({
   setReservationModal,
