@@ -32,9 +32,6 @@ export default function MainContents() {
     const getPost = async () => {
       try {
         const res = await axios.get(
-<<<<<<< HEAD
-          `http://localhost:4000/boards?category=&keyword=&tags=&status=`,
-=======
           `${process.env.REACT_APP_API_URL}/boards?category=&keyword=&tags=&status=`,
           {
             // headers: {
@@ -42,7 +39,6 @@ export default function MainContents() {
             // },
             withCredentials: true,
           },
->>>>>>> remotes/origin/main
         );
         setPhotographerPosts(res.data.data);
       } catch (err) {
@@ -56,9 +52,6 @@ export default function MainContents() {
     const getPost = async () => {
       try {
         const res = await axios.get(
-<<<<<<< HEAD
-          `http://localhost:4000/boards?category=model&keyword=&tags=&status=`,
-=======
           `${process.env.REACT_APP_API_URL}/boards?category=model&keyword=&tags=&status=`,
           {
             headers: {
@@ -66,7 +59,6 @@ export default function MainContents() {
             },
             withCredentials: true,
           },
->>>>>>> remotes/origin/main
         );
         setModelPosts(res.data.data);
       } catch (err) {
