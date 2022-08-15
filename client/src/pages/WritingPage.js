@@ -84,7 +84,9 @@ function WritingPage({ setModal }) {
           `${process.env.REACT_APP_API_URL}/boards/images`,
           data,
           {
-            // headers:'content-type':'multipart/form-data',
+            headers: {
+              'content-type': 'multipart/form-data',
+            },
             withCredentials: true,
           },
         );
@@ -125,7 +127,7 @@ function WritingPage({ setModal }) {
   }
 
   return (
-    <div className="write-page-container">
+    <form onSubmit={requestHandler} className="write-page-container">
       <div className="write-page-header">
         <h2>{category ? '모델 등록' : '사진 작가 등록'} </h2>
       </div>
@@ -208,15 +210,11 @@ function WritingPage({ setModal }) {
         <button className="cancle-button" type="button" onClick={cancleHandler}>
           취소
         </button>
-        <button
-          className="registration-button"
-          type="button"
-          onClick={requestHandler}
-        >
+        <button className="registration-button" type="submit">
           등록
         </button>
       </div>
-    </div>
+    </form>
   );
 }
 
