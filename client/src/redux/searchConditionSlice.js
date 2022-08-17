@@ -33,9 +33,6 @@ const searchConditionSlice = createSlice({
   },
 });
 
-export const { setKeyword } = searchConditionSlice.actions;
-export const { resetKeyword } = searchConditionSlice.actions;
-export const { setType } = searchConditionSlice.actions;
-export const { setTags } = searchConditionSlice.actions;
-export const { setBookingStatus } = searchConditionSlice.actions;
+export const { setKeyword, resetKeyword, setType, setTags, setBookingStatus } =
+  searchConditionSlice.actions;
 export default searchConditionSlice.reducer;

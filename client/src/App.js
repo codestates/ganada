@@ -1,8 +1,9 @@
 import './scss/style.scss';
 import { Route, Routes, useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
+import { setUpdateUserInfo } from './redux/userInfoSlice';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Main from './components/Main/Main';
@@ -35,7 +36,8 @@ function App() {
     callback: false,
   });
   const [reservationModal, setReservationModal] = useState(false);
-  const getUserInfo = () => {
+
+  const getUserInfo = useCallback(() => {
     try {
       axios
         .get(`${process.env.REACT_APP_API_URL}/users`, {
@@ -43,28 +45,34 @@ function App() {
           withCredentials: true,
         })
         .then((res) => {
-          dispatch({
-            type: 'userInfo/setUpdateUserInfo',
-            payload: res.data.data,
-          });
+          // dispatch({
+          //   type: 'userInfo/setUpdateUserInfo',
+          //   payload: res.data.data,
+          // });
+          dispatch(setUpdateUserInfo(res.data.data));
         });
     } catch (err) {
       console.log(err);
     }
-  };
+  }, [token, dispatch]);
 
   useEffect(() => {
-    dispatch({
-      type: 'auth/isLogin',
-      payload: localStorage.getItem('Token'),
-    });
-  }, [navigate]);
+    // dispatch({
+    //   type: 'auth/isLogin',
+    //   payload: localStorage.getItem('Token'),
+    // });
+    dispatch(setUpdateUserInfo(localStorage.getItem('Token')));
+    /*
+  React guarantees that dispatch function identity is stable and won’t change on re-renders. 
+  This is why it’s safe to omit from the useEffect or useCallback dependency list.
+  */
+  }, [dispatch]);
 
   useEffect(() => {
     if (token) {
       getUserInfo();
     }
-  }, [token]);
+  }, [token, getUserInfo]);
 
   // 서버에 토큰을 보내며 로그아웃 요청
   const handleLogout = () => {
