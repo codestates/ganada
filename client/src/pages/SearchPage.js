@@ -1,7 +1,7 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
 import axios from 'axios';
 import { BsFillArrowUpCircleFill } from 'react-icons/bs';
-import { useSelector, useDispatch, useCallback } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import NoContents from '../components/NoContents';
 import { setKeyword } from '../redux/searchConditionSlice';
 import SubNav from '../components/Search-list/SubNav';

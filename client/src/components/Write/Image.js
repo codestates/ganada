@@ -17,7 +17,6 @@ function Image({ setImages, setModal }) {
         open: true,
         title: '이미지는 최대 3개까지 업로드 가능합니다.',
       });
-      // alert('이미지는 최대 3개까지 업로드 가능합니다.');
       return;
     }
     setImages(nowSelectImageList);
