@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import { BsFillArrowUpCircleFill } from 'react-icons/bs';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch, useCallback } from 'react-redux';
 import NoContents from '../components/NoContents';
 import { setKeyword } from '../redux/searchConditionSlice';
 import SubNav from '../components/Search-list/SubNav';
@@ -35,13 +35,9 @@ function SearchPage({ setModal }) {
       window.removeEventListener('scroll', handleScroll);
       dispatch(setKeyword(''));
     };
-  }, []);
+  }, [dispatch]);
 
-  useEffect(() => {
-    getPosts();
-  }, [type, tags, keyword, bookingStatus]);
-
-  const getPosts = async () => {
+  const getPosts = useCallback(async () => {
     await axios
       .get(
         `${
@@ -54,7 +50,11 @@ function SearchPage({ setModal }) {
       .then((res) => {
         setPosts(res.data.data);
       });
-  };
+  }, [keyword, type, tags, bookingStatus]);
+
+  useEffect(() => {
+    getPosts();
+  }, [getPosts]);
 
   return (
     <div className="serachPage">
